@@ -1,15 +1,15 @@
 # Site settings
-name: Less Or More
-email: luoyan35714@126.com
-author: Freud Kang
+name: Beach Site
+email: zangshayang1@hotmail.com
+author: Shayang Zang
 url: 
-resume_site: http://www.hifreud.com/Resume.io/
-github: https://github.com/luoyan35714/
+resume_site: 
+github: https://github.com/zangshayang1/
 baseurl: ""
-description: Actually, less is more!
-meta_description: 康志华;个人博客;学而不思则罔;思而不学则殆;生命不止;折腾不休
-motto: It's our wits that make us men.
-banner: 学而不思则罔，思而不学则殆。
+description: No time for description.
+meta_description: 臧沙洋的静态技术博客。
+motto: No time for motto.
+banner: 业精于勤荒于嬉 行成于思毁于随
 
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
@@ -25,11 +25,11 @@ markdown: kramdown
 
 FB:
   comments :
-    provider : duoshuo
-    duoshuo:
-        short_name : luoyan35714
+    provider : disqus
+    #    duoshuo:
+        #    short_name : luoyan35714
     disqus :
-        short_name : freudkang
+        short_name : SeanZang
     # facebook :
     #   appid : 123
     #   num_posts: 5
