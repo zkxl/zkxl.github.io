@@ -2,12 +2,145 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <description>Actually, less is more!</description>
+    <description>No time for description.</description>
     <link>http://0.0.0.0:4000/</link>
     <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 03 Jan 2017 08:25:34 +0000</pubDate>
-    <lastBuildDate>Tue, 03 Jan 2017 08:25:34 +0000</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 02:01:16 +0000</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 02:01:16 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>How it is built</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#quick-start&quot; id=&quot;markdown-toc-quick-start&quot;&gt;Quick start&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#about-jekyll&quot; id=&quot;markdown-toc-about-jekyll&quot;&gt;About jekyll&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#about-ruby-eco-behind-jekyll&quot; id=&quot;markdown-toc-about-ruby-eco-behind-jekyll&quot;&gt;About ruby eco behind jekyll&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;quick-start&quot;&gt;Quick start&lt;/h3&gt;
+
+&lt;p&gt;create github account as well as a repository for your site.&lt;/p&gt;
+
+&lt;p&gt;clone source code and push to your own repository.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git clone https://github.com/luoyan35714/LessOrMore &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;-project-dir
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd local&lt;/span&gt;-project-dir   
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git config remote.origin.url your-reposiytory.git  
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git push origin master&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Go to your repository settings and allow Github Page to source from the master branch.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;about-jekyll&quot;&gt;About jekyll&lt;/h3&gt;
+
+&lt;p&gt;Jekyll is written in ruby supported by Github Page.&lt;/p&gt;
+
+&lt;p&gt;If you have ruby installed, the following will get you jekyll.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install jekyll &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This will host your site built based on jekyll template on local machine.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jekyll serve &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If you want to specify other host.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;option] --host &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;about-ruby-eco-behind-jekyll&quot;&gt;About ruby eco behind jekyll&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;nice way to &lt;a href=&quot;http://rvm.io&quot;&gt;install ruby&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://rubygems.org/&quot;&gt;gem&lt;/a&gt; is a ruby library manager. It helps to install ruby packages such as jekyll and bundler.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://bundler.io/&quot;&gt;bundler&lt;/a&gt; is a ruby project dependencies manager. It initialize a ruby project wit a Gemfile, where you list all the dependencies you want to use as well as their versions. So anyone with the same Gemfile can create the same dev environment via one command:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bundler install &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Please reference the &lt;a href=&quot;https://github.com/luoyan35714/LessOrMore&quot;&gt;author&lt;/a&gt; of this jekyll template for more specific instructions.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 04 Jan 2017 17:20:00 +0000</pubDate>
+        <link>http://0.0.0.0:4000/2017/01/04/how-to-build-it/</link>
+        <guid isPermaLink="true">http://0.0.0.0:4000/2017/01/04/how-to-build-it/</guid>
+        
+        <category>jekyll-on-github</category>
+        
+        
+        <category>tech-log</category>
+        
+      </item>
+    
+      <item>
+        <title>test post markdown sample</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#heading&quot; id=&quot;markdown-toc-heading&quot;&gt;Heading&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#sub-heading&quot; id=&quot;markdown-toc-sub-heading&quot;&gt;Sub-heading&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#another-deeper-heading&quot; id=&quot;markdown-toc-another-deeper-heading&quot;&gt;Another deeper heading&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading&quot;&gt;Heading&lt;/h1&gt;
+
+&lt;h2 id=&quot;sub-heading&quot;&gt;Sub-heading&lt;/h2&gt;
+
+&lt;h3 id=&quot;another-deeper-heading&quot;&gt;Another deeper heading&lt;/h3&gt;
+
+&lt;p&gt;Paragraphs are separated
+by a blank line.&lt;/p&gt;
+
+&lt;p&gt;Two spaces at the end of a line leave a&lt;br /&gt;
+line break.&lt;/p&gt;
+
+&lt;p&gt;Text attributes &lt;em&gt;italic&lt;/em&gt;, &lt;em&gt;italic&lt;/em&gt;, &lt;strong&gt;bold&lt;/strong&gt;, &lt;strong&gt;bold&lt;/strong&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;monospace&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Horizontal rule:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Bullet list:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;apples&lt;/li&gt;
+  &lt;li&gt;oranges&lt;/li&gt;
+  &lt;li&gt;pears&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Numbered list:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;apples&lt;/li&gt;
+  &lt;li&gt;oranges&lt;/li&gt;
+  &lt;li&gt;pears&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;A &lt;a href=&quot;http://example.com&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 03 Jan 2017 09:08:00 +0000</pubDate>
+        <link>http://0.0.0.0:4000/2017/01/03/test/</link>
+        <guid isPermaLink="true">http://0.0.0.0:4000/2017/01/03/test/</guid>
+        
+        <category>教程</category>
+        
+        
+        <category>document</category>
+        
+      </item>
     
       <item>
         <title>如何使用LessOrMore这个Jekyll模版</title>
@@ -133,55 +266,6 @@ tag: 教程
         
         
         <category>document</category>
-        
-      </item>
-    
-      <item>
-        <title>我面试过的上百个候选者中成功的人总会做的事情</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#section&quot; id=&quot;markdown-toc-section&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;了解你的听众，组织你的回答语言。&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#section-2&quot; id=&quot;markdown-toc-section-2&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;本文翻译自&lt;a href=&quot;https://www.linkedin.com/&quot;&gt;Linked In&lt;/a&gt;，作者Minal Mehta&lt;/p&gt;
-
-&lt;p&gt;原文地址 &lt;a href=&quot;http://www.linkedin.com/pulse/20141002164029-1473578-how-to-win-an-interview-before-it-starts?midToken=AQH6jyhMOpWb0g&amp;amp;trk=eml-b2_content_ecosystem_digest-recommended_articles-74-null&amp;amp;fromEmail=fromEmail&amp;amp;ut=3Sa86TzhqLj6s1&quot;&gt;I’ve Interviewed 100s of Candidates and the Ones I Hire Always Do This&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;面试是很有压力的一件事，通常，你只有不到一个小时的时间来使面试官相信你是所有候选者中最合适那一个。这个面试官很有可能还会在当天面试其他的候选者并且还有其他的事情要做。那你如何才能够脱颖而出呢。&lt;/p&gt;
-
-&lt;h1 id=&quot;section&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/h1&gt;
-
-&lt;p&gt;通过上百个我做组织的面试者们，我发现最合适的那些面试者永远都是表达最清晰的。&lt;/p&gt;
-
-&lt;p&gt;所有人都知道充足的准备是必要的，但是如何准备是极其重要的，许多人会准备一份面试题和答案的合集，这导致一部分人在遇到合集以外的问题的时候会恐慌（我见过许多人恐慌或者说“这是一个好问题”，当我面试别人或者帮助那些学生准备面试的时候）&lt;/p&gt;
-
-&lt;p&gt;以下是我的建议：以最近的记忆最清晰的工作流程开始。通过阅读他们的信息或者询问那些你知道的在这工作的朋友来调查面试的公司和职位，了解他们正在寻找一个拥有什么样能力和文化的人&lt;/p&gt;
-
-&lt;p&gt;了解自己，你自己最擅长什么？怎么让你自身如何与公司正在找的人相匹配？这个过程会让你有一个清晰的定位，知道这个公司的职位是不是真的适合你。假设是的，你的自身能力跟这个职位相匹配，你同样知道自己的不足在哪。&lt;/p&gt;
-
-&lt;p&gt;从你过往工作经历中找出你突出的贡献，那些你已经确定了你的能力和工作要求相交集的部分。并且，找出一些事情来证明你可以改善你不足的方面。通常，你想出来的这几件事件可以重新组装利用来彰显不同方面的能力。&lt;/p&gt;
-
-&lt;h1 id=&quot;section-1&quot;&gt;了解你的听众，组织你的回答语言。&lt;/h1&gt;
-
-&lt;p&gt;我推荐使用排序的组织来确保你的面试官可以理解你的表述。我是STAR方法的忠实粉丝：Situation处境（场景再现），Task任务（必须要做到的），Action行动（你实际做的），Result结果（发生了什么）&lt;/p&gt;
-
-&lt;p&gt;场景再现是最重要的，虽然你很清楚发生了什么，但是面试官不知道，花些时间来确保他们可以设身处地的知道当时的情况。如果你不这么做，剩下的故事将是对牛弹琴。&lt;/p&gt;
-
-&lt;p&gt;我个人也一直将同样的方法用在各种面试中。“如果你处在一个特定的情境下，你会怎么做？” 花点时间去建立一个共享的空间，让面试官了解情况，然后你们才能一起来聊需要做什么。&lt;/p&gt;
-
-&lt;h1 id=&quot;section-2&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/h1&gt;
-
-&lt;p&gt;深呼吸然后记住这只是一次谈话，面试官给你一个评价是很重要的，但是同样重要的是你也要给面试官一个评价，并且确认这是你想要工作的地方。&lt;/p&gt;
-</description>
-        <pubDate>Sat, 20 Dec 2014 12:05:00 +0000</pubDate>
-        <link>http://0.0.0.0:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</link>
-        <guid isPermaLink="true">http://0.0.0.0:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</guid>
-        
-        <category>interview</category>
-        
-        
-        <category>翻译文章</category>
         
       </item>
     

@@ -5,14 +5,14 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>打赏</title>
+	<title>How it is built</title>
 
 	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
 	<link rel="icon" href="/styles/images/favicon.jpg">
 
 	<link rel="stylesheet" href="/styles/css/index.css">
 	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
-	<link rel="canonical" href="/donate/">
+	<link rel="canonical" href="/2017/01/04/how-to-build-it/">
 	<link rel="alternate" type="application/rss+xml" title="Beach Site" href="/feed.xml">
 	
 	<meta name="description" content="臧沙洋的静态技术博客。">
@@ -97,8 +97,8 @@
   <div class="container">
   	
   		<!--
-		    <h1>打赏</h1>
-		    <p>Post on  by <a href="/about">Shayang Zang</a></p>
+		    <h1>How it is built</h1>
+		    <p>Post on Jan 04, 2017 by <a href="/about">Shayang Zang</a></p>
 		-->
 		    <h1>No time for motto.</h1>
     
@@ -110,7 +110,8 @@
 <div class="banner">
   <div class="container">
   	
-        业精于勤荒于嬉 行成于思毁于随
+    	<a href="/categories/#tech-log-ref">tech-log</a>	/
+    	<a href="/tag/#jekyll-on-github-ref">jekyll-on-github</a>
     
   </div>
 </div>
@@ -199,59 +200,73 @@
       <div class="panel docs-content">
         <div class="wrapper">
             <header class="post-header">
-              <h1 class="post-title">打赏</h1>
+              <h1 class="post-title">How it is built</h1>
               <!--
-                <p class="post-meta"></p>
+                <p class="post-meta">Jan 4, 2017</p>
               -->
-              <div class="meta">Posted on <span class="postdate"></span> By <a target="_blank" href="http://0.0.0.0:4000">Shayang Zang</a></div>
+              <div class="meta">Posted on <span class="postdate">Jan 04, 2017</span> By <a target="_blank" href="http://0.0.0.0:4000">Shayang Zang</a></div>
               <br />
             </header>
             <article class="post-content">
-              <h2 id="section">您的支持是作者写作最大的动力！</h2>
-<hr />
+              <ul id="markdown-toc">
+  <li><a href="#quick-start" id="markdown-toc-quick-start">Quick start</a></li>
+  <li><a href="#about-jekyll" id="markdown-toc-about-jekyll">About jekyll</a></li>
+  <li><a href="#about-ruby-eco-behind-jekyll" id="markdown-toc-about-ruby-eco-behind-jekyll">About ruby eco behind jekyll</a></li>
+</ul>
 
-<p>如果您喜欢这个博客，读后觉得收获很大…</p>
+<h3 id="quick-start">Quick start</h3>
 
-<p>如果在你开发或学习过程中本博客帮助到了你…</p>
+<p>create github account as well as a repository for your site.</p>
 
-<p>你可以对本博客<a href="/donate/method">小额赞助</a>一下，让我有动力继续写出更高质量的文章。</p>
+<p>clone source code and push to your own repository.</p>
 
-<p>点击上面小额赞助即可呦！
-<br /></p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone https://github.com/luoyan35714/LessOrMore <span class="nb">local</span>-project-dir
+<span class="gp">$ </span><span class="nb">cd local</span>-project-dir   
+<span class="gp">$ </span>git config remote.origin.url your-reposiytory.git  
+<span class="gp">$ </span>git push origin master</code></pre></figure>
 
-<p><img src="/styles/images/freud.jpg" alt="Thank you very much!" />
-<br /></p>
-
-<blockquote>
-  <p>声明: 此博客空间用于分享作者个人的一些技术相关， 此网站基于<a href="https://github.com/luoyan35714/LessOrMore/blob/master/LICENSE">MIT开源协议</a>所有内容完全免费，请放心使用。</p>
-</blockquote>
-
-<hr />
-
-<h2 id="section-1">赞助方式一：<code class="highlighter-rouge">支付宝二维码付款</code></h2>
+<p>Go to your repository settings and allow Github Page to source from the master branch.</p>
 
 <hr />
 
-<p>您可以选择手机支付宝扫一扫</p>
+<h3 id="about-jekyll">About jekyll</h3>
 
-<p><img src="/styles/images/zhifubao.PNG" alt="支付宝二维码付款给Freud" width="310" /></p>
+<p>Jekyll is written in ruby supported by Github Page.</p>
 
-<p><br />
-<br /></p>
+<p>If you have ruby installed, the following will get you jekyll.</p>
 
-<h2 id="section-2">赞助方式二：<code class="highlighter-rouge">微信扫一扫</code></h2>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="nv">$ </span>gem install jekyll </code></pre></figure>
 
-<hr />
+<p>This will host your site built based on jekyll template on local machine.</p>
 
-<p>您可以选择手机微信扫一扫</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="nv">$ </span>jekyll serve </code></pre></figure>
 
-<p><img src="/styles/images/weixin.png" alt="微信二维码付款给Freud" /></p>
+<p>If you want to specify other host.</p>
 
-<p><br />
-<br /></p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="o">[</span>option] --host </code></pre></figure>
 
 <hr />
 
+<h3 id="about-ruby-eco-behind-jekyll">About ruby eco behind jekyll</h3>
+
+<ol>
+  <li>
+    <p>nice way to <a href="http://rvm.io">install ruby</a></p>
+  </li>
+  <li>
+    <p><a href="https://rubygems.org/">gem</a> is a ruby library manager. It helps to install ruby packages such as jekyll and bundler.</p>
+  </li>
+  <li>
+    <p><a href="http://bundler.io/">bundler</a> is a ruby project dependencies manager. It initialize a ruby project wit a Gemfile, where you list all the dependencies you want to use as well as their versions. So anyone with the same Gemfile can create the same dev environment via one command:</p>
+  </li>
+</ol>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> <span class="nv">$ </span>bundler install </code></pre></figure>
+
+<hr />
+
+<ul>
+  <li>Please reference the <a href="https://github.com/luoyan35714/LessOrMore">author</a> of this jekyll template for more specific instructions.</li>
+</ul>
 
             </article>
         </div>
@@ -270,8 +285,8 @@
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 /*
 var disqus_config = function () {
-this.page.url = /donate/;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = http://0.0.0.0:4000/donate/; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.url = /2017/01/04/how-to-build-it/;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = http://0.0.0.0:4000/2017/01/04/how-to-build-it/; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 */
 (function() { // DON'T EDIT BELOW THIS LINE
