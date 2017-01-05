@@ -9,6 +9,14 @@ tag: jeykll
 * content
 {:toc}
 
+The folloing post was written by https://github.com/luoyan35714. 
+
+I'd like to thank him for he's been doing to improve this "LESS" template. 
+
+I kept this post as a future reference for myself.
+
+---
+
 
 致谢
 ====================================
