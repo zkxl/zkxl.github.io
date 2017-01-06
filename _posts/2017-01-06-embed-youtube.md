@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  embed youtube
+title:  Embed youtube
 date:   2017-01-06 00:48:00 -0800
 categories: HOW-TO
 youtubeID: iX5V1WpxxkY
-tag: youtube
+tag: youtube-embedding
 ---
 
 
@@ -28,7 +28,7 @@ echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ inc
 ```
 ---
 layout: post
-title:  embed youtube
+title:  Embed youtube
 date:   2017-01-06 00:48:00 -0800
 categories: HOW-TO
 youtubeID: iX5V1WpxxkY --> put up the ID you wanted instead
