@@ -12,13 +12,18 @@ tag: youtube
 {:toc}
 
 
+{% include youtubePlayer.html id=page.youtubeID %}
+
+---
+
 1. Under you \_includes dir, create a "youtubePlayer.html".
 
 {% highlight bash %}
-echo '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe>' > youtubePlayer.html
+echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe>' > youtubePlayer.html
 {% endhighlight bash %}
 
 2. Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
+
 
 ```
 ---
@@ -35,15 +40,12 @@ tag: youtube
 {:toc}
 
 
-{% include youtubePlayer.html id=page.youtubeID %}
+{\% include youtubePlayer.html id=page.youtubeID %} 
+//drop the backslash to include it.
 
 ```
 
-__Make sure__: you push both files updated to your Github Repo.
+__Make sure__: you push both files up to your Github Repo.
 
-
----
-{% include youtubePlayer.html id=page.youtubeID %}
----
 
 * my thanks to the author: Adam Wade Harris and his [original post](http://www.adamwadeharris.com/how-to-easily-embed-youtube-videos-in-jekyll-sites-without-a-plugin/).
