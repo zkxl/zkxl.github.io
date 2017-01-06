@@ -2,7 +2,7 @@
 layout: post
 title: How it is built
 date: 2017-01-04 09:20:00 -0800
-categories: tech-log
+categories: HOW-TO
 tag: jekyll-on-github
 ---
 
