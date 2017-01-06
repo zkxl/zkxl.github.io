@@ -7,9 +7,9 @@ youtubeID: iX5V1WpxxkY
 tag: youtube-sample
 ---
 
+
 * content
 {:toc}
-
 
 
 {% include youtubePlayer.html id=page.youtubeID %}
