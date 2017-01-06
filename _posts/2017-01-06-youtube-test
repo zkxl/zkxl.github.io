@@ -1,0 +1,13 @@
+---
+layout: post
+title:  test post markdown sample
+date:   2017-01-06 00:48:00 +0800
+categories: test
+tag: youtube-sample
+---
+
+* content
+{:toc}
+
+
+{% include youtubePlayer.html id=iX5V1WpxxkY %}
