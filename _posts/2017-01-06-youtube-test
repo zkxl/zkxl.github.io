@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  test post markdown sample
-date:   2017-01-06 00:48:00 +0800
+title:  youtube test
+date:   2017-01-06 00:48:00 -0800
 categories: test
 tag: youtube-sample
 ---
@@ -10,4 +10,6 @@ tag: youtube-sample
 {:toc}
 
 
-{% include youtubePlayer.html id=iX5V1WpxxkY %}
+text
+
+{% include youtubePlayer.html id=page.iX5V1WpxxkY %}
