@@ -12,17 +12,17 @@ tag: youtube-embedding
 {:toc}
 
 
+---
 {% include youtubePlayer.html id=page.youtubeID %}
-
 ---
 
-1. Under you \_includes dir, create a "youtubePlayer.html" that puts the embeded video in a video container with a specific style, so that the video size can be __responsive__ to different types of devices.
+Under you \_includes dir, create a "youtubePlayer.html" that puts the embeded video in a video container with a specific style, so that the video size can be __responsive__ to different types of devices.
 
 {% highlight bash %}
 echo '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe></div>' > youtubePlayer.html
 {% endhighlight bash %}
 
-2. Create the style for "video-container" class in your css file:
+Create the style for "video-container" class in your css file:
 
 ```
 .video-container {
@@ -44,7 +44,7 @@ echo '<div class="video-container"><iframe width="560" height="315" src="https:/
 }
 ```
 
-3. Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
+Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
 
 ```
 ---
@@ -62,11 +62,11 @@ tag: youtube
 
 
 {\% include youtubePlayer.html id=page.youtubeID %} 
-//drop the backslash to include it.
+//drop the backslash to include the html.
 
 ```
 
-__Make sure__: you push ALL 3 files up to your Github Repo.
+__Make sure__: you push ALL 3 updates up to your Github Repo.
 
 
 * my thanks to the author: Adam Wade Harris and his [original post](http://www.adamwadeharris.com/how-to-easily-embed-youtube-videos-in-jekyll-sites-without-a-plugin/) on how to embed the video.
