@@ -16,14 +16,35 @@ tag: youtube-embedding
 
 ---
 
-1. Under you \_includes dir, create a "youtubePlayer.html".
+1. Under you \_includes dir, create a "youtubePlayer.html" that puts the embeded video in a video container with a specific style, so that the video size can be __responsive__ to different types of devices.
 
 {% highlight bash %}
-echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe>' > youtubePlayer.html
+echo '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe></div>' > youtubePlayer.html
 {% endhighlight bash %}
 
-2. Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
+2. Create the style for "video-container" class in your css file:
 
+```
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe,  
+.video-container object,  
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+```
+
+3. Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
 
 ```
 ---
@@ -45,7 +66,8 @@ tag: youtube
 
 ```
 
-__Make sure__: you push both files up to your Github Repo.
+__Make sure__: you push ALL 3 files up to your Github Repo.
 
 
-* my thanks to the author: Adam Wade Harris and his [original post](http://www.adamwadeharris.com/how-to-easily-embed-youtube-videos-in-jekyll-sites-without-a-plugin/).
+* my thanks to the author: Adam Wade Harris and his [original post](http://www.adamwadeharris.com/how-to-easily-embed-youtube-videos-in-jekyll-sites-without-a-plugin/) on how to embed the video.
+* my thanks to the author: Avexdesigns and his [original post](https://avexdesigns.com/responsive-youtube-embed/) on how to make the video responsive.
