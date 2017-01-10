@@ -1,7 +1,7 @@
 ---
 layout: post
 title: linear-classifier svm-sfmx-loss
-date: 2017-01-09 15:19:00 -0800
+date: 2016-12-15 15:19:00 -0800
 categories: deeplearning-basics 
 tag: svm-softmax
 ---
