@@ -12,24 +12,24 @@ motto: Work. Think. Speak.
 banner: 业精于勤荒于嬉 行成于思毁于随
 
 
-#permalink: /:categories/:year/:month/:day/:title/
-permalink: /:year/:month/:day/:title/
+#permalink: /:year/:month/:day/:title/
+markdown: kramdown
+permalink: pretty
+
 #paginate: 10
 
-include: ['jekyll-paginate', 'rouge']
-exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+#include: ['jekyll-paginate', 'rouge']
+#exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
 github_username: zangshayang1
 
 # Build settings
 highlighter: rouge
-markdown: kramdown
 kramdown:
     auto_ids: true
     input: GFM
     syntax_highlighter: rouge
 
-highlighter: rouge
 
 FB:
   comments :
