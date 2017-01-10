@@ -11,6 +11,11 @@ meta_description: 臧沙洋的静态技术博客。
 motto: Work. Think. Speak.
 banner: 业精于勤荒于嬉 行成于思毁于随
 
+#code syntax highlight
+markdown: kramdown
+highlighter: rouge
+
+
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
 paginate: 10

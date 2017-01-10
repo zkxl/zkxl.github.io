@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  linear-classifier: svm-sfmx-loss
-date:   2017-01-09 15:19:00 -0800
+title: linear-classifier svm-sfmx-loss
+date: 2017-01-09 15:19:00 -0800
 categories: deeplearning-basics 
 tag: svm-softmax
 ---
@@ -20,6 +20,7 @@ _Deeplearning is involved in a wide range of techniques that allow a neural netw
 SVM loss function - 
 
 ```python
+
 def svm_loss_vectorized(W, X, y, reg):
   """
   Structured SVM loss function, vectorized implementation.
@@ -79,4 +80,5 @@ def svm_loss_vectorized(W, X, y, reg):
   dW = dW / N + reg * W
 
   return loss, dW
+
 ```
