@@ -17,7 +17,7 @@ __This deeplearning series is inspired by Stanford open course — cs231n. My sp
 _Deeplearning is involved in a wide range of techniques that allow a neural network to make reliable predications. This series will introduce several key components of a neural network, from linear classifier loss functions to fully connected neural nets, from convNets to RNN._
 
 
-### affine transformation
+### Affine transformation
 
 $$\sum_iw_ix_i + b$$
 
@@ -90,7 +90,7 @@ def affine_backward(dout, cache):
   return dx, dw, db
 ```
 
-### activation
+### Activation
 
 Activation function evolved from sigmoid() to tanh(), making it ZERO-centered; from tanh() to ReLU(), making it easier to compute. Historically, gradients vanishing is the major problem that negatively impact the efficacy of neural networks. Using ReLU also faces dead ReLU problem that we will use batch normalization to address. 
 
@@ -153,7 +153,7 @@ def relu_backward(dout, cache):
 $$\frac {X - \mu}{\sigma}$$
 
 
-Batch normalization usually follows activation and make sure that the activation output is in a unit guassian distribution so that there will be enough "alive" ReLUs in each layer to deliver effective communications.
+Batch normalization usually follows affine transformation and make sure that the input of the following activation function is in a unit guassian distribution so that there will be enough "alive" ReLUs in each layer to deliver effective communications.
 
 
 ``` python
@@ -392,4 +392,59 @@ def dropout_backward(dout, cache):
 
   return dx
 
+```
+
+
+### Convenient stacking
+
+The following function stitches affine - ReLU - batchnorm together so that you can easily stack these convenient layers when you build you neural network. 
+
+* the 1st layer that accept input features will need to be tailored according to feature dimensions;
+* no need to deploy batchnorm for every layer in between;
+* where and how dropout layers are deployed depends on your architecture;
+* finally, don't forget the scores-and-loss layer where you got to choose which loss function to use;
+
+
+``` python
+
+def affine_bn_relu_forward(x, w, b, gamma, beta, bn_param):
+
+  """
+  Convenience layer that performs an affine transform followed by a batch normalization followed by a ReLU activation
+  Inputs:
+  - x: Input to the affine layer
+  - w, b: weights and bias for the affine layer
+  - gamma, beta, bn_params: parameters for translation, rescaling and training/testing running
+
+  Returns a tuple of:
+  - out: Output from the ReLU
+  - cache: Object to give to the backward pass
+  """
+
+  a, af_cache = affine_forward(x, w, b) # def affine_forward(x, w, b): return out, cache;
+
+  na, bn_cache = batchnorm_forward(a, gamma, beta, bn_param) # def batchnorm_forward(x, gamma, beta, bn_param): return out, cache;
+
+  out, relu_cache = relu_forward(na) # def relu_forward(x): return out, cache;
+
+  cache = (af_cache, bn_cache, relu_cache)
+
+  return out, cache
+
+
+def affine_bn_relu_backward(dout, cache):
+
+  """
+  the backward process of what is defined above
+  """
+
+  af_cache, bn_cache, relu_cache = cache
+
+  dna = relu_backward(dout, relu_cache) # def relu_backward(dout, cache): return dx;
+
+  da, dgamma, dbeta = batchnorm_backward(dna, bn_cache) # def batchnorm_backward(dout, cache): return dx, dgamma, dbeta;
+
+  dx, dw, db = affine_backward(da, af_cache) # def affine_backward(dout, cache): return dx, dw, db;
+
+  return dx, dw, db, dgamma, dbeta
 ```
