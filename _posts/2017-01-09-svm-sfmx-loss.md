@@ -17,7 +17,7 @@ __This deeplearning series is inspired by Stanford open course — cs231n. My sp
 _Deeplearning is involved in a wide range of techniques that allow a neural network to make reliable predications. This series will introduce several key components of a neural network, from linear classifier loss functions to fully connected neural nets, from convNets to RNN._
 
 
-SVM loss function - 
+SVM loss function - $$ L_i = \sum_{j\neq y_i} \max(0, s_j - s_{y_i} + \Delta) $$
 
 ``` python
 
