@@ -19,7 +19,7 @@ _Deeplearning is involved in a wide range of techniques that allow a neural netw
 
 SVM loss function - 
 
-```python
+``` python
 
 def svm_loss_vectorized(W, X, y, reg):
   """

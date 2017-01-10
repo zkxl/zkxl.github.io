@@ -11,15 +11,12 @@ meta_description: 臧沙洋的静态技术博客。
 motto: Work. Think. Speak.
 banner: 业精于勤荒于嬉 行成于思毁于随
 
-#code syntax highlight
-markdown: kramdown
-highlighter: rouge
-
 
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
 paginate: 10
 
+include: ['jekyll-paginate']
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
 github_username: zangshayang1
@@ -27,6 +24,11 @@ highlighter: rouge
 
 # Build settings
 markdown: kramdown
+kramdown:
+    input: GFM
+    syntax_highlighter: rouge
+
+highlighter: rouge
 
 FB:
   comments :
