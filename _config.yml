@@ -14,17 +14,18 @@ banner: 业精于勤荒于嬉 行成于思毁于随
 
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
-paginate: 10
+#paginate: 10
 
-include: ['jekyll-paginate']
+include: ['jekyll-paginate', 'rouge']
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
 github_username: zangshayang1
-highlighter: rouge
 
 # Build settings
+highlighter: rouge
 markdown: kramdown
 kramdown:
+    auto_ids: true
     input: GFM
     syntax_highlighter: rouge
 
