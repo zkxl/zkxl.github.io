@@ -15,13 +15,13 @@ tag: algorithms
 Problem: How to compute a stable perfect matching?
 
 Key Definitions:
-* matching?
+* matching?  
 _Given M = {m1, m2, ... mn} and W = {w1, w2, ..., wn}, a matching is a subset of M x W (cartesian product), S, such that each element of M and each element of W appears in_ __AT MOST__ _one pair in S.__
 
-* perfect match?
+* perfect match?  
 _In a perfect matching S, each element of M and each element of W appear in_ __EXACTLY ONE__ _pair in S._
 
-* instability? stable perfect match?
+* instability? stable perfect match?  
 _In a matching S, instability means there exists a pair (m, w) that's not in S but each of m and w prefers the other to their current partners in S_
 
 ---
