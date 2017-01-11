@@ -74,7 +74,7 @@ Analysis
 
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
-A: The G-S algorithm always pairs each man with his best valid partner.
+A: The G-S algorithm always pairs each man with his best valid partner.  
 > _proof by contradiction:_  
 >   _suppose at least one proposal to a valid partner is rejected(either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _: m proposes to a valid partner w and w immediately rejects m for m'._  
 >   _there exists some woman w' that leaves (m, w) and (m', w') in a stable matching X._  
