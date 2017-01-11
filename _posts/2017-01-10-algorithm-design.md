@@ -16,7 +16,7 @@ Problem: How to compute a stable perfect matching?
 
 Key Definitions:
 * matching?  
-_Given M = {m1, m2, ... mn} and W = {w1, w2, ..., wn}, a matching is a subset of M x W (cartesian product), S, such that each element of M and each element of W appears in_ __AT MOST__ _one pair in S.__
+_Given M = {m1, m2, ... mn} and W = {w1, w2, ..., wn}, a matching is a subset of M x W (cartesian product), S, such that each element of M and each element of W appears in_ __AT MOST__ _one pair in S._
 
 * perfect match?  
 _In a perfect matching S, each element of M and each element of W appear in_ __EXACTLY ONE__ _pair in S._
@@ -49,22 +49,22 @@ endwhile
 Claims:
 1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
 2. The algorithm terminates after at most n^2 proposals.
-3. If a man m is free, there is some woman to whom he has not yet proposed.
-  _proof by contradiction:_
-    _suppose that m is free and he has proposed to all women._
-    _then all women are engaged to some men._
-    _since |M| == |W|, these means all men are engaged._
-4. They matching computed by the G-S algorithm is a perfect matching.
-  _proof by contradiction:_
-  _suppose that the algorithm terminates without a perfect matching, meaning there is a free man m._
-  _according to the code, m must have proposed to every woman._
-  _according to the claim 3, it is impossible._
-5. The matching computed by the G-S algorithm is a stable matching.
-  _proof by contradiction:_
-  _suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'._
-  _the last time m proposed, it was to w._
-  _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._
-  _if m proposed to w' some later time, m doesn't prefer w' to w._
+3. If a man m is free, there is some woman to whom he has not yet proposed.  
+  _proof by contradiction:_  
+    _suppose that m is free and he has proposed to all women._  
+    _then all women are engaged to some men._  
+    _since |M| == |W|, these means all men are engaged._  
+4. They matching computed by the G-S algorithm is a perfect matching.  
+  _proof by contradiction:_  
+  _suppose that the algorithm terminates without a perfect matching, meaning there is a free man m._  
+  _according to the code, m must have proposed to every woman._  
+  _according to the claim 3, it is impossible._  
+5. The matching computed by the G-S algorithm is a stable matching.  
+  _proof by contradiction:_  
+  _suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'._  
+  _the last time m proposed, it was to w._  
+  _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._  
+  _if m proposed to w' some later time, m doesn't prefer w' to w._  
 
 Analysis
 
