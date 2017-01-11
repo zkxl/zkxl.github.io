@@ -24,4 +24,4 @@ A1: $$ {\binom {1000}{1}} p^{1} (1 - p)^{999} $$
 
 Q2: We launched event A for 1000 times. WHat's the probability of at least one of them succeeded?
 
-A2: $$ \sigma_{k=1}^{n} {{\binom {n}{k}} p^{k} (1 - p)^{n-k}} $$
+A2: $$ \sigma_{k=1}^{n} {\binom {n}{k}} p^{k} (1 - p)^{n-k} $$
