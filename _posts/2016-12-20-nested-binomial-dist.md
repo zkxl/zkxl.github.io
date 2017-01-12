@@ -13,9 +13,10 @@ tag: nested-binomial
 
 __We now have event A. Its success probability is p, failure probability is (1 - p).__
 
-_Note for the following problem:_  
+_Notes for the following problem:_  
 
 $$ {\binom {k}{n}} = {\frac {n(n-1)\dotsb (n-k+1)}{k(k-1)\dotsb 1}} $$  
+
 
 $$ {\binom {n}{n}} = {\binom {0}{n}} = 1 $$
 
@@ -35,7 +36,9 @@ A2:
 
 $$ \sum_{k=1}^{1000} {\binom {k}{1000}} p^{k} (1 - p)^{1000-k} $$
 
-* Note: $$ \sum_{k=1}^{1000} {\binom {k}{1000}} p^{k} (1 - p)^{1000-k}  + {\binom {0}{1000}} p^{0} (1-p)^{1000} = 1 $$
+also  
+
+$$ 1 - {\binom {0}{1000}} p^{0} (1-p)^{1000} $$
 
 ---
 
@@ -61,8 +64,8 @@ $$ 1 - {\binom {0}{2}} {\hat p}^{0} (1 - {\hat p})^{2} $$
 
 __Now we have m such type of events, A, B, C, ......__
 
-Q5: We launched all of such events, each of them for N times. What is the probability of at least three of such events are overall successful?  
+Q5: We launched all of such events, each of them for N times. What is the probability of at least three (m >= 3) of such events are overall successful?  
 
 A5:  
 
-$$ 1 - \sum_{j=0}{2} {\binom {j}{m}} {\hat p}^{j} (1 - {\hat p})^{m-j} $$
+$$ 1 - \sum_{j=0}^{2} {\binom {j}{m}} {\hat p}^{j} (1 - {\hat p})^{m-j} $$
