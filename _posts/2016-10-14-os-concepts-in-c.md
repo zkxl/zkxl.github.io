@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  OS conceptis and implementations in C
+title:  OS concepts and implementations in C
 date:   2016-10-14 01:08:00 -0800
 categories: Study-Notes
 tag: OS-in-C
