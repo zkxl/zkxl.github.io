@@ -36,7 +36,7 @@ A2:
 
 $$ \sum_{k=1}^{1000} {\binom {k}{1000}} p^{k} (1 - p)^{1000-k} $$
 
-also  
+equivalently:  
 
 $$ 1 - {\binom {0}{1000}} p^{0} (1-p)^{1000} $$
 
@@ -52,7 +52,6 @@ $$ \hat p = 1 - \sum_{k=0}^1 {\binom {k}{N}} p^{k} (1-p)^{N-k} $$
 
 __Now we have another event B. It has the same success/failure probability as A. We define event A is overall successful if at least two out of all the trials we launched succeeded.__
 
----
 
 Q4: We launched event A and event B for N times respectively. What's the probability of at least one of them is overall successful?  
 
