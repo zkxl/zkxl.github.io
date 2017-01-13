@@ -70,16 +70,41 @@ $$ \underset{W} {\operatorname{\min}} - \log{P(D|W)} $$
 
 Because:  
 
-$$ P(D|W) = P({I(t), T(t) | t = 1, …, M} | W) = \Pi_{t=1}^{M} P(I(t), T(t) | W) = \Pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)) $$
+$$ P(D|W) = P({I(t), T(t) t = 1, …, M} | W) = \Pi_{t=1}^{M} P(I(t), T(t) | W) = \Pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)) $$
 
-* note: O stands for the output.  
+* note: O stands for the output. Given data D, I(t) is a constant.    
 
 _the above says: [given model W, the probability of (having input I(t) and target T(t))] equals to the probability of [(having input I(t) independently) and (having target value T(t) given output O(t))]._  
 
 The problem became:  
 
-$$ \underset{W} {\operatorname{\min}} - \log{(\Pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)))} $$
+$$ \underset{W} {\operatorname{\min}} - \log{(\Pi_{t=1}^{M} P(T(t)|O(t)))} $$
 
 Equivalently:  
 
-$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{(P(I(t)) P(T(t)|O(t)))} $$
+$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{(P(T(t)|O(t))} $$
+
+__Then what? The above problem is obviously a regression/continuous probability problem. But we don't know what P(T(t)|O(t)) looks like? Here comes in Gaussian distribution, which is the most commonly used continuous probability distribution to model real-valued, random variables whose probability distribution is unknown. It is useful because of central limit theorem.__  
+
+$$ f(x|\mu ,\sigma^{2}) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}} $$
+
+
+Apply it to our problem:  
+
+$$ P(T|O) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
+
+Then the above problem became:  
+
+$$ \underset{W} {\operatorname{\min}} - \sum_(t=1)^{M} \log{ ( {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} ) } $$  
+
+Because $$ \frac {1}{\sqrt {2 \sigma^{2} \pi}} $$ is a constant, our above optimize problem became:  
+
+$$ \underset{W} {\operatorname{\min}} - \sum_(t=1)^{M} \log{\e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
+
+Equivalently:  
+
+$$ \underset{W} {\operatorname{\min}} \sum_(t=1)^{M} 1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
+
+__This is where the "squared error" came from!__
+
+* Note: We didn't omit the constant 1/2 here because it is we can drive a nicer derivative function with it.  
