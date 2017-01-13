@@ -86,16 +86,15 @@ $$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{(P(T(t)|O(t))} $$
 
 __The above problem is obviously a regression/continuous probability problem. Now what? Here comes in Gaussian distribution, which is the most commonly used continuous probability distribution to model real-valued, random variables whose probability distribution is unknown. It is useful because of central limit theorem.__  
 
-$$ f(x |\mu ,\sigma^{2}) = \frac {1}{\sqrt {2 \sigma^{2} \pi}} \e^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}}} $$
-
+$$ f(x |\mu ,\sigma^{2}) = \frac {1}{\sqrt {2 \sigma^{2} \pi}} \mathrm{e}^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}}} $$
 
 Apply it to our problem:  
 
-$$ P(T|O) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
+$$ P(T|O) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}}} $$  
 
 Then the above problem became:  
 
-$$ \underset{W} {\operatorname{\min}} - \sum_(t=1)^{M} \log{ ( {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} ) } $$  
+$$ \underset{W} {\operatorname{\min}} - \sum_(t=1)^{M} \log{ ( {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \e^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}}} ) } $$  
 
 Because $$ \frac {1}{\sqrt {2 \sigma^{2} \pi}} $$ is a constant, our above optimize problem became:  
 
