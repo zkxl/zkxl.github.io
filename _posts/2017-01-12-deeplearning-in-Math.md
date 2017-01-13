@@ -37,9 +37,9 @@ P(W) is the prior distribution of the model;
 
 P(D) is the evidence distribution of the model;  
 
-$$ P(W|D) $$ is given the data the probability distribution of the mode;  
+Given the data, the probability distribution of the model is, the probability distribution of the data given the model times the prior distribution of the model divided by the evidence distribution of the model.  
 
-Having:  
+Mathematically:  
 
 $$ P(W|D) = \frac {P(D|W) P(W)} {P(D)} $$  
 
@@ -47,4 +47,29 @@ __The ultimate goal of any machine learning problem is to find the "most correct
 
 Problem:  
 
-$$ \underset{W} {\operatorname{\min}} P(W|D) $$
+$$ \underset{W} {\operatorname{\max}} P(W|D) $$
+
+Equivalently:  
+
+$$ \underset{W} {\operatorname{\max}} \log{P(W|D)} $$  
+
+Equivalently:  
+
+$$ \underset{W} {\operatorname{\max}} (\log{P(D|W)} + \log{P(W)} - \log{P(D)}) $$
+
+Under uniform prior weight distribution, P(W) is a constant;  
+Because of given data, P(D) is a constant;  
+
+So problem became:  
+
+$$ \underset{W} {\operatorname{\max}} \log{P(D|W)} $$
+
+Equivalently (negative loglikelihood):  
+
+$$ - \underset{W} {\operatorname{\min}} \log{P(D|W)} $$
+
+Because:  
+
+$$ P(D|W) = P({I(t), T(t) where t = 1, …, M} | W) = \pi_{t=1}^{M} P(I(t), T(t) | W) = \pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)) $$
+
+* note: O stands for the output; the above says: [given model W, the probability of (having input I(t) and target T(t))] equals to [the probability of (having input I(t) independently) and (the probability of having target value T(t) given output O(t))].  
