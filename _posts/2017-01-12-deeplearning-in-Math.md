@@ -66,10 +66,20 @@ $$ \underset{W} {\operatorname{\max}} \log{P(D|W)} $$
 
 Equivalently (negative loglikelihood):  
 
-$$ - \underset{W} {\operatorname{\min}} \log{P(D|W)} $$
+$$ \underset{W} {\operatorname{\min}} - \log{P(D|W)} $$
 
 Because:  
 
-$$ P(D|W) = P({I(t), T(t) where t = 1, …, M} | W) = \pi_{t=1}^{M} P(I(t), T(t) | W) = \pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)) $$
+$$ P(D|W) = P({I(t), T(t) | t = 1, …, M} | W) = \Pi_{t=1}^{M} P(I(t), T(t) | W) = \Pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)) $$
 
-* note: O stands for the output; the above says: [given model W, the probability of (having input I(t) and target T(t))] equals to [the probability of (having input I(t) independently) and (the probability of having target value T(t) given output O(t))].  
+* note: O stands for the output.  
+
+_the above says: [given model W, the probability of (having input I(t) and target T(t))] equals to the probability of [(having input I(t) independently) and (having target value T(t) given output O(t))]._  
+
+The problem became:  
+
+$$ \underset{W} {\operatorname{\min}} - \log{(\Pi_{t=1}^{M} P(I(t)) P(T(t)|O(t)))} $$
+
+Equivalently:  
+
+$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{(P(I(t)) P(T(t)|O(t)))} $$
