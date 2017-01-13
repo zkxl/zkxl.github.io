@@ -15,4 +15,4 @@ From "Multilayer feedforward networks are universal approximators", it is shown 
 
 Mathematically, for any $$ \epsilon > 0 $$ there exists an $$ \alpha > 0 $$, so that:  
 
-$$ \abs{x_1 - x_2} < \alpha => \abs{f(x_1) - f(x_2)} < \epsilon %%  
+$$ \abs{x_1 - x_2} < \alpha => \abs{f(x_1) - f(x_2)} < \epsilon $$  
