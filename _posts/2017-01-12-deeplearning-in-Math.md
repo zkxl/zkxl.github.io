@@ -90,23 +90,23 @@ $$ f(x |\mu ,\sigma^{2}) = \frac {1}{\sqrt {2 \sigma^{2} \pi}} \mathrm{e}^{-{\fr
 
 Apply it to our problem:  
 
-$$ P(T|O) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \mathrm{e}^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}}} $$  
+$$ P(T|O) = {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \mathrm{e}^{{- \frac{1}{2}} {\frac {(T-O)^{2}} {\sigma^{2}}}} $$  
 
 Then the above problem became:  
 
-$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{ ( {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \mathrm{e}^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}}} ) } $$  
+$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{ ( {\frac {1}{\sqrt {2 \sigma^{2} \pi}}} \mathrm{e}^{{- \frac{1}{2}} {\frac {(T-O)^{2}} {\sigma^{2}}}} ) } $$  
 
 Because $$ \frac {1}{\sqrt {2 \sigma^{2} \pi}} $$ is a constant, our above optimize problem became:  
 
-$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M}\log{\mathrm{e}^{-1/2 {\frac {(T-O)^{2}} {\sigma^{2}}}}} $$  
+$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M}\log{\mathrm{e}^{{- \frac{1}{2}} {\frac {(T-O)^{2}} {\sigma^{2}}}}} $$  
 
 Equivalently:  
 
-$$ \underset{W} {\operatorname{\min}} \sum_{t=1}^{M} 1/2 {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
+$$ \underset{W} {\operatorname{\min}} \sum_{t=1}^{M} {\frac{1}{2}} {\frac {(T-O)^{2}} {\sigma^{2}}} $$  
 
 Equivalently:  
 
-$$ \underset{W} {\operatorname{\min}} \sum_{t=1}^{M} 1/2 {(T-O)^{2}} $$  
+$$ \underset{W} {\operatorname{\min}} \sum_{t=1}^{M} {\frac{1}{2}} {(T-O)^{2}} $$  
 
 __This is where the "squared error" came from!__
 
