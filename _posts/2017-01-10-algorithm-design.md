@@ -12,7 +12,7 @@ tag: algorithms
 
 ## Stable Marriage
 
-Problem: How to compute a stable perfect matching?
+#### Problem: How to compute a stable perfect matching?
 
 Key Definitions:
 * matching?  
@@ -26,7 +26,7 @@ _In a matching S, instability means there exists a pair (m, w) that's not in S b
 
 ---
 
-G-S Algorithm
+#### G-S Algorithm
 
 ```
 While there’s a free man // indicating he has not proposed to every woman
@@ -46,7 +46,8 @@ While there’s a free man // indicating he has not proposed to every woman
 endwhile
 ```
 
-Claims:
+#### Claims:  
+
 1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
 
 2. The algorithm terminates after at most n^2 proposals.
@@ -70,7 +71,7 @@ Claims:
   >   _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._  
   >   _if m proposed to w' some later time, m doesn't prefer w' to w._  
 
-Analysis
+#### Determinacy Analysis in G-S Algorithm
 
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
@@ -82,6 +83,26 @@ A: The G-S algorithm always pairs each man with his best valid partner.
 >   _w prefers m' to m. [w rejected m for m']_  
 >   _m' prefers w to w'. [If he preferred w' to w, he would have proposed to w' first in G-S algorithm and end up being rejected before he proposes to w. (Not until then, can w be engaged with m' and w later rejects m, which contradicts our_ __"first rejection"__ _)]_  
 
-Continue ...
+#### Complexity and Implementation
 
-RAM - random access machine .
+Input: two 2D matrices (man, preference_list) and (woman, preference_list)  
+
+Output: a stable perfect matching S.  
+
+The algorithm terminates at most n^2 proposals, looping over n^2 times. If every operation in this loop is O(1), the overall complexity will be O(n^2).  
+
+Specifically:  
+
+1. find a free man - keep only free man on a linked list so it takes O(1) to access the next free man;  
+
+* It takes O(n) to convert an array into a linkedlist;  
+
+2. for a given man m, find his next highest ranking woman w to whom m hasn't proposed - maintain a 1D array h, where h[m] == w;  
+
+3. For a given woman w, find out if she's currently engaged or not - maintain a 1D array c, where c[w] == null if w is not engaged and c[w] == m' if w is engaged with m'.  
+
+4. For a given woman w engaged with m', to whom m proposed, determine whether w prefers m to m' - this is tricky to do in O(1) because normally you'd need to reference to w's preference_list and find how m ranks to m'.  
+
+__Solution: from woman's preference array, you need to create a "ranking" array r where r[w, m] = m's ranking in w's preference_list. This can be done in O(n^2).__  
+
+continue ...
