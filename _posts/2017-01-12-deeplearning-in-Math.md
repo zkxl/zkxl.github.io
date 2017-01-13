@@ -23,8 +23,11 @@ Here, with $$ \epsilon $$ being the arbitrary precision, for every small interva
 
 The above neural net gives you an "approximator" $$ F(x) $$ !  
 
-Now for any x in input space, you have: $$ |f(x) - F(x)| < \epsilon $$  
+Now for any x in input space, you have:  
 
+$$ |f(x) - F(x)| < \epsilon $$  
+
+---
 
 ## why squared error?
 
@@ -34,7 +37,7 @@ P(W) is the prior distribution of the model;
 
 P(D) is the evidence distribution of the model;  
 
-P(W|D) is given the data the probability distribution of the mode;  
+$$ P(W|D) $$ is given the data the probability distribution of the mode;  
 
 Having:  
 
