@@ -86,9 +86,7 @@ $$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M} \log{(P(T(t)|O(t))} $$
 
 __The above problem is obviously a regression/continuous probability problem. Now what? Here comes in Gaussian distribution, which is the most commonly used continuous probability distribution to model real-valued, random variables whose probability distribution is unknown. It is useful because of central limit theorem.__  
 
-$$ f(x |\mu ,\sigma^{2}) = \frac {1}{\sqrt {2 \sigma^{2} \pi}} \e^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}} $$
-
-$$ \frac {1}{\sqrt {2 \sigma^{2} \pi}} \e^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}} $$
+$$ f(x |\mu ,\sigma^{2}) = \frac {1}{\sqrt {2 \sigma^{2} \pi}} \e^{-{\frac {(x-\mu)^{2}} {2 \sigma^{2}}}} $$
 
 
 Apply it to our problem:  
