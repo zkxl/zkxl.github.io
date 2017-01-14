@@ -111,3 +111,9 @@ $$ \underset{W} {\operatorname{\min}} \sum_{t=1}^{M} {\frac{1}{2}} {(T-O)^{2}} $
 __This is where the "squared error" came from!__
 
 * Note: We didn't omit the constant 1/2 here because it is we can drive a nicer derivative function with it.  
+
+__For binary classification problem, we use binomial distribution, which can be generated to fit multi-class classification problem as well.__  
+
+$$ P(T|O) = O^{T} (1-O)^{1-T} $$
+
+$$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M}[T \log{O} + (1-T) \log{(1-O)}] $$
