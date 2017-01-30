@@ -121,4 +121,8 @@ Specifically:
 \- _proof:_  
 \- _given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
 \- _For any node at height of j, at most j siftDown() operations needed to find its correct place._  
-\- _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level.__  
+\- _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level._  
+
+$$ 2^{floor(logN) - j} < O(\frac {n} {2^j}) $$  
+
+$$ Total Time < O(\sum_{j=0}^{logN} j \frac {n} {2^j}) -> O(n) when logN goes to \infty $$  
