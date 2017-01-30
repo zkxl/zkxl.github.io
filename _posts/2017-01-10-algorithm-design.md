@@ -53,10 +53,10 @@ endwhile
 2. The algorithm terminates after at most n^2 proposals.
 
 3. If a man m is free, there is some woman to whom he has not yet proposed.  
-> _proof by contradiction:_  
->   _suppose that m is free and he has proposed to all women._  
->   _then all women are engaged to some men._  
->   _since |M| == |W|, these means all men are engaged._  
+\- _proof by contradiction:_  
+\- _suppose that m is free and he has proposed to all women._  
+\- _then all women are engaged to some men._  
+\- _since |M| == |W|, these means all men are engaged._  
 
 4. They matching computed by the G-S algorithm is a perfect matching.  
   > _proof by contradiction:_  
