@@ -125,4 +125,4 @@ Specifically:
 
 $$ 2^{floor(logN) - j} < O(\frac {n} {2^j}) $$  
 
-$$ Total Time < O(\sum_{j=0}^{logN} j \frac {n} {2^j}) -> O(n) when logN goes to \infty $$  
+$$ Total Time \le O(\sum_{j=0}^{logN} j \frac {n} {2^j}) \le O(N \sum_{j=0}^{\infty} \frac {j} {2^j}) = O(n) $$  
