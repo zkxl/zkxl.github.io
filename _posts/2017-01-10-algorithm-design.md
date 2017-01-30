@@ -59,29 +59,29 @@ endwhile
 \- _since |M| == |W|, these means all men are engaged._  
 
 4. They matching computed by the G-S algorithm is a perfect matching.  
-  > _proof by contradiction:_  
-  >   _suppose that the algorithm terminates without a perfect matching, meaning there is a free man m._  
-  >   _according to the code, m must have proposed to every woman._  
-  >   _according to the claim 3, it is impossible._  
+\- _proof by contradiction:_  
+\- _suppose that the algorithm terminates without a perfect matching, meaning there is a free man m._  
+\- _according to the code, m must have proposed to every woman._  
+\- _according to the claim 3, it is impossible._  
 
 5. The matching computed by the G-S algorithm is a stable matching.  
-  > _proof by contradiction:_  
-  >   _suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'._  
-  >   _the last time m proposed, it was to w._  
-  >   _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._  
-  >   _if m proposed to w' some later time, m doesn't prefer w' to w._  
+\- _proof by contradiction:_  
+\- _suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'._  
+\- _the last time m proposed, it was to w._  
+\- _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._  
+\- _if m proposed to w' some later time, m doesn't prefer w' to w._  
 
 #### Determinacy Analysis in G-S Algorithm
 
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
 A: The G-S algorithm always pairs each man with his best valid partner.  
-> _proof by contradiction:_  
->   _suppose at least one proposal to a valid partner is rejected(either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _: m proposes to a valid partner w and w immediately rejects m for m'._  
->   _there exists some woman w' that leaves (m, w) and (m', w') in a stable matching X._  
->   __However__, _X cannot be stable because of the following claims:_  
->   _w prefers m' to m. [w rejected m for m']_  
->   _m' prefers w to w'. [If he preferred w' to w, he would have proposed to w' first in G-S algorithm and end up being rejected before he proposes to w. (Not until then, can w be engaged with m' and w later rejects m, which contradicts our_ __"first rejection"__ _)]_  
+\- _proof by contradiction:_  
+\- _suppose at least one proposal to a valid partner is rejected(either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _: m proposes to a valid partner w and w immediately rejects m for m'._  
+\- _there exists some woman w' that leaves (m, w) and (m', w') in a stable matching X._  
+\- __However__, _X cannot be stable because of the following claims:_  
+\- _w prefers m' to m. [w rejected m for m']_  
+\- _m' prefers w to w'. [If he preferred w' to w, he would have proposed to w' first in G-S algorithm and end up being rejected before he proposes to w. (Not until then, can w be engaged with m' and w later rejects m, which contradicts our_ __"first rejection"__ _)]_  
 
 #### Complexity and Implementation
 
@@ -106,3 +106,19 @@ Specifically:
 ---
 
 ## Binary Heap Implementation of Priority Queue
+
+1. __O(logn) for all add/delete/min operations and O(n) for heapify()__  
+2. __Binary Heap is an implicit data structure, meaning:__  
+  * No extra space required beyond what is needed to store an array.  
+  * Extra information is how items are order in the array.  
+
+---
+
+### Implementation Details
+
+1. Given a list of items to initiate the heap structure, calling __\_siftDown()__ from the last item to the first item gives O(n) complexity.  
+
+\- _proof:_  
+\- _given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
+\- _For any node at height of j, at most j siftDown() operations needed to find its correct place._  
+\- _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level.__  
