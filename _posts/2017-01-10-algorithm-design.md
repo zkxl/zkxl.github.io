@@ -220,6 +220,7 @@ class MinHeap(object):
 ---
 ## Graphs
 
+---
 #### Key Definitions
 
 1. G = (V, E): a __graph__ is a pair of vertices and edges. Vertices are nodes and an edge is a pair of nodes e = (u, v).  
@@ -232,6 +233,7 @@ class MinHeap(object):
 6. A __free tree__ is an undirected connected graph that doesn't contain a cycle.
 7. A __rooted tree__ is a tree with a root node r and all the edges are directed away from the root.  
 * __Other relevant: parent, child, ancestor/descendant, proper ancestor/descendant, leaf...__  
+
 ---
 
 #### Existence and Reachability Problem
@@ -239,6 +241,7 @@ class MinHeap(object):
 __Existence problem: given a graph and a pair of nodes in the graph, (v, u), if there exists such a path from u to v?__  
 
 __Reachability problem: given a graph and a node u, find all nodes which there exists a path from u to.__  
+
 ---
 
 #### Graph Representation
@@ -285,6 +288,7 @@ def BFS(graph, start_node, target_value):
   return Null;
 
 ```
+
 ---
 
 #### DFS
@@ -315,6 +319,7 @@ def DFS(graph, start_node, target_value):
 
     return Null;
 ```
+
 ---
 
 #### Common Algorithm Problems using BFS/DFS
@@ -327,7 +332,7 @@ def DFS(graph, start_node, target_value):
 2. Bipartite Problem:  
 \- _Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._  
 
-__NOTE- Bipartite definition:__ $$ G = X \bigcup Y \; X \bigcap Y = \emptyset $$  
+__NOTE- Bipartite definition:__ $$ G = X \bigcup Y \;\;where\;\; X \bigcap Y = \emptyset $$  
 
 ---
 
