@@ -232,12 +232,14 @@ class MinHeap(object):
 6. A __free tree__ is an undirected connected graph that doesn't contain a cycle.
 7. A __rooted tree__ is a tree with a root node r and all the edges are directed away from the root.  
 * __Other relevant: parent, child, ancestor/descendant, proper ancestor/descendant, leaf...__  
+---
 
 #### Existence and Reachability Problem
 
 __Existence problem: given a graph and a pair of nodes in the graph, (v, u), if there exists such a path from u to v?__  
 
 __Reachability problem: given a graph and a node u, find all nodes which there exists a path from u to.__  
+---
 
 #### Graph Representation
 
@@ -252,6 +254,7 @@ Given G = (V, E), n = # of nodes, m = # of edges.
 * O(n+m) space needed;
 * O(1) time to find all edges on a given node;
 
+---
 
 #### BFS
 
@@ -282,6 +285,7 @@ def BFS(graph, start_node, target_value):
   return Null;
 
 ```
+---
 
 #### DFS
 
@@ -311,21 +315,28 @@ def DFS(graph, start_node, target_value):
 
     return Null;
 ```
+---
 
 #### Common Algorithm Problems using BFS/DFS
 
 1. Connected-components Labeling Problem:  
 \- _Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left._  
 
+---
+
 2. Bipartite Problem:  
 \- _Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._  
 
-__NOTE- Bipartite definition:__ $$ G = X \bigcup Y where X \bigcap Y = \emptyset $$  
+__NOTE- Bipartite definition:__ $$ G = X \bigcup Y \; X \bigcap Y = \emptyset $$  
+
+---
 
 3. Test Strong Connectivity on Directed Graph:  
 \- _Pick a node in Graph and test if it can reach to every other node in the same graph._  
 \- _Starting from the same node, test on_ $$ G^REV $$ _(reverse all the edges) if it can still reach to every other node._  
 \- _If both tests pass, G is strongly connected, else return False._  
+
+---
 
 4. A directed acyclic graph has topological ordering  
 \- _Find a node v with no incoming edges. Assign the next order number to v.__  
@@ -377,6 +388,8 @@ def topological_ordering(graph):
 
   return labels
 ```
+
+---
 
 5. Finding strong components problem
 
