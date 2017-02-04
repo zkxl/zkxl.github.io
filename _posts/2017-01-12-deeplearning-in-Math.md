@@ -117,3 +117,25 @@ __For binary classification problem, we use binomial distribution, which can be 
 $$ P(T|O) = O^{T} (1-O)^{1-T} $$
 
 $$ \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M}[T \log{O} + (1-T) \log{(1-O)}] $$
+
+---
+
+## universal derivative (O - T)  
+
+__Regression problem under Gaussian distribution and classification problem understand binomial distribution (can be generalize to multi-class) share the same math formula when it comes to their losses derivative.__  
+
+It is obvious that the derivative of regression loss comes down to (O - T) while less obvious for the classification problem.
+
+
+$$ J = \underset{W} {\operatorname{\min}} - \sum_{t=1}^{M}[T \log{O} + (1-T) \log{(1-O)}] $$
+
+$$ {\frac {\partial J}{\partial W}} = {\frac {\partial J}{\partial O}} {\frac {\partial O}{\partial W}} = {\frac {O - T} {O(1 - O)}} {\frac {\partial O}{\partial W}} $$
+
+$$ {\frac {\partial O}{\partial W}} = {\frac {\partial O}{\partial S}} {\frac {\partial S}{\partial W}} $$
+
+Because:  
+$$ S = WX + b $$
+$$ O = Sigmoid(S) = {\frac {1}{1+e^{-S}}} $$
+
+We have:  
+$$ {\frac {\partial O}{\partial W}} = (O - T) X $$
