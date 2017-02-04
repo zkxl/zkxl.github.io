@@ -134,8 +134,29 @@ $$ {\frac {\partial J}{\partial W}} = {\frac {\partial J}{\partial O}} {\frac {\
 $$ {\frac {\partial O}{\partial W}} = {\frac {\partial O}{\partial S}} {\frac {\partial S}{\partial W}} $$
 
 Because:  
-$$ S = WX + b $$
+
+$$ S = WI + b $$
+
 $$ O = Sigmoid(S) = {\frac {1}{1+e^{-S}}} $$
 
 We have:  
-$$ {\frac {\partial O}{\partial W}} = (O - T) X $$
+
+$$ {\frac {\partial O}{\partial W}} = (O - T) I $$
+
+## regularization
+
+Previously, we assume P(W) is under uniform prior weight distribution and thus a constant.  
+
+If that is not the case and P(W) follows standard Gaussian distribution where mean = 0 and standard deviation = 0, what would we get?  
+
+We get regularization term.  
+
+$$ P(w) = {\frac {e^ {-{\frac{1}{2}} x^{2}}} {\sqrt {2\pi}}} $$
+
+$$ J = NLL - \log{P(w)} = NLL + {\frac{1}{2}} \alpha \sum_{t=1}^{M} w_{i}^2  $$  
+
+## weight update - the very beautiful one
+
+$$ W_{new} = W_{old} - \Delta W $$
+
+$$ \Delta W_{i}  = \eta (O - T) I + \alpha W_{i} $$
