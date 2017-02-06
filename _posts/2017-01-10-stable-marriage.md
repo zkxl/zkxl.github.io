@@ -56,23 +56,23 @@ endwhile
 2. The algorithm terminates after at most n^2 proposals.
 
 3. If a man m is free, there is some woman to whom he has not yet proposed.  
-\- _proof by contradiction:_  
-\- _suppose that m is free and he has proposed to all women._  
-\- _then all women are engaged to some men._  
-\- _since |M| == |W|, these means all men are engaged._  
+_proof by contradiction:  
+- suppose that m is free and he has proposed to all women.  
+- then all women are engaged to some men.  
+- since |M| == |W|, these means all men are engaged._  
 
 4. They matching computed by the G-S algorithm is a perfect matching.  
-\- _proof by contradiction:_  
-\- _suppose that the algorithm terminates without a perfect matching, meaning there is a free man m._  
-\- _according to the code, m must have proposed to every woman._  
-\- _according to the claim 3, it is impossible._  
+_proof by contradiction:  
+- suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
+- according to the code, m must have proposed to every woman.  
+- according to the claim 3, it is impossible._  
 
 5. The matching computed by the G-S algorithm is a stable matching.  
-\- _proof by contradiction:_  
-\- _suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'._  
-\- _the last time m proposed, it was to w._  
-\- _if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction._  
-\- _if m proposed to w' some later time, m doesn't prefer w' to w._  
+_proof by contradiction:  
+- suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
+- the last time m proposed, it was to w.  
+- if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction.  
+- if m proposed to w' some later time, m doesn't prefer w' to w._  
 
 ---
 
@@ -81,12 +81,15 @@ endwhile
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
 A: The G-S algorithm always pairs each man with his best valid partner.  
-\- _proof by contradiction:_  
-\- _suppose at least one proposal to a valid partner is rejected(either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _: m proposes to a valid partner w and w immediately rejects m for m'._  
-\- _there exists some woman w' that leaves (m, w) and (m', w') in a stable matching X._  
-\- __However__, _X cannot be stable because of the following claims:_  
-\- _w prefers m' to m. [w rejected m for m']_  
-\- _m' prefers w to w'. [If he preferred w' to w, he would have proposed to w' first in G-S algorithm and end up being rejected before he proposes to w. (Not until then, can w be engaged with m' and w later rejects m, which contradicts our_ __"first rejection"__ _)]_  
+
+__claim: Stable matching problem has more than 1 possible outcomes; Different execution of G-S algorithm leads to different outcomes. However, if w is a valid partner of m, then (m, w) will appear at least once in certain valid outcome.__
+
+_proof by contradiction:  
+- suppose at least one proposal from m to a valid partner w is rejected (either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _ever occurred during this execution E of G-S algorithm: m proposes to a valid partner w and w immediately rejects m because she prefers her current match m'.  
+- Because w is a valid partner of m, there exists some other execution E' of G-S algorithm where (m, w) are paired and m' is paired with some other woman w', which is stable.  
+-_ __However__, _when w rejected m for m' during the execution of E, that was the first rejection ever occurred. That means, at that point, m' hasn't been rejected. Clearly, m' is proposing at decreasing order and w' is a valid partner of m'. So m' must prefer w to w'.  
+- Since m' prefers w to w' and w prefers m' to m. The outcome from the execution of E' can't be stable, which is a contradiction.  
+- Therefore, our original proposal is false._    
 
 ---
 
@@ -114,14 +117,14 @@ Specifically:
 
 #### Exercises
 
-1. Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
+Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
 
 _Prove:  
 - Suppose there is a good man m married to a bad woman w', then there must be a good woman w married to a bad man m'. Thus, (m, w') and (m', w).  
 - Since good ones are always preferred, we have m prefers w to w', w prefers m to m'. This leads to an instability.  
 - This makes a contradiction._  
 
-2. Generalize the problem by explicitly stating that certain men-women pairs are forbidden (listed in set F). Under these circumstances, a stable matching can be established if:  
+Generalize the problem by explicitly stating that certain men-women pairs are forbidden (listed in set F). Under these circumstances, a stable matching can be established if:  
 * there's no usual kind of instability (above).  
 * there's no such pair (m', w) and a single m, who has higher rank than m' in w's preference_list and also (m, w) $$ \notin $$ F.  
 * there's no such pair (m, w') and a single w, who has higher rank than w' in m's preference_list and also (m, w) $$ \notin $$ F.  
