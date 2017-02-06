@@ -30,8 +30,6 @@ _In a matching S, instability means there exists a pair (m, w) that's not in S b
 
 #### G-S Algorithm
 
----
-
 ```
 While there’s a free man // indicating he has not proposed to every woman
   m = such man // non-deterministic
@@ -54,26 +52,25 @@ endwhile
 
 #### Claims:  
 
----
 
 1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
 
 2. The algorithm terminates after at most n^2 proposals.
 
 3. If a man m is free, there is some woman to whom he has not yet proposed.  
-_proof by contradiction:  
+_prove by contradiction:  
 - suppose that m is free and he has proposed to all women.  
 - then all women are engaged to some men.  
 - since |M| == |W|, these means all men are engaged._  
 
 4. They matching computed by the G-S algorithm is a perfect matching.  
-_proof by contradiction:  
+_prove by contradiction:  
 - suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
 - according to the code, m must have proposed to every woman.  
 - according to the claim 3, it is impossible._  
 
 5. The matching computed by the G-S algorithm is a stable matching.  
-_proof by contradiction:  
+_prove by contradiction:  
 - suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
 - the last time m proposed, it was to w.  
 - if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction.  
