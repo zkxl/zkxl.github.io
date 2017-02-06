@@ -30,6 +30,8 @@ _In a matching S, instability means there exists a pair (m, w) that's not in S b
 
 #### G-S Algorithm
 
+---
+
 ```
 While there’s a free man // indicating he has not proposed to every woman
   m = such man // non-deterministic
@@ -51,6 +53,8 @@ endwhile
 ---
 
 #### Claims:  
+
+---
 
 1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
 
@@ -79,6 +83,8 @@ _proof by contradiction:
 
 #### Determinacy Analysis in G-S Algorithm
 
+---
+
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
 A: The G-S algorithm always pairs each man with his best valid partner.  
@@ -95,6 +101,8 @@ _proof by contradiction:
 ---
 
 #### Complexity and Implementation
+
+---
 
 Input: two 2D matrices (man, preference_list) and (woman, preference_list)  
 
@@ -239,5 +247,3 @@ def preprocess(hospPref, studentsPref, slotCount):
   return (slotsPref, studentsPref, slotsOwner)
 
 ```
-
----
