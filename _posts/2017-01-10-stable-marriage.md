@@ -52,24 +52,26 @@ endwhile
 
 #### Claims:  
 
-
 1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
 
 2. The algorithm terminates after at most n^2 proposals.
 
 3. If a man m is free, there is some woman to whom he has not yet proposed.  
+
 _prove by contradiction:  
 - suppose that m is free and he has proposed to all women.  
 - then all women are engaged to some men.  
 - since |M| == |W|, these means all men are engaged._  
 
-4. They matching computed by the G-S algorithm is a perfect matching.  
+4. They matching computed by the G-S algorithm is a perfect matching.
+
 _prove by contradiction:  
 - suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
 - according to the code, m must have proposed to every woman.  
 - according to the claim 3, it is impossible._  
 
 5. The matching computed by the G-S algorithm is a stable matching.  
+
 _prove by contradiction:  
 - suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
 - the last time m proposed, it was to w.  
@@ -79,8 +81,6 @@ _prove by contradiction:
 ---
 
 #### Determinacy Analysis in G-S Algorithm
-
----
 
 Q: The non-deterministic G-S algorithm however produces deterministic result, given any particular input. Why?
 
@@ -99,7 +99,6 @@ _proof by contradiction:
 
 #### Complexity and Implementation
 
----
 
 Input: two 2D matrices (man, preference_list) and (woman, preference_list)  
 
@@ -123,7 +122,6 @@ Specifically:
 
 #### Exercises
 
----
 
 Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
 
