@@ -15,7 +15,7 @@ tag: algorithms
 
 #### Problem: How to compute a stable perfect matching?
 
-Key Definitions:
+Key Definitions:  
 * matching?  
 _Given M = {m1, m2, ... mn} and W = {w1, w2, ..., wn}, a matching is a subset of M x W (cartesian product), S, such that each element of M and each element of W appears in_ __AT MOST__ _one pair in S._
 
@@ -102,10 +102,51 @@ Specifically:
 
 1. find a free man - keep only free man on a linked list so it takes O(1) to access the next free man;  
 
-* It takes O(n) to convert an array into a linkedlist;  
+* It takes O(n) to convert an array into a LinkedList;  
 
-2. for a given man m, find his next highest ranking woman w to whom m hasn't proposed - maintain a 1D array h, where h[m] == w;  
+2. for a given man m, find his next highest ranking woman w to whom m hasn't proposed - maintain a 1D array h, where h[m] == w; It takes O(n) to convert one man's preference_list into a LinkedList started with the highest ranking woman. Then it takes O(n^2) to convert all the men's preference_list to LinkedLists maintained within a 1D array.  
 
 3. For a given woman w, find out if she's currently engaged or not - maintain a 1D array c, where c[w] == null if w is not engaged and c[w] == m' if w is engaged with m'.  
 
 4. For a given woman w engaged with m', to whom m proposed, determine whether w prefers m to m' - this is tricky to do in O(1) because normally you'd need to reference to w's preference_list and find how m ranks to m'. __Solution: from woman's preference array, you need to create a "ranking" array r where r[w, m] = m's ranking in w's preference_list. This can be done in O(n^2).__  
+
+---
+
+#### Exercises
+
+1. Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
+
+_Prove:  
+- Suppose there is a good man m married to a bad woman w', then there must be a good woman w married to a bad man m'. Thus, (m, w') and (m', w).  
+- Since good ones are always preferred, we have m prefers w to w', w prefers m to m'. This leads to an instability.  
+- This makes a contradiction._  
+
+2. Generalize the problem by explicitly stating that certain men-women pairs are forbidden (listed in set F). Under these circumstances, a stable matching can be established if:  
+* there's no usual kind of instability (above).  
+* there's no such pair (m', w) and a single m, who has higher rank than m' in w's preference_list and also (m, w) $$ \notin $$ F.  
+* there's no such pair (m, w') and a single w, who has higher rank than w' in m's preference_list and also (m, w) $$ \notin $$ F.  
+* there's no single m and single w whose pair (m, w) $$ \notin $$ F.  
+
+_G-S algorithm can be adapted to work out this case:  
+- the only change is an added restriction on "while condition"_  
+
+
+```
+while there is free man m who hasn't proposed to every woman w for which (m, w) not in F
+  w = the highest ranking women in m's preference_list to which m hasn't proposed yet and not forbidden to propose.
+  if w is free:
+    (m, w) became engaged
+  else if w prefers m to his current match m':
+    (m, w) became engaged and m' became a free man
+  else:
+    (m', w) stays the same and m is still a free man
+  endif
+endwhile
+return the set S of engaged pairs
+```
+
+_prove:  
+- If there's a usual kind of instability, please see_ __Claim No.5__.  
+_- Suppose there is a pair (m', w) and a single m who is ranked higher than m' in w's preference_list and (m, w) is not forbidden. m must've  proposed to w and w rejected m for m', which is contradictory.  
+- Suppose there is a pair (m, w') and a single w who is ranked higher than w' in m's preference_list and (m, w) is not forbidden. Same as above.  
+- Suppose there are a single m and a single w and (m, w) is not forbidden, then m must've proposed to w and w can't still be single._  
