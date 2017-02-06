@@ -52,26 +52,23 @@ endwhile
 
 #### Claims:  
 
-1. The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.
+__The sequence of partners to whom a man proposes gets worse; the sequence of partners to whom a woman is engaged gets better.__  
 
-2. The algorithm terminates after at most n^2 proposals.
+__The algorithm terminates after at most n^2 proposals.__  
 
-3. If a man m is free, there is some woman to whom he has not yet proposed.  
-
+__If a man m is free, there is some woman to whom he has not yet proposed.__  
 _prove by contradiction:  
 - suppose that m is free and he has proposed to all women.  
 - then all women are engaged to some men.  
 - since |M| == |W|, these means all men are engaged._  
 
-4. They matching computed by the G-S algorithm is a perfect matching.
-
+__They matching computed by the G-S algorithm is a perfect matching.__  
 _prove by contradiction:  
 - suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
 - according to the code, m must have proposed to every woman.  
 - according to the claim 3, it is impossible._  
 
-5. The matching computed by the G-S algorithm is a stable matching.  
-
+__The matching computed by the G-S algorithm is a stable matching.__  
 _prove by contradiction:  
 - suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
 - the last time m proposed, it was to w.  

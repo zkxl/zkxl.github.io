@@ -2,7 +2,7 @@
 layout: post
 title: fully-connected neural network
 date: 2016-12-23 22:24:00 -0800
-categories: deeplearning-basics 
+categories: deeplearning-basics
 tag: fully-connected-nn
 ---
 
@@ -36,7 +36,7 @@ def affine_forward(x, w, b):
   - x: A numpy array containing input data, of shape (N, d_1, ..., d_k)
   - w: A numpy array of weights, of shape (D, M)
   - b: A numpy array of biases, of shape (M,)
-  
+
   Returns a tuple of:
   - out: output, of shape (N, M)
   - cache: (x, w, b)
@@ -86,13 +86,13 @@ def affine_backward(dout, cache):
   dw = np.dot(x.T, dout)
 
   db = np.sum(dout, axis = 0)
-  
+
   return dx, dw, db
 ```
 
 ### Activation
 
-Activation function evolved from sigmoid() to tanh(), making it ZERO-centered; from tanh() to ReLU(), making it easier to compute. Historically, gradients vanishing is the major problem that negatively impact the efficacy of neural networks. Using ReLU also faces dead ReLU problem that we will use batch normalization to address. 
+Activation function evolved from sigmoid() to tanh(), making it ZERO-centered; from tanh() to ReLU(), making it easier to compute. Historically, gradients vanishing is the major problem that negatively impact the efficacy of neural networks. Using ReLU also faces dead ReLU problem that we will use batch normalization to address.
 
 * Note: sigmoid() and tanh() both have very nice forms of derivative functions.
 
@@ -148,7 +148,7 @@ def relu_backward(dout, cache):
 
 ```
 
-### Batch normalization 
+### Batch normalization
 
 $$\frac {X - \mu}{\sigma}$$
 
@@ -161,7 +161,7 @@ def batchnorm_forward(x, gamma, beta, bn_param):
 
   """
   Forward pass for batch normalization.
-  
+
   During training the sample mean and (uncorrected) sample variance are
   computed from minibatch statistics and used to normalize the incoming data.
   During training we also keep an exponentially decaying running mean of the mean
@@ -208,7 +208,7 @@ def batchnorm_forward(x, gamma, beta, bn_param):
   out, cache = None, None
 
   if mode == 'train':
-    
+
     batch_mean = np.mean(x, axis = 0)
     batch_var = np.std(x, axis = 0)
 
@@ -248,15 +248,15 @@ def batchnorm_backward(dout, cache):
 
   """
   Backward pass for batch normalization.
-  
+
   For this implementation, you should write out a computation graph for
   batch normalization on paper and propagate gradients backward through
   intermediate nodes.
-  
+
   Inputs:
   - dout: Upstream derivatives, of shape (N, D)
   - cache: Variable of intermediates from batchnorm_forward.
-  
+
   Returns a tuple of:
   - dx: Gradient with respect to inputs x, of shape (N, D)
   - dgamma: Gradient with respect to scale parameter gamma, of shape (D,)
@@ -265,7 +265,7 @@ def batchnorm_backward(dout, cache):
 
   dx, dgamma, dbeta = None, None, None
   x_hat, i_sqrtvar, sqrtvar, var, x_mu, gamma, eps = cache
-  
+
   # gate: f = x + beta - broadcast
   dbeta = np.sum(1 * dout, axis = 0) # with 1 being the local gradient df/dbeta
   backprop_x = 1 * dout # with 1 being the local gradient df/dx
@@ -325,10 +325,10 @@ def dropout_forward(x, dropout_param):
 
   Outputs:
   - out: Array of the same shape as x.
-  - cache: A tuple (dropout_param, mask). 
+  - cache: A tuple (dropout_param, mask).
     dropout mask in training mode, None mask in testing mode.
   """
-  
+
   out, mask = None, None
   p, mode = dropout_param['p'], dropout_param['mode']
 
@@ -341,7 +341,7 @@ def dropout_forward(x, dropout_param):
 
   if mode == 'train':
 
-    mask = np.random.rand(*x.shape) < p 
+    mask = np.random.rand(*x.shape) < p
     # Here's sth new: call fnc(*(1, 2, 3)) "*" is a splate operator unpacking list or tuple to feed into the fnc call
     # np.random.rand(m, n) is valid while np.random.rand((m, n)) is not.
     # Now mask is a bool array of the same size as x
@@ -353,7 +353,7 @@ def dropout_forward(x, dropout_param):
     # Therefore the inverted dropout is implemented here to compensate the expected magnitude of out.
 
   elif mode == 'test':
-  
+
     out = x
 
   cache = (dropout_param, mask)
@@ -374,7 +374,7 @@ def dropout_backward(dout, cache):
 
   dropout_param, mask = cache
   p, mode = dropout_param['p'], dropout_param['mode']
-  
+
   # In the case of p == 0, this layer acts as if it doesn't exist.
   if p == 0:
     return dout
@@ -382,7 +382,7 @@ def dropout_backward(dout, cache):
   dx = None
 
   if mode == 'train':
-    
+
     # gate: x * mask / p with (mask / p) being the local gradient
     dx = dout * mask / p
 
@@ -397,7 +397,7 @@ def dropout_backward(dout, cache):
 
 ### Convenient stacking
 
-The following function stitches affine - ReLU - batchnorm together so that you can easily stack these convenient layers when you build you neural network. 
+The following function stitches affine - ReLU - batchnorm together so that you can easily stack these convenient layers when you build you neural network.
 
 * the 1st layer that accept input features will need to be tailored according to feature dimensions;
 * no need to deploy batchnorm for every layer in between;

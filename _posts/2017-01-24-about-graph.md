@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ICS260 - Priority Queue
+title: ICS260 - About Graph
 date: 2017-01-17 16:20:00 -0800
 categories: Study-Notes
 tag: algorithms
