@@ -16,6 +16,7 @@ tag: algorithms
 #### Problem: How to compute a stable perfect matching?
 
 Key Definitions:  
+
 * matching?  
 _Given M = {m1, m2, ... mn} and W = {w1, w2, ..., wn}, a matching is a subset of M x W (cartesian product), S, such that each element of M and each element of W appears in_ __AT MOST__ _one pair in S._
 
@@ -117,12 +118,16 @@ Specifically:
 
 #### Exercises
 
+---
+
 Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
 
 _Prove:  
 - Suppose there is a good man m married to a bad woman w', then there must be a good woman w married to a bad man m'. Thus, (m, w') and (m', w).  
 - Since good ones are always preferred, we have m prefers w to w', w prefers m to m'. This leads to an instability.  
 - This makes a contradiction._  
+
+---
 
 Generalize the problem by explicitly stating that certain men-women pairs are forbidden (listed in set F). Under these circumstances, a stable matching can be established if:  
 * there's no usual kind of instability (above).  
@@ -153,3 +158,86 @@ _prove:
 _- Suppose there is a pair (m', w) and a single m who is ranked higher than m' in w's preference_list and (m, w) is not forbidden. m must've  proposed to w and w rejected m for m', which is contradictory.  
 - Suppose there is a pair (m, w') and a single w who is ranked higher than w' in m's preference_list and (m, w) is not forbidden. Same as above.  
 - Suppose there are a single m and a single w and (m, w) is not forbidden, then m must've proposed to w and w can't still be single._  
+
+---
+
+Further generalize the SMP (stable matching problem) to RAP (resident assigning problem). RAP states that: given a list of hospitals that accept graduating students as residents. Each hospital has some number of slots available whereas the number of students exceeds the capacity. Each hospital has a preference_list of students and each student has a preference_list of hospitals. Design an algorithm to find a stable match where there is no instability:  
+* instability_1: student s is assigned to hospital h while s' is assigned to no hospital. But h prefers s' to s.  
+* instability_2: student s is assigned to hospital h while s' is assigned to h'. But h prefers s' to s and s' prefers h to h'.  
+
+_Analysis:  
+In a typical stable matching problem, we have the same number of men and women. Now two differences between SMP and RAP: 1) hospitals typically have more than 1 slots available; 2) there is a surplus of students._ __We address 1) by creating the same number (say n) of slots as students. We address 2) by creating a NULL hospital. The slots in NULL hospital are ranked by every student as their least desired ones. All the slots are distributed across all the hospitals according to a 1D array SlotsOwner[n].__
+
+_Set up preference_list:  
+- On one side, it's slotsPref[i][j], where slots of the same hospital have the same ranking of their preferred students.  
+- One the other, it's studentsPref[i][j], where each student has their ranking of preferred slots. Those slots coming from preferred hospital have higher ranking than those coming from a less preferred hospital.  
+- Finally all students prefer slots of non-NULL hospital to slots of NULL hospital._  
+
+```
+def RAP(hospPref, studentsPref, slotCount):
+
+  (slotsPref, studentsPref, slotsOwner) = preprocess(hospPref, studentsPref, slotCount)
+
+  match = GS(slotsPref, studentsPref)
+
+  result = []
+
+  for (slot, stud) in match:
+    if slotsOwner[slot] == -1:
+      continue
+    result.append(slot, student)
+
+  return result
+
+
+def preprocess(hospPref, studentsPref, slotCount):
+
+  # input:
+  # @ studentsPref[n][m] indicates how n students rank m hospitals
+  # @ hospPref[m][n] indicates how m hospitals rank n students
+  # @ slotCount[m] indicates how many slots each hospital has
+
+  # output:
+  # @ slotsPref[n][n] indicates how n slots rank n students
+  # @ studentsPrefSlots[n][n] indicates how n students rank n slots
+  # @ slotsOwner[n] indicates which hospital each slot belongs to
+
+  new slotsPref = int[n][n]
+  new slotsOwner = int[n]
+  slotTop = 0 # keep track of the top of the allocated slots
+  for h in range(m):
+    count = slotCount[h]
+    for _ in range(count):
+      slotsPref[slotTop] = hospPref[h]
+      slotsOwner[slotTop] = h
+      slotTop += 1
+  while slotTop <= n: # set the remaining NULL
+    slotsOwner[slotTop] = -1
+    slotsPref[slotTop] = arbitrary permutation of range(n)
+    slotTop += 1
+
+  new hospMapslots = HashMap<int, List<int>>
+  slotTop = 0
+  for i in range(m):
+    count = slotCount[i]
+    new slots = int[count]
+    for j in range(count):
+      slots[j] = slotTop
+      slotTop += 1
+    hospMapslots[i] = slots
+
+  new studentsPrefSlots = int[n][n]
+  new frontline = int[n] # indicates where the next slot should go
+  for i in range(n): # students
+    for j in range(m): # ranking
+      h = studentsPref[i][j] # which hospital at this rank?
+      slots = hospMapslots[h] # which slots this hospital takes?
+      for k in range(len(slots)):
+        studentsPrefSlots[i][frontline[i] + k] = slots[k] # add one by one starting from the frontline
+      frontline[i] += len(slots) # update frontline
+
+  return (slotsPref, studentsPref, slotsOwner)
+
+```
+
+---
