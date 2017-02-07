@@ -117,7 +117,7 @@ Specifically:
 
 ---
 
-#### Exercises
+##### Exercise1
 
 
 Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
@@ -128,6 +128,8 @@ _Prove:
 - This makes a contradiction._  
 
 ---
+
+##### Exercise2
 
 Generalize the problem by explicitly stating that certain men-women pairs are forbidden (listed in set F). Under these circumstances, a stable matching can be established if:  
 * there's no usual kind of instability (above).  
@@ -160,6 +162,8 @@ _- Suppose there is a pair (m', w) and a single m who is ranked higher than m' i
 - Suppose there are a single m and a single w and (m, w) is not forbidden, then m must've proposed to w and w can't still be single._  
 
 ---
+
+##### Exercise3
 
 Further generalize the SMP (stable matching problem) to RAP (resident assigning problem). RAP states that: given a list of hospitals that accept graduating students as residents. Each hospital has some number of slots available whereas the number of students exceeds the capacity. Each hospital has a preference_list of students and each student has a preference_list of hospitals. Design an algorithm to find a stable match where there is no instability:  
 * instability_1: student s is assigned to hospital h while s' is assigned to no hospital. But h prefers s' to s.  
@@ -239,3 +243,30 @@ def preprocess(hospPref, studentsPref, slotCount):
   return (slotsPref, studentsPref, slotsOwner)
 
 ```
+
+---
+
+##### Exercise4
+
+A variation of SMP, ship maintenance schedule problem. Safety rule: no two ships can be in the same port on the same day. Each ship has its own monthly schedule in terms of stopping at which port on which day of the month. Find an algorithm so that each ship can find a port to stop for maintenance for the rest of the month without violating the safety rule.  
+
+__Analysis:__  
+_- There are n ships and n ports.  
+- Eventually we want to find a set of (ship, port) pairs where there's no collision.  
+- If ports accept ships that come early, it will be less flexible and more likely to collide later.  
+- If ships decide on ports too late, it will be more likely that they miss the right port and thus collide.
+- Therefore each port should prefer ships that arrive later than the earlier ones.  
+- And each ship should prefer ports that are scheduled earlier than the later ones._  
+
+__Set up preference_list and run G-S algorithm to find a stable match:__  
+_- Each port ranks ships from latest to earliest.  
+- Each ship ranks ports from earliest to latest._  
+
+__Prove it is working:__  
+_- Suppose there is a collision where s' later arrived at p but (s, p) are already matched. s' ended up being matched with p'.    
+- This indicates that:  
+- 1) p ranked s' higher than s since s' arrived at p later than s.  
+- 2) s' ranked p higher than p' since s' arrived at p earlier than p'.  
+- That makes an instability between (s, p) and (s', p')._  
+
+---
