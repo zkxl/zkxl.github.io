@@ -270,3 +270,11 @@ _- Suppose there is a collision where s' later arrived at p but (s, p) are alrea
 - That makes an instability between (s, p) and (s', p')._  
 
 ---
+
+##### Exercise5
+
+Based on the classic stable matching problem, the question here is: Can a man or a woman be better off if he/she lies about their preferences?  
+
+__Yes, please refer to the following example:__  
+
+<img src="{{ '/styles/images/stable-marriage/would-liar-be-better-off.png' | prepend: site.baseurl }}" width="100%" />
