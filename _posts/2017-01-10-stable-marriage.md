@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ICS260 - Stable Marriage
-date: 2017-01-10 16:20:00 -0800
+date: 2017-02-07 16:20:00 -0800
 categories: Study-Notes
 tag: algorithms
 ---
@@ -277,4 +277,8 @@ Based on the classic stable matching problem, the question here is: Can a man or
 
 __Yes, please refer to the following example:__  
 
-<img src="{{ '/styles/images/stable-marriage/would-liar-be-better-off.png' | prepend: site.baseurl }}" width="100%" />
+<!--
+In the following example: site.baseurl is necessary for project-based Github page but my Github page is a repository-based, where there's no baseurl.
+  <img src="{{ '/styles/images/zhifubao.PNG' | prepend: site.baseurl }}" alt="支付宝二维码付款给Freud" width="310" />
+-->
+<img src="{{ '/styles/images/stable-marriage/would-liar-be-better-off.png' }}" width="100%" />
