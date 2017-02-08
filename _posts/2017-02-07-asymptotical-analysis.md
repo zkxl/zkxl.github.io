@@ -15,21 +15,21 @@ __Asymptotical Upper Bound__
 
 If:  
 
-$$ There\;\exists\; constants\;C\;and\;N,\;\; For\;\forall n \geq N,\;T(n) \leq C G(n) $$
+$$ There\;\exists\; constants\;C\;and\;N,\;\; For\;\forall n \geq N,\;T(n) \leq C g(n) $$
 
 We have:  
 
-$$ T(n) = \Omicron(G(n)) $$
+$$ T(n) = O(g(n)) $$
 
 __Asymptotical Lower Bound__  
 
 If:  
 
-$$ There\;\exists\; constants\;C\;and\;N,\;\; For\;\forall n \geq N,\;T(n) \geq C G(n) $$
+$$ There\;\exists\; constants\;C\;and\;N,\;\; For\;\forall n \geq N,\;T(n) \geq C g(n) $$
 
 We have:  
 
-$$ T(n) = \Omega(G(n)) $$
+$$ T(n) = \Omega(g(n)) $$
 
 __Growth Rate Comparison__  
 
