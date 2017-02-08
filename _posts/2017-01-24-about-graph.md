@@ -14,6 +14,7 @@ tag: algorithms
 ## Graphs
 
 ---
+
 #### Key Definitions
 
 1. G = (V, E): a __graph__ is a pair of vertices and edges. Vertices are nodes and an edge is a pair of nodes e = (u, v).
@@ -117,26 +118,26 @@ def DFS(graph, start_node, target_value):
 
 #### Common Algorithm Problems using BFS/DFS
 
-1. Connected-components Labeling Problem:
+Connected-components Labeling Problem:
 \- _Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left._
 
 ---
 
-2. Bipartite Problem:
+Bipartite Problem:
 \- _Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._
 
-__NOTE- Bipartite definition:__ $$ G = X \bigcup Y \;\;where\;\; X \bigcap Y = \emptyset $$
+__NOTE- Bipartite definition:__ $$ G = X \bigcup Y \;\;and\;\; X \bigcap Y = \emptyset $$ where each edge in G has one end in X and the other in Y.  
 
 ---
 
-3. Test Strong Connectivity on Directed Graph:
+Test Strong Connectivity on Directed Graph:
 \- _Pick a node in Graph and test if it can reach to every other node in the same graph._
-\- _Starting from the same node, test on_ $$ G^REV $$ _(reverse all the edges) if it can still reach to every other node._
+\- _Starting from the same node, test on_ $$ G^{REV} $$ _(reverse all the edges) if it can still reach to every other node._
 \- _If both tests pass, G is strongly connected, else return False._
 
 ---
 
-4. A directed acyclic graph has topological ordering
+A directed acyclic graph has topological ordering
 \- _Find a node v with no incoming edges. Assign the next order number to v.__
 \- _Delete v and all its outgoing edges._
 \- _Repeat the above steps till no such node v exists._
@@ -189,6 +190,6 @@ def topological_ordering(graph):
 
 ---
 
-5. Finding strong components problem
+Finding strong components problem
 
 To do
