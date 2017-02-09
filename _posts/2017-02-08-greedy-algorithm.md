@@ -36,6 +36,8 @@ Algorithm: Earliest Start Time First O(nlogn).
 NOTE:  
 1. Sort by start time as well as __end__ time - O(nlogn)    
 2. __Take/Add__ next available color from a LinkedList - O(1)  
+3. Assign the next available color to a job when it overlaps with all previously scheduled jobs.  
+4. Assign the color ready for reuse to a job when the current job starts later than the finished one.  
 
 ---
 
