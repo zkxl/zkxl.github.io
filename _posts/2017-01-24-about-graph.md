@@ -11,7 +11,7 @@ tag: algorithms
 
 
 
-## Graphs
+## Definitions and Representation
 
 ---
 
@@ -30,15 +30,9 @@ tag: algorithms
 
 ---
 
-#### Existence and Reachability Problem
-
-__Existence problem: given a graph and a pair of nodes in the graph, (v, u), if there exists such a path from u to v?__
-
-__Reachability problem: given a graph and a node u, find all nodes which there exists a path from u to.__
-
----
-
 #### Graph Representation
+
+__Undirected Graph Representation__  
 
 Given G = (V, E), n = # of nodes, m = # of edges.
 
@@ -51,7 +45,14 @@ Given G = (V, E), n = # of nodes, m = # of edges.
 * O(n+m) space needed;
 * O(1) time to find all edges on a given node;
 
+__Directed Graph Representation__  
+
+1. __Modified Adjacency Matrix:__ Array A[n] where A[v] contains two lists of incoming edges and outgoing edges.  
+
 ---
+
+## Traversing Algorithm and Common Problems
+
 
 #### BFS
 
@@ -116,28 +117,100 @@ def DFS(graph, start_node, target_value):
 
 ---
 
-#### Common Algorithm Problems using BFS/DFS
+#### Existence, Reachability and Connectivity
 
-Connected-components Labeling Problem:
-\- _Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left._
+__Existence problem: given a graph and a pair of nodes in the graph, (v, u), if there exists such a path from u to v?__
+
+__Reachability problem: given a graph and a node u, find all nodes which there exists a path from u to.__
+
+__Connectivity problem: Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left.__  
+
+_A set of "connected components" containing start_node was generated._   
 
 ---
 
-Bipartite Problem:
+#### BFS tree and DFS tree  
+
+In a graph G, starting from a node u, run DFS and we got a DFS tree T that includes all the nodes in G. Now run BFS and we got the same tree. Prove: G = T. In other words, prove G doesn't contain any edge that is not in T.  
+
+_Analysis:  
+1. What is a DFS tree and how it is built?  
+2. What is a BFS tree and how it is built?
+3. As long as there is an edge (u, v) in G, u and v are_ __at most__ _1-layer away in a BFS tree, regardless of the start_node.  
+4. As long as there is an edge (u, v) in G, u and v are either 1-layer away OR one of them is the ancestor of the other in a DFS tree T. If (u, v) is not in T, however, one of them must be the ancestor of the other._  
+
+Prove by contradiction:  
+1. Suppose there is an edge (u, v) in G but not in T.
+2. Analysis_3 says abs(layer(u) - layer(v)) <= 1.
+3. Analysis_4 says abs(layer(u) - layer(v)) > 1 (check on the definition of ancestor if confused).   
+4. Contradictory.  
+
+---
+
+#### Bipartite Problem  
+
 \- _Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._
 
 __NOTE- Bipartite definition:__ $$ G = X \bigcup Y \;\;and\;\; X \bigcap Y = \emptyset $$ where each edge in G has one end in X and the other in Y.  
 
+```
+def bipartite(graph, start_node):
+
+  # sanity check
+  if !start_node or !graph: return ;
+
+  # init data structure
+  this_level = Queue<node>()
+  next_level = Queue<node>()
+  visited = HashMap<node, False>()
+
+  # init start point
+  counter = 1
+  start_node.color("blue")
+  this_level.add(start_node)  
+
+  # level by level traversal
+  # color node when dumping them from next_level to this_level
+  while !this_level.isEmpty():
+    curt_node = this_level.dequeue()
+    visited[curt_node] = True
+    for neighbor_node in graph[curt_node]:
+      if visited[neighbor_node]:
+        continue
+      next_level.add(neighbor_node)
+    if this_level.isEmpty():
+      if counter % 2 == 1: # currently it is on odd level, the next this_level should contain "red" nodes.
+        this_level = [node.color("red") for node in next_level]
+      else:
+        this_level = [node.color("blue") for node in next_level]
+      next_level.clear()
+      counter += 1
+
+  # check for red-red or blue-blue edge
+  for node in graph:
+    for neighbor_node in graph[node]:
+      if node.color == neighbor_node.color:
+        return False
+  return True
+
+```
+
 ---
 
-Test Strong Connectivity on Directed Graph:
-\- _Pick a node in Graph and test if it can reach to every other node in the same graph._
-\- _Starting from the same node, test on_ $$ G^{REV} $$ _(reverse all the edges) if it can still reach to every other node._
-\- _If both tests pass, G is strongly connected, else return False._
+#### Strong Connectivity on Directed Graph:  
+
+__Define strong connectivity: For every pair of nodes (u, v) in G, there is a path from u to v and a path from v to u.__  
+
+_1. Pick a node in Graph and check if it can reach to every other node in the same graph.  
+2. Starting from the same node, test on_ $$ G^{REV} $$ _(reverse all the edges) if it can still reach to every other node.  
+3. If both tests pass, G is strongly connected, else return False._
+
+The algorithm takes O(m + n).  
 
 ---
 
-A directed acyclic graph has topological ordering
+#### A directed acyclic graph has topological ordering  
+
 \- _Find a node v with no incoming edges. Assign the next order number to v.__
 \- _Delete v and all its outgoing edges._
 \- _Repeat the above steps till no such node v exists._
@@ -190,6 +263,143 @@ def topological_ordering(graph):
 
 ---
 
-Finding strong components problem
+#### Butterfly Distinguish Problem  
 
-To do
+A student is provided with a bunch of butterfly specimens pairs. Each butterfly either is of type A or type B. Each pair was labeled with "same" if this student thinks they are the same type or "different" if the student thinks they are from different types. Design an algorithms to tell if the student's labeling is consistent or not.
+
+_1. Create a node for each specimen.  
+2. Add one edge to connect the pair of nodes with “different” judgement.  
+3. Create a dummy node for each “same” judgement, representing a fake specimen different from both of them.  
+4. Add two edges from the pair of nodes with “same“ judgement, to the dummy node.  
+5. Start a bipartite algorithm from a auxiliary node.  
+6. If it can be two-colored, it is consistent. Otherwise, it is inconsistent._  
+
+---
+
+#### Strong Components Labeling  
+
+__Definition: A strongly connected subgraph of G where any two nodes u and v are mutually reachable from each other.__  
+
+NOTE: Mutual reachability is an equivalence relation. A equivalence class is a strong component. (From there, I'd say a set of nodes consisting of a strongly connected subgraph of G is a strong component of G).  
+
+_1. DFS traversing the graph and label each node with a timestamp when it leaves DFS.  
+2. Pick an unvisited node from a list of nodes sorted by their leaving time at a descending order and run DFS with all the edges reversed.  
+3. Trace all the nodes in 2 and they make a strong component.  
+4. Repeat 2 and 3 till all nodes are visited._  
+
+
+```
+
+def strong_components(graph, start_node):
+  # graph is a directed graph, represented with two lists of edges for each node
+  # graph = {
+            'n1': {'incoming_edges':[], 'outgoing_edges':['n2', 'n3']},
+            'n2': {'incoming_edges':['n1', 'n4'], 'outgoing_edges':['n5']}
+            ...
+            }
+  # Maintain a global HashMap<node, timestamp>()
+  # to store the timestamp when DFS leaves each node.
+  leaveTime = HashMap<node, int>()
+  visited = HashMap<node, False>()
+  stack = Stack<node>() # for DFS
+
+  stack.push(start_node)
+  timestamp = 0
+
+  # iterative DFS
+  while !stack.isEmpty():
+    node = stack.pop()
+    visited[node] = True
+    timestamp += 1
+    stack_length = len(stack)
+
+    # this is the DFS enter time point for this node
+    # meaning from now on as long as the stack is longer
+    # than the current stack length
+    # the later added nodes are all its child or descendant
+
+    neighbors = graph[node]['outgoing_edges']
+    for next_node in neighbors:
+      if visited[next_node]:
+        continue
+      stack.push(next_node)
+      timestamp += 1
+
+    if len(stack) > stack_length:
+      continue # keep going on this DFS route
+    else:
+      timestamp += 1 # create leaving time point
+      leaveTime[node] = timestamp
+
+  # Prepare for reverse DFS traversal
+  nodes_in_descent = [k for k in sorted(leaveTime.items(), key = lambda x:x [1])]
+  visited = dict((k, False) for k in visited)
+  # global storage of strong components found
+  strong_components = []
+
+  for node in nodes_in_descent:
+    if visited[node]:
+      continue # skill those already visited
+
+    # init for DFS
+    stack.push(node)
+    # store a set of a list of nodes that make a strong component
+    strong_component = []
+
+    # iterative DFS
+    while !stack.isEmpty():
+      node = stack.pop()
+      strong_component.append(node)
+      visited[node] = True
+      for next_node in graph[node]['incoming_edges']:
+        if visited[next_node]:
+          continue
+        stack.push(next_node)
+
+    strong_components.append(strong_component)
+
+  return strong_components
+
+```
+
+
+
+
+---
+
+
+<!-- ###########################################################################
+######### Cushion ##############################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+-->
