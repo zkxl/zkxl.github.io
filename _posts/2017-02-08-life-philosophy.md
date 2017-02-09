@@ -11,8 +11,8 @@ tag: life
 
 
 
-$$ Time = \mathbb{R} ^ {+} $$
+$$ Time: i \in \mathbb{R}^{+} $$
 
-$$ Me = \mathbb{R} ^ {\mathbb{N}} $$
+$$ Ch: c \in \mathbb{R}^{\mathbb{N}}\;\;Von: v \in \mathbb{R}^{\mathbb{N}} $$
 
-$$ Life = Time \cdot Me $$
+$$ Life = sum_{i}^{\infty} i \cdot (c + v) $$
