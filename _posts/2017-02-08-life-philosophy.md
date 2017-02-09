@@ -15,4 +15,4 @@ $$ Time: i \in \mathbb{R}^{+} $$
 
 $$ Ch: c \in \mathbb{R}^{\mathbb{N}}\;\;Von: v \in \mathbb{R}^{\mathbb{N}} $$
 
-$$ Life = sum_{i}^{\infty} i \cdot (c + v) $$
+$$ Life = \sum_{i}^{\infty} i \cdot (c + v) $$
