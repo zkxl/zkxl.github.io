@@ -11,8 +11,8 @@ tag: life
 
 
 
-$$ Time = \mathbb {R}^{+} $$
+$$ Time = \mathbb{R} ^ {+} $$
 
-$$ Me = \mathbb {R}^{\mathbb {N}} $$
+$$ Me = \mathbb{R} ^ {\mathbb{N}} $$
 
 $$ Life = Time \cdot Me $$
