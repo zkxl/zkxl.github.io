@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ICS260 - About Graph
-date: 2017-01-17 16:20:00 -0800
+date: 2017-02-08 16:20:00 -0800
 categories: Study-Notes
 tag: algorithms
 ---
@@ -135,13 +135,13 @@ In a graph G, starting from a node u, run DFS and we got a DFS tree T that inclu
 
 _Analysis:  
 1. What is a DFS tree and how it is built?  
-2. What is a BFS tree and how it is built?
+2. What is a BFS tree and how it is built?  
 3. As long as there is an edge (u, v) in G, u and v are_ __at most__ _1-layer away in a BFS tree, regardless of the start_node.  
 4. As long as there is an edge (u, v) in G, u and v are either 1-layer away OR one of them is the ancestor of the other in a DFS tree T. If (u, v) is not in T, however, one of them must be the ancestor of the other._  
 
 Prove by contradiction:  
-1. Suppose there is an edge (u, v) in G but not in T.
-2. Analysis_3 says abs(layer(u) - layer(v)) <= 1.
+1. Suppose there is an edge (u, v) in G but not in T.  
+2. Analysis_3 says abs(layer(u) - layer(v)) <= 1.  
 3. Analysis_4 says abs(layer(u) - layer(v)) > 1 (check on the definition of ancestor if confused).   
 4. Contradictory.  
 
@@ -149,7 +149,7 @@ Prove by contradiction:
 
 #### Bipartite Problem  
 
-\- _Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._
+_Run BFS on a start_node and label nodes on odd layers "blue" and even layers "red". Return True if there is no red-red edge or blue-blue edge, else false._
 
 __NOTE- Bipartite definition:__ $$ G = X \bigcup Y \;\;and\;\; X \bigcap Y = \emptyset $$ where each edge in G has one end in X and the other in Y.  
 
