@@ -13,6 +13,7 @@ tag: algorithms
 
 __Greedy Algorithm: Make decision based on some local optima and hoping it can achieve global optima in the end.__  
 
+---
 
 #### Interval Scheduling Problem
 
@@ -21,6 +22,8 @@ Input: A set of jobs with start and end time.
 Output: Maximum number of jobs in a __sequence__ so that there is no overlap.  
 
 Algorithm: Earliest Finish Time First O(nlogn).  
+
+---
 
 #### Interval Coloring Problem
 
@@ -34,6 +37,7 @@ NOTE:
 1. Sort by start time as well as __end__ time - O(nlogn)    
 2. __Take/Add__ next available color from a LinkedList - O(1)  
 
+---
 
 #### Minimize Lateness Problem
 
