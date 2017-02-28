@@ -61,10 +61,9 @@ tag: youtube
 * content
 {:toc}
 
-{% include youtubePlayer.html id=page.youtubeId %}
 
-{% raw %} {% include youtubePlayer.html id=page.youtubeId %} {% endraw %}
 
+{% raw %}{% include youtubePlayer.html id=page.youtubeId %}{% endraw %}
 
 ```
 
