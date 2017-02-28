@@ -16,11 +16,12 @@ tag: youtube-embedding
 {% include youtubePlayer.html id=page.youtubeID %}
 ---
 
-Under you \_includes dir, create a "youtubePlayer.html" that puts the embeded video in a video container with a specific style, so that the video size can be __responsive__ to different types of devices.
+Under you _includes_ dir, create a "youtubePlayer.html" that puts the embeded video in a video container with a specific style, so that the video size can be __responsive__ to different types of devices.
 
 {% highlight bash %}
 echo '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/{{ include.id }}" frameborder="0" allowfullscreen></iframe></div>' > youtubePlayer.html
 {% endhighlight bash %}
+
 
 Create the style for "video-container" class in your css file:
 
@@ -44,7 +45,7 @@ Create the style for "video-container" class in your css file:
 }
 ```
 
-Under you \_posts dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
+Under you _posts_ dir, create a post with propriate jekyll front matter and include "youtubePlayer.html" where you want it to be.
 
 ```
 ---
@@ -60,9 +61,10 @@ tag: youtube
 * content
 {:toc}
 
+{% include youtubePlayer.html id=page.youtubeId %}
 
-{\% include youtubePlayer.html id=page.youtubeID %} 
-//drop the backslash to include the html.
+{% raw %} {% include youtubePlayer.html id=page.youtubeId %} {% endraw %}
+
 
 ```
 
