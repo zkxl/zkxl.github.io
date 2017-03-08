@@ -68,7 +68,7 @@ Output:
 __Idea behind this algorithm:__  
 Let's say there are multiple paths that go from s to t. The shortest one is among them. If we keep growing the path tree from s till we reach t, we will be able to spot at least one path from s to t. If we denote the last one before t is t.parent, we can say the shortest path is either through t.parent or one that comes through some other node. If we keep growing the path tree in a way that __we keep increasing the reachability of the tree from s at the next lowest cost__, we will have output_1 when we reach t and we will have output_2 when we reach every other node in the graph.  
 
-```
+``` python
 def shortest_path_from(s, graph, costs):
   # @ s: start_node
   # @ graph: adjacency representation
@@ -115,7 +115,7 @@ __Definition:__
 __Prim's Algorithm: Start with a seed node s. Repeatedly grow T by adding the cheapest edge connecting some node in T and some node in G but not yet in T. Prim's Algorithm differs from Dijkstra's Algorithm in that: a node's distance is defined as how far it is from the start node in Dijkstra's Algorithm while distance is define as how far it is from any node already in T to any node not yet in T in Prim's Algorithm. And thus, their ways to grow the output trees are different.__
 
 
-```
+``` python
 def prims_MST(s, graph, costs):
   # @ s: start_node
   # @ graph: adjacency representation
@@ -156,15 +156,16 @@ There are 3 data structures to be maintained in a Dijkstra-prim algorithm:
 
 ---
 
+
 __Kruskal’s Algorithm does two things:  
-1. Initialize a graph T with every node from G but no edge at all.  
-2. Connect nodes in T with edges in G sorted in order of increasing weight.  
+Initialize a graph T with every node from G but no edge at all.  
+Connect nodes in T with edges in G sorted in order of increasing weight.  
 (skip the edge that creates a circle, in other word if the edge points to a node that’s already in T).__
 
 To efficiently detect cycle, a Union-Find data structure comes in handy.  
 The most important take away here is how this Union-Find data structure is constructed and utilized.  
 
-```
+``` python
 """
 specify needed attributes of Node()
 """
@@ -246,7 +247,12 @@ def kruskals_MST(graph, s, costs):
 
 ```
 
+__A very natural use case of Kruskal's Algorithm: K-clustering:__  
 
+How to find the K-clustering for a bunch of points. Between every two clusters is the distance maximized.  
+1. Now we see each point as a vertice.  
+2. Run Kruskal's Algorithm k steps before it is naturally terminated.  
+3. After it is terminated, a MST is found. But k steps before it, a k-clustering is found.  
 
 
 

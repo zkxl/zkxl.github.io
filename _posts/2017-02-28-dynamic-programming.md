@@ -113,7 +113,7 @@ def output_schedule(start_idx, jobs, dp):
   '''
   if start_idx == -1:
     return ;
-  if dp[start_idx - 1] > dp[nonOverlaps[start_idx]] + jobs[start_idx].weight:
+  if dp[nonOverlaps[start_idx]] + jobs[start_idx].weight < dp[start_idx - 1]:
     output_schedule(start_idx - 1, jobs, dp)
   else:
     print jobs[start_idx]
