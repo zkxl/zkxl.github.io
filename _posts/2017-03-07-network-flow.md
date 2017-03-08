@@ -43,7 +43,19 @@ __residual graph:__ A graph generated based on the original network flow graph a
 
 __s-t augment path:__ A simple path from s to t. It is used to increment flow by some value X where X is the minimum capacity in Gf of all the edges in the augment path.
 
-__Note:__ this algorithm must terminate after at most C iterations, where C is the sum of each edge's capacity. It is because after each iteration, if an augment path can be found, the flow must increment by at least 1 while there are at most C such iterations. 
+__Note:__ this algorithm must terminate after at most C iterations, where C is the sum of each edge's capacity. It is because after each iteration, if an augment path can be found, the flow must increment by at least 1 while there are at most C such iterations.
+
+## Define Minimum-Cut Problem
+
+__s-t cut:__ two sets of vertices A and B with the following properties:
+
+$$ s \in A $$
+
+$$ t \in B $$
+
+$$ A \cup B = G(V) $$
+
+$$ A \cap B = \emptyset $$
 
 
 
