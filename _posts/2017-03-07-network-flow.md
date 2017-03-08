@@ -47,15 +47,53 @@ __Note:__ this algorithm must terminate after at most C iterations, where C is t
 
 ## Define Minimum-Cut Problem
 
-__s-t cut:__ two sets of vertices A and B with the following properties:
+__s-t cut:__ two sets of vertices A and B with the following properties, G is a network flow:
 
 $$ s \in A $$
-
 $$ t \in B $$
-
 $$ A \cup B = G(V) $$
-
 $$ A \cap B = \emptyset $$
+
+__cut capacity:__ the sum of capacities of edges going out of A.
+
+__max-flow min-cut theorem:__ the value of the maximum flow is equal to the capacity of the minimum cut.
+
+__proof:__
+1. Given G, the value of any flow <= the capacity of any cut because flow(e) <= capacity(e).
+2. Suppose the max-flow is found and Gf has no augmenting path. Let A be a set of all nodes reachable from s in Gf. B = G(V) - A. Now the maximum flow value equals to the capacity of the cut (A, B).
+
+__Algorithm to find minimum cut:__
+
+Run Ford-Fulkerson Algorithm until no more augmenting path can be found in Gf.
+Starting from s, move forward along all unsaturated edges as well as backward along all edges with positive capacity. Let A be the set of all nodes reachable from s and B = G(V) - A. Min-cut found.
+
+## Analysis of Max Flow Problem
+
+Given a network flow graph G(V, E) with capacities C(e), the biggest iterations is (m is the number of edges, n is the number of vertices):
+
+$$ \sum_{i}^{m} C(e_{i}) $$
+
+If we hold m and n constant, the number of network flow representations can be exponentially growing as we grow C, which means the worst case running time of F-F Algorithm is exponential without specifying how to choose augmenting path.
+
+__The optimization is:__
+Always choosing the shortest augmenting path __(F-F with BFS)__ brings us strongly polynomial running time:
+
+$$ O(mn) $$
+
+
+## Mathematical Applications
+
+1. __Maximum Cardinality Bipartite Matching__
+
+2. __Maximum Set of Edge-Disjoint Paths between Two Vetices__
+
+3. __Edge Connectivity in an Undirected Graph__
+
+4. __Circulation with Demands__
+
+5. __Circulation with Demands and Low Bounds__
+
+6. __Minimum Cost of Flow__
 
 
 
