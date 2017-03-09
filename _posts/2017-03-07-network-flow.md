@@ -50,8 +50,11 @@ __Note:__ this algorithm must terminate after at most C iterations, where C is t
 __s-t cut:__ two sets of vertices A and B with the following properties, G is a network flow:
 
 $$ s \in A $$
+
 $$ t \in B $$
+
 $$ A \cup B = G(V) $$
+
 $$ A \cap B = \emptyset $$
 
 __cut capacity:__ the sum of capacities of edges going out of A.

@@ -121,6 +121,116 @@ def output_schedule(start_idx, jobs, dp):
   return ;
 ```
 
+### Segmented Least Square Problem
+
+__Problem Description:__
+Image a linear regression problem where there is a bunch of points that you want to fit with a line. Now it is allowed to segment the line into a few pieces to form a better fit (namely reduce the sum of square residuals). However:
+1. 1 segment may result in really bad fit.
+2. n/2 (n is the number of points) segments tells us nothing about the data even though the error is Zero.
+
+We want to find a good fit while keeping the number of segments small. So there is a fixed penalty for each segmentation in your solution. How to come up with the optimal solution?
+
+__Problem Formulation:__
+
+Let C be the fixed penalty.  
+
+Sort all the points according some axis and label them 1 through n. Let e(i, j) (1 <= i <= j <= n) be the squared errors when a line is fit to points i through j to minimize the squared errors. A 2D matrix filled with e(i, j) can be pre-computed in:
+
+$$ O(n^2) $$
+
+Now the problem became:  
+
+Find one or more k (1 <= k <= n), sorted in an array K = [k1, k2, k3, ..., km] so that:
+
+$$ {\underset{k}{\operatorname{min}}} \; (C * |K| +  e(1, k_1) + e(k_1, k_2) + ... + e(k_m, n)) $$
+
+---
+
+### DP Exercises
+
+#### Max weighted set of vertices out of a simple path
+
+__Problem Description:__ Given a simple path G, find an independent set of weighted vertices with the maximized sum of weights.
+
+_Note: an independent set means any two vertices in this set are not connected._  
+
+__Key Observation:__ For the first i vertices, the maximized set either contains the ith vertex or not. If it doesn't, it is the same as the maximized set of the first (i-1) vertices. If it does, it equals to the max weight from the first (i-2) vertices + the weight of ith vertex.
+
+__Formulation:__
+
+1. Subproblems: indexed by vertices {0, 1, 2, ..., n}  
+
+2. Functions: Let X(i) be the max weight of the first i vertices (i >= 2):  
+
+3. Goal: X(n)
+
+4. Initial value: X(0) = 0, X(1) = weight(1)  
+
+5. Recurrence:
+$$ X(i) = max(X(i-1), \; X(i-2) + weight(i)) $$
+
+__Note: initialization of X(0) = 0 is critical to compute X(2) even though the numbering of vertices start from 1.__
+
+---
+
+#### High-Low stress reward trade-off
+
+__Problem Description:__ Given a list of high-stress job scheduled every day with different reward values for each; And a list of low-stress job scheduled every day with different but lower reward values for each. Restrict that one can do nothing during the day before taking a high-stress job. It is OK for one to take high-stress on the first day. Find a optimal strategy to schedule which job to take every day.
+
+__Key Observation:__ For the first i days, the optimal schedule either contains the ith high-stress job or ith low-stress job or nothing.  
++ If it contains ith high-stress job, the max reward is R(i-2) + highReward(i).  
++ If it contains ith low-stress job, the max reward is R(i-1) + lowReward(i).
++ If it contains nothing, the max reward is R(i-1), which is less than the above.
+
+__Formulation:__
+
+1. Subproblems: indexed by days {0, 1, 2, ..., n}  
+
+2. Functions: Let R(i) be the max reward for the first i days (i >= 2):  
+
+3. Goal: R(n)
+
+4. Initial value: R(0) = 0, R(1) = highReward(i)
+
+5. Recurrence:
+$$ R(i) = max(R(i-2) + highReward(i), \; R(i-1) + lowReward(i)) $$
+
+__Note: this is simply a minor extension of the first problem. The common thing both of them need to trace back 2 steps, each with different operations.__
+
+---
+
+#### Longest Path Problem
+
+__Problem Description:__ Given an __ordered__ graph G, where only edges from lower numbered vertex to higher numbered vertex are allowed. Find the path from the first vertex to the last vertex with the maximum number of edges.  
+
+_Note: It is also implied that the frist vertex has only outgoing edges and the last vertex has only incoming edges._
+
+__Key Observation:__ For the first i vertices (with the ith vertex being the last vertex in this case), there is no more discussion about whether ith vertex is in the solution set or not because according to the problem requirement, it must be the last vertex in the solution path. The maximum length of the path L(i) equals to 1 + L(j) where j is any vertex with an edge to ith vertex.
+
+__Formulation:__
+
+1. Subproblems: indexed by days {1, 2, ..., n}  
+
+2. Functions: Let L(i) be the max length for the first i vertices (i >= 1):  
+
+3. Goal: L(n)
+
+4. Initial value: L(1) = 0
+
+5. Recurrence:
+$$ L(i) = \underset{j}{\operatorname{\max}} \; \{ \; L(j) + r(j, i) \; | \; 1 \leq j < i \; \} $$
+
+Set r(j, i) = 1 when there is an edge from j to i, else negative infinite.
+
+__Note: this problem is different in that: What makes the previous problems dynamic programming problems is the trade-off between taking or not taking or which to take. But in this problem, it is always good to add an edge to the final solution. However, what lies in the heart of this problem is the dynamics how we jump from some previous vertex to the current vertex.__
+
+
+
+
+
+---
+
+
 
 
 
