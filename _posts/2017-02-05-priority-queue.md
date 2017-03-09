@@ -44,21 +44,21 @@ $$ Total Time \le O(\sum_{j=0}^{logN} j \frac {n} {2^j}) \le O(N \sum_{j=0}^{\in
 
 ``` python
 class MinHeap(object):
-	# minHeap - k < 2k + 1 and k < 2k + 2 - support heapify(), push(), pop(), top(), isEmpty(), len() methods etc.
+  # minHeap - k < 2k + 1 and k < 2k + 2 - support heapify(), push(), pop(), top(), isEmpty(), len() methods etc.
   def __init__(self, nums):
-		self.size = len(nums)
-		self.array = [num for num in nums]
-		self.heapify()
+    self.size = len(nums)
+    self.array = [num for num in nums]
+    self.heapify()
 
+  def heapify(self):  
+    if self.size == 0:
+      return ;
 
-	def heapify(self):
-		if self.size == 0:
-			return ;
-		# _siftUp N elements takes O(NlogN)
-		# _siftDown N elements takes O(N)
-		for i in xrange(self.size - 1, -1, -1):
-			self._siftDown(i)
-		return ;
+    # _siftUp N elements takes O(NlogN)
+    # _siftDown N elements takes O(N)
+    for i in xrange(self.size - 1, -1, -1):
+      self._siftDown(i)
+    return ;
 
 	def _siftUp(self, k):
 		# when k == 3 || 4, (k - 1) / 2 == 1 holds for both values
