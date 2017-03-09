@@ -58,22 +58,22 @@ __The algorithm terminates after at most n^2 proposals.__
 
 __If a man m is free, there is some woman to whom he has not yet proposed.__  
 _prove by contradiction:  
-- suppose that m is free and he has proposed to all women.  
-- then all women are engaged to some men.  
-- since |M| == |W|, these means all men are engaged._  
+suppose that m is free and he has proposed to all women.  
+then all women are engaged to some men.  
+since |M| == |W|, these means all men are engaged._  
 
 __They matching computed by the G-S algorithm is a perfect matching.__  
 _prove by contradiction:  
-- suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
-- according to the code, m must have proposed to every woman.  
-- according to the claim 3, it is impossible._  
+suppose that the algorithm terminates without a perfect matching, meaning there is a free man m.  
+according to the code, m must have proposed to every woman.  
+according to the claim 3, it is impossible._  
 
 __The matching computed by the G-S algorithm is a stable matching.__  
 _prove by contradiction:  
-- suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
-- the last time m proposed, it was to w.  
-- if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction.  
-- if m proposed to w' some later time, m doesn't prefer w' to w._  
+suppose that there is an instability, meaning that the matching contains two pairs (m, w) and (m', w') such that m prefers w' to w and w' prefers m to m'.  
+the last time m proposed, it was to w.  
+if m proposed to w' some earlier time, w' rejected m and she prefers m' to m, contradiction.  
+if m proposed to w' some later time, m doesn't prefer w' to w._  
 
 ---
 
@@ -86,11 +86,11 @@ A: The G-S algorithm always pairs each man with his best valid partner.
 __claim: Stable matching problem has more than 1 possible outcomes; Different execution of G-S algorithm leads to different outcomes. However, if w is a valid partner of m, then (m, w) will appear at least once in certain valid outcome.__
 
 _proof by contradiction:  
-- suppose at least one proposal from m to a valid partner w is rejected (either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _ever occurred during this execution E of G-S algorithm: m proposes to a valid partner w and w immediately rejects m because she prefers her current match m'.  
-- Because w is a valid partner of m, there exists some other execution E' of G-S algorithm where (m, w) are paired and m' is paired with some other woman w', which is stable.  
--_ __However__, _when w rejected m for m' during the execution of E, that was the first rejection ever occurred. That means, at that point, m' hasn't been rejected. Clearly, m' is proposing at decreasing order and w' is a valid partner of m'. So m' must prefer w to w'.  
-- Since m' prefers w to w' and w prefers m' to m. The outcome from the execution of E' can't be stable, which is a contradiction.  
-- Therefore, our original proposal is false._    
+suppose at least one proposal from m to a valid partner w is rejected (either immediately or as a result of a broken engagement.), consider that the_ __first rejection__ _ever occurred during this execution E of G-S algorithm: m proposes to a valid partner w and w immediately rejects m because she prefers her current match m'.  
+Because w is a valid partner of m, there exists some other execution E' of G-S algorithm where (m, w) are paired and m' is paired with some other woman w', which is stable._  
+__However__, _when w rejected m for m' during the execution of E, that was the first rejection ever occurred. That means, at that point, m' hasn't been rejected. Clearly, m' is proposing at decreasing order and w' is a valid partner of m'. So m' must prefer w to w'.  
+Since m' prefers w to w' and w prefers m' to m. The outcome from the execution of E' can't be stable, which is a contradiction.  
+Therefore, our original proposal is false._    
 
 ---
 
