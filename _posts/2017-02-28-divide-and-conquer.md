@@ -19,6 +19,7 @@ During conquer-phase, the algorithm does some operations that take O(n) to merge
 
 Mathematically:  
 $$ T(n) = 2 T(\frac{n}{2}) + O(n) $$
+
 $$ T(n) = n \log{n} $$
 
 
@@ -34,14 +35,17 @@ $$ T(n) = a T(\frac{n}{b}) + f(n) $$
 
 1. Operation cost is __upper bounded__:
 $$ if\;f(n) = O(n^{\log_{b}^{a - \epsilon}})\;\;for\;some\;constant\;\epsilon > 0 $$
+
 $$ T(n) = \Theta(n^{\log_{b}^{a}}) $$
 
-2. Operation cost is __sandwiched___:
+2. Operation cost is __sandwiched__:
 $$ if\;f(n) = \Theta(n^{\log_{b}^{a}}) $$
+
 $$ T(n) = \Theta(n^{\log_{b}^{a}} \log{n})$$
 
 3. Operation cost is __lower bounded__:
 $$ if\;f(n) = \Omega(n^{\log_{b}^{a + \epsilon}})\;\;for\;some\;constant\;\epsilon > 0 $$
+
 $$ T(n) = \Theta(f(n)) $$
 
 Taking __Merge Sort__ as an example, __intuitively__:
@@ -55,6 +59,7 @@ Taking __Merge Sort__ as an example, __intuitively__:
 #### The simplified method says:  
 
 Having a problem with cost:  
+
 $$ T(n) = a T(\frac{n}{b}) + \Theta(n^k) \; where \; k >= 1 $$
 
 1. If a > b^k, recursive work dominates:
@@ -180,7 +185,7 @@ def closestPair(points):
 
 ---
 
-#### 
+####
 
 <!-- #################################### -->
 <!-- #################################### -->

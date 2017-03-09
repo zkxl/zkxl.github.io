@@ -13,7 +13,7 @@ tag: algorithms
 
 __The best way to learn DP is through practice.__
 
-#### Weight interval scheduling problem  
+### Weight interval scheduling problem  
 
 
 
@@ -224,13 +224,33 @@ Set r(j, i) = 1 when there is an edge from j to i, else negative infinite.
 
 __Note: this problem is different in that: What makes the previous problems dynamic programming problems is the trade-off between taking or not taking or which to take. But in this problem, it is always good to add an edge to the final solution. However, what lies in the heart of this problem is the dynamics how we jump from some previous vertex to the current vertex.__
 
-
-
-
-
 ---
 
+#### SF-NY switch problem
 
+__Problem Description:__ Every month, you choose to run your business in SF or NY. Each month, different locations give you different operation costs. The switch cost is fixed F. What is the optimal traveling schedule for your business? You can choose wherever to spend the first month, which doesn't cost you anything.
+
+__Key Observation:__ The problem is to minimize the total cost. Two arrays is needed for the dynamic solution of this problem. Why? Because every time you make your decision, you have to refer the accumulative cost from the last month of both cities. If they are close and F is bigger, you don't want to travel. Otherwise, you'd like to travel. In other words, you need to maintain two arrays, S and N where S[i] is the accumulative cost for you to stay in SF on ith month, and N[i] is the accumulative cost for you to stay in NY on ith month.
+
+__Formulation:__
+
+1. Subproblems: indexed by months {1, 2, ..., n}  
+
+2. Functions:  
+Let S(i) be the accumulative cost of staying SF on month i.  
+And N(i) be the accumulative cost of staying NY on month i.
+
+3. Goal: min(S(n), N(n))
+
+4. Initial value:  
+S(1) = operationCostSF(1)  
+N(1) = operationCostNY(1)
+
+5. Recurrence:
+$$ S(i) = min(S(i-1), N(i-1)+F) + operationCostSF(i) $$
+$$ N(i) = min(N(i-1), S(i-1)+F) + operationCostNY(i) $$
+
+---
 
 
 
