@@ -18,6 +18,7 @@ During divide-phase, the algorithm splits the problem into half and recursively 
 During conquer-phase, the algorithm does some operations that take O(n) to merge the sorted sub results into real higher-level results.  
 
 Mathematically:  
+
 $$ T(n) = 2 T(\frac{n}{2}) + O(n) $$
 
 $$ T(n) = n \log{n} $$
@@ -28,33 +29,37 @@ Now let constants:
 2. b >= 1 denoting the number of subproblems
 3. f(n) denoting the asymptotical cost we need to pay at each recursion.  
 
-The above became:
+The above became:  
+
 $$ T(n) = a T(\frac{n}{b}) + f(n) $$
 
 #### The master theorem says:  
 
-1. Operation cost is __upper bounded__:
+1. Operation cost is __upper bounded__:  
+
 $$ if\;f(n) = O(n^{\log_{b}^{a - \epsilon}})\;\;for\;some\;constant\;\epsilon > 0 $$
 
 $$ T(n) = \Theta(n^{\log_{b}^{a}}) $$
 
-2. Operation cost is __sandwiched__:
+2. Operation cost is __sandwiched__:  
+
 $$ if\;f(n) = \Theta(n^{\log_{b}^{a}}) $$
 
 $$ T(n) = \Theta(n^{\log_{b}^{a}} \log{n})$$
 
-3. Operation cost is __lower bounded__:
+3. Operation cost is __lower bounded__:  
+
 $$ if\;f(n) = \Omega(n^{\log_{b}^{a + \epsilon}})\;\;for\;some\;constant\;\epsilon > 0 $$
 
 $$ T(n) = \Theta(f(n)) $$
 
 Taking __Merge Sort__ as an example, __intuitively__:
 
-1. If operation cost is __linearly__ decreasing as n decreases (case2), T(n) is the operation cost at each level times the number of levels.  
+1. If operation cost is __linearly__ decreasing as we divide the problem (case2), T(n) is the operation cost at each level times the number of levels.  
 
-2. If operation cost is __superlinearly__ decreasing (case3), T(n) is dominated by the operation cost at the last level where the number of instance is n.  
+2. If operation cost is __superlinearly__ decreasing as we divide the problem (case3), T(n) is dominated by the operation cost at the first level where the number of instance is n.  
 
-3. If operation cost is __sublinearly__ decreasing (case1), T(n) is dominated by the operation cost of each recursive call while the number of levels doesn't matter.  
+3. If operation cost is __sublinearly__ decreasing as we divide the problem (case1), T(n) is dominated by the operation cost of each recursive call while the number of levels doesn't matter.  
 
 #### The simplified method says:  
 
@@ -79,9 +84,10 @@ $$ T(n) = \Theta(n^k) $$
 
 _NOTE: we've talked about running "heapify()" iteratively in the post "Priority Queue" in O(n)._
 
-Here is the recursive one, which runs in:
+Here is the recursive one, which runs in:  
 
 $$ T(n) = 2 T(\frac{n}{2}) + O(\log{n}) $$
+
 $$ T(n) = O(n) $$
 
 ``` python
@@ -112,7 +118,7 @@ class MinHeap(object):
     """
     refer to post "Priority Queue" for implementation details.
     """
-  	return ;
+    return ;
 ```
 
 ---
@@ -185,7 +191,6 @@ def closestPair(points):
 
 ---
 
-####
 
 <!-- #################################### -->
 <!-- #################################### -->
