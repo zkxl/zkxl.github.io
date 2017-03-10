@@ -252,7 +252,26 @@ $$ N(i) = min(N(i-1), S(i-1)+F) + operationCostNY(i) $$
 
 ---
 
+#### Word Segmentation
 
+__Problem Description:__ Given a string consisting of a bunch of words but they are not separated by space. How to optimally segment the string so that it makes the maximum sense? Provided a function call that works as following: quality('hello') > quality('hel').  
+
+__Key Observation:__ For the first ith characters in the string S, the addition of the (i+1)th character may render a better segmentation strategy for all the previous characters. For example, a break point j might be found to render the max optimal quality = optimal(j-1) + quality(S[j, i]), which means we have to check back each j for 1 <= j < i.
+
+__Formulation:__
+
+1. Subproblems: indexed by months {1, 2, ..., n}  
+
+2. Functions: Let Q(i) be the optimal quality found for the first ith characters in S.
+
+3. Goal: Q(n)
+
+4. Initial value: Q(1) = quality([0, 1])
+
+5. Recurrence:
+$$ Q(i) = max(Q(j) + quality(\; S[j, i] | 1<= j < i \;))$$
+
+---
 
 
 

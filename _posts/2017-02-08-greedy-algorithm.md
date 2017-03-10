@@ -39,6 +39,9 @@ NOTE:
 3. Assign the next available color to a job when it overlaps with all previously scheduled jobs.  
 4. Assign the color ready for reuse to a job when the current job starts later than the finished one.  
 
+_Why not using earliest finishing time?_  
+_Intuitively, earliest starting time first strategy allows you to start earlier, which saves time that would've been wasted if you use earliest finising time first strategy. Even the former doesn't guarantee you earlier ending time in any case, that's fine. Just assign the next available color to the next job. It is inevitable that you do them in parallel._
+
 ---
 
 #### Minimize Lateness Problem
@@ -68,6 +71,11 @@ Output:
 __Idea behind this algorithm:__  
 Let's say there are multiple paths that go from s to t. The shortest one is among them. If we keep growing the path tree from s till we reach t, we will be able to spot at least one path from s to t. If we denote the last one before t is t.parent, we can say the shortest path is either through t.parent or one that comes through some other node. If we keep growing the path tree in a way that __we keep increasing the reachability of the tree from s at the next lowest cost__, we will have output_1 when we reach t and we will have output_2 when we reach every other node in the graph.  
 
+__Note: During this growing process, it doesn't hurt to go to some other branches that don't even remotely connect with t because:__  
+1. __If t is some neighboring node of the current node x, x will still be the parent node of t in output_1.__
+2. __If t is some neighboring node of some next node xx, we have to go through xx anyway to get to t so it doesn't hurt.__
+
+
 ``` python
 def shortest_path_from(s, graph, costs):
   # @ s: start_node
@@ -93,6 +101,9 @@ def shortest_path_from(s, graph, costs):
     for next_node in graph[node]:
       if d[next_node] <= d[node] + costs(node, next_node):
         continue # switch to next if the next_node already found on a smaller path from s or next_node is a backtracking node (this is a undirected graph)
+      '''
+        Considering how d is defined, it looks somewhat like dp.
+      '''
       d[next_node] = d[node] + costs(node, next_node)
       next_node.parent = node # build the tree
 
@@ -112,7 +123,7 @@ __Definition:__
 1. Output T is a tree.  
 2. All the nodes in input G can be found in output T.  
 
-__Prim's Algorithm: Start with a seed node s. Repeatedly grow T by adding the cheapest edge connecting some node in T and some node in G but not yet in T. Prim's Algorithm differs from Dijkstra's Algorithm in that: a node's distance is defined as how far it is from the start node in Dijkstra's Algorithm while distance is define as how far it is from any node already in T to any node not yet in T in Prim's Algorithm. And thus, their ways to grow the output trees are different.__
+__Prim's Algorithm: Start with a seed node s. Repeatedly grow T by adding the cheapest edge connecting (some node in T) and (some node in G but not yet in T). Prim's Algorithm differs from Dijkstra's Algorithm in that: a node's distance is defined as how far it is from the start node in Dijkstra's Algorithm while distance is define as how far it is from any node already in T to any node not yet in T in Prim's Algorithm because they have different focuses on the output. Dijkstra's Algorithm was used to find the shortest path from s to t while Prim's Algorithm was used to find the MST, even though they are related.__
 
 
 ``` python
@@ -138,12 +149,12 @@ def prims_MST(s, graph, costs):
   while !q.isEmpty():
     _, node = q.popMin()
     for next_node in graph[node]:
-    # ---------------- difference -------------------
+    # ---------------- difference below -------------------
       if d[next_node] <= costs(node, next_node):
         continue
         # continue if the next_node already found on a smaller path from s or next_node is a backtracking node (this is a undirected graph)
       d[next_node] = costs(node, next_node)
-    # ---------------- difference -------------------
+    # ---------------- difference above -------------------
       next_node.parent = node # build the tree
 
   return r
