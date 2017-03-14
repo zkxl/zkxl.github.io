@@ -203,12 +203,15 @@ solution(arr) = max(
                   max(right half) - min(left half)
                   )
 ```
+
 $$ T(n) = 2 T(\frac{n}{2}) + O(n) $$
+
 ---
 
 ### Challenges
 
 ---
+
 #### Find median
 
 __Problem Description:__ If given two sorted arrays A and B, what is the best algorithm to find the median? Merge and Count takes O(n). What if they are not sorted? Sort and Merge takes O(nlogn).  
@@ -216,7 +219,7 @@ What if they are sorted but it takes a lot of time to access each number? You ar
 
 __Key Observation:__
 1. If the median in A equals to the median in B, then it is the MEDIAN for the unioned array.
-2. If A's median < B' median, we know that the left half of A are all smaller than the MEDIAN and the right half of B are all bigger than the MEDIAN. So we can discard those two halfs.
+2. If A's median < B's median, we know that the left half of A are all smaller than the MEDIAN and the right half of B are all bigger than the MEDIAN. So we can discard those two halfs.
 3. Else, we can discard the other two halfs.
 
 __Solution:__
@@ -264,15 +267,23 @@ def superMajority(A<elements>):
 
 #### Upper Envelope Problem
 
-__Problem Description:__ Suppose that you have n lines in a 2D spaces where no three lines crossover the same point.
+__Problem Description:__ Suppose that you have n lines in a 2D spaces where no three lines crossover the same point.  
+
 $$ \{\; L_i : y_i = ax_i + b \;|\; 1 \leq i \leq n \;\} $$
-__If:__
-$$ there \; \exists \; k \; and \; X $$
-__For:__
-$$ \forall \; i \neq k \; and \; 1 \leq i \leq n $$
-$$ \forall \; x \in X $$
-__Having:__
-$$ y_k > max(y_i )$$
+
+__If:__  
+
+$$ there \; \exists \; k \; and \; X $$  
+
+__For:__  
+
+$$ \forall \; i \neq k \; and \; 1 \leq i \leq n $$  
+
+$$ \forall \; x \in X $$  
+
+__Having:__  
+
+$$ y_k > max(y_i )$$  
 
 Then we say k is __visible__.
 Now the problem is, given a set of lines, find those visible lines.
