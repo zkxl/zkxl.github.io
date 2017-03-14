@@ -147,8 +147,10 @@ $$ {\underset{k}{\operatorname{min}}} \; (C * |K| +  e(1, k_1) + e(k_1, k_2) + .
 __Observation and Recurrence:__  
 If the min-err for the first i points is known to us, for some point j > i:
 $$ minErr(j) = e(i, j) + C + minErr(i - 1) $$
-And yet, we don't know such a fixed i, so for some arbitrary point 1 <= j <= n:
+And yet, we don't know such a fixed i, so for some arbitrary point 1 <= j <= n:  
+
 $$ minErr(j) = {\underset{i}{\operatorname{min}}}\;\{e(i, j) + C + minErr(i - 1) \;|\; 1 \leq i < j\;\} $$
+
 
 __Solution:__
 ```
