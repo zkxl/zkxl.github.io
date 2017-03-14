@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ICS260 - Dynamic Programming
-date: 2017-03-13 22:30:00 -0800
+date: 2017-02-28 22:30:00 -0800
 categories: Study-Notes
 tag: algorithms
 ---
