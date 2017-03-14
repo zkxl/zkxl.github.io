@@ -13,6 +13,6 @@ tag: life
 
 $$ Time: i \in \mathbb{R}^{+} $$
 
-$$ Ch: c \in \mathbb{R}^{\mathbb{N}}\;\;Von: v \in \mathbb{R}^{\mathbb{N}} $$
+$$ Ch: c \in \mathbb{R}^{\mathbb{N}}\;\;\;Von: v \in \mathbb{R}^{\mathbb{N}} $$
 
-$$ Life = \sum_{i}^{\infty} i \cdot f(c_{i} + v_{i}) $$
+$$ Life = \sum_{i}^{\infty} i \cdot m(z(c_{i}) + g(v_{i})) $$

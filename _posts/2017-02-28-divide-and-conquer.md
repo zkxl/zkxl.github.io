@@ -186,10 +186,132 @@ def closestPair(points):
       j += 1
 
   return delta
+```
+---
+
+### Warm up
+
+__Stock problem:__ Given an array of n days' stock prices, only one transaction can be made, find the optimal solution.
+
+__Key observation:__ If the optimal one holds the stock at day (n/2), that means the purchasing time is before that date and selling time is after that date. Else, the optimal one happens either between day 1 to day (n/2) or day (n/2) to the last day. This way, we reduced the problem in half and two recursive calls are needed each time.  
+
+__Formulation:__   
+```
+solution(arr) = max(
+                  solution(left half of arr),
+                  solution(right half of arr),
+                  max(right half) - min(left half)
+                  )
+```
+$$ T(n) = 2 T(\frac{n}{2}) + O(n) $$
+---
+
+### Challenges
+
+---
+#### Find median
+
+__Problem Description:__ If given two sorted arrays A and B, what is the best algorithm to find the median? Merge and Count takes O(n). What if they are not sorted? Sort and Merge takes O(nlogn).  
+What if they are sorted but it takes a lot of time to access each number? You are given a function call to query the Kth smallest number in either array and your goal is to find the median with as few queries as possible.
+
+__Key Observation:__
+1. If the median in A equals to the median in B, then it is the MEDIAN for the unioned array.
+2. If A's median < B' median, we know that the left half of A are all smaller than the MEDIAN and the right half of B are all bigger than the MEDIAN. So we can discard those two halfs.
+3. Else, we can discard the other two halfs.
+
+__Solution:__
+```
+global A, B
+
+def median(n, a, b):
+  // a, b mark the starting point for each array
+  if n == 1: return min(A[a + 1], B[b + 1])
+  k = celi(n / 2)
+  if A[a + k] == B[b + k]:
+    return A[a + k]
+  elif A[a + k] < B[b + k]:
+    return median(n - n/2, a + n/2, b)
+  else:
+    return median(n - n/2, a, b + n/2)
+```
+---
+#### Equivalence Testing
+
+__Problem Description:__ Given a set of elements, each of them has a value. You have no way to access their values but you are given a equivalentTest(a, b) function that returns True if a's value == b's value and False otherwise. How to find out if more than half of the elements have the same value?
+
+__Key Observation:__ If there are more than half elements that share the same value and if you divide the elements into two sets of equal size and pick an element whose value is x from either of them, at least one of the set contains more than half elements that have value x. If that value exists, it must be either in the left half or in the right half.
+
+__Solution:__
+```
+def superMajority(A<elements>):
+  if len(A) == 1: return True
+
+  (left, x, left_num) = superMajority(A[ : len(A)/2])
+  if left is True:
+    right_num = # of elements in A[len(A)/2 : ] whose value == x
+    if left_num + right_num > len(A) / 2:
+      return (True, x, left_num + right_num)
+
+  (right, x, right_num) = superMajority(A[len(A)/2 : ])
+  if right is True:
+    left_num = # of elements in A[ : len(A/2)] whose value == x:
+    if left_num + right_num > len(A) / 2:
+      return (True, x, left_num + right_num)
+
+  return (False, NULL, NULL)
+```
+---
+
+#### Upper Envelope Problem
+
+__Problem Description:__ Suppose that you have n lines in a 2D spaces where no three lines crossover the same point.
+$$ \{\; L_i : y_i = ax_i + b \;|\; 1 \leq i \leq n \;\} $$
+__If:__
+$$ there \; \exists \; k \; and \; X $$
+__For:__
+$$ \forall \; i \neq k \; and \; 1 \leq i \leq n $$
+$$ \forall \; x \in X $$
+__Having:__
+$$ y_k > max(y_i )$$
+
+Then we say k is __visible__.
+Now the problem is, given a set of lines, find those visible lines.
+
+__Key Observation:__
+1. If you draw a few lines you will see that when x walks from negative infinity to positive infinity, those that becomes visible are having higher slope values than those that previously visible. In other words, their slopes are monotonically increasing.
+2. When x walks from negative infinity to positive infinity, if the current visible line is i and it will crossover with line j at the next crossover point. line j will be the next visible line.
+
+__Solution:__
+```
+def upperEnvelope(lines - sorted):
+  if len(lines) == 1: return line[0]
+
+  n = len(lines)
+  left = upperEnvelope(lines[ : n / 2])
+  right = upperEnvelope(lines[n / 2: ])
+  // the above is divide
+
+  // the below is conquer
+  lb, rb = -1, 1
+
+  // left is a line on which you can call .yhat_at() to return the corresponding y value.
+  while left.yhat_at(lb) <= right(lb):
+    // find the left and right boundaries where we can find a crossover point for sure
+    lb = 2 * lb
+
+  while right.yhat_at(rb) <= left(rb):
+    rb = 2 * rb
+
+  for i in range(lb, rb):
+    if left.yhat_at(i) <= right.yhat_at(i):
+      // return a line object constructed in the following way
+      return Line(left = left,
+                  right = right,
+                  crossover = i
+                  )
 
 ```
 
----
 
 
 <!-- #################################### -->

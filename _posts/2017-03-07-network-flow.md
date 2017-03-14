@@ -84,7 +84,29 @@ Always choosing the shortest augmenting path __(F-F with BFS)__ brings us strong
 $$ O(mn) $$
 
 
-## Mathematical Applications
+#### Blood Supply and Demand Model
+
+__Problem description:__ Consider blood types: A, B, O and AB.
+ 1. O can be applied to any patient.
+ 2. A can be applied to patient of A or AB.
+ 3. B can be applied to patient of B or AB.
+ 4. AB can be applied to patient of AB only.  
+
+Now if you have certain supplies of each type of blood as well as demands for each type of blood. Design an algorithm to help you determine if the supplies meet the demands.  
+
+__Solution:__  
+Let supplies be:  
+$$ S_{A},\; S_{B},\; S_{O},\; S_{AB} $$
+Let demands be:  
+$$ D_{A},\; D_{B},\; D_{O},\; D_{AB} $$
+1. Create a node for each type of blood in supplies as well as each type of blood in demands.
+2. Create a source node s and a terminal node t.
+3. Draw edges from s to each supply node with the amount of supply being the capacity. Draw edges to t from each demand node with the amount of demand being the capacity. Draw edges from each supply node to each demand node with capacity being infinite.  
+
+Now compute the max-flow. If and only if all the edges going to __t__ is saturated, the supplies can meet the demands.  
+
+
+## Other Mathematical Applications
 
 1. __Maximum Cardinality Bipartite Matching__
 
