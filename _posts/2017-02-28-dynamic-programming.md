@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ICS260 - Dynamic Programming
-date: 2017-02-28 22:30:00 -0800
+date: 2017-03-13 22:30:00 -0800
 categories: Study-Notes
 tag: algorithms
 ---
@@ -143,6 +143,31 @@ Now the problem became:
 Find one or more k (1 <= k <= n), sorted in an array K = [k1, k2, k3, ..., km] so that:
 
 $$ {\underset{k}{\operatorname{min}}} \; (C * |K| +  e(1, k_1) + e(k_1, k_2) + ... + e(k_m, n)) $$
+
+__Observation and Recurrence:__  
+If the min-err for the first i points is known to us, for some point j > i:
+$$ minErr(j) = e(i, j) + C + minErr(i - 1) $$
+And yet, we don't know such a fixed i, so for some arbitrary point 1 <= j <= n:
+$$ minErr(j) = {\underset{i}{\operatorname{min}}}\;\{e(i, j) + C + minErr(i - 1) \;|\; 1 \leq i < j\;\} $$
+
+__Solution:__
+```
+def leastSquaredErr(points):
+  // pre-computed errors in O(n^2)
+  e = 2D Matrix
+  for i in points:
+    for j in points:
+      e[i][j] = SSR(i, j)
+  // dp
+  minErr = 1D Vector whose length is 1 + len(points)
+  minErr[0] = 0
+  for j in range(1, len(points) + 1):
+    minErr[j] = e(1, j) + C
+    for i in range(1, j):
+      minErr[j] = min(minErr[j], e(i, j) + C + minErr(i-1))
+
+  return minErr(len(points))
+```
 
 ---
 
