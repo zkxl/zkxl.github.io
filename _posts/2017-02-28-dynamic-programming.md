@@ -121,6 +121,8 @@ def output_schedule(start_idx, jobs, dp):
   return ;
 ```
 
+---
+
 ### Segmented Least Square Problem
 
 __Problem Description:__
@@ -140,16 +142,16 @@ $$ O(n^2) $$
 
 Now the problem became:  
 
-Find one or more k (1 <= k <= n), sorted in an array K = [k1, k2, k3, ..., km] so that:
+Find one or more k (1 <= k <= n) so that:
 
-$$ {\underset{k}{\operatorname{min}}} \; (C * |K| +  e(1, k_1) + e(k_1, k_2) + ... + e(k_m, n)) $$
+$$ {\underset{1 \leq k_{1} < k_{2} < ... k_{m} \leq n}{\operatorname{min}}} \; (C * |K| +  e(1, k_1) + e(k_1, k_2) + ... + e(k_m, n)) $$
 
 __Observation and Recurrence:__  
 If the min-err for the first i points is known to us, for some point j > i:
 $$ minErr(j) = e(i, j) + C + minErr(i - 1) $$
 And yet, we don't know such a fixed i, so for some arbitrary point 1 <= j <= n:  
 
-$$ minErr(j) = {\underset{i}{\operatorname{min}}}\;\{e(i, j) + C + minErr(i - 1) \;|\; 1 \leq i < j\;\} $$
+$$ minErr(j) = {\underset{1 \leq i < j}{\operatorname{min}}}\;\{e(i, j) + C + minErr(i - 1)\} $$
 
 
 __Solution:__
@@ -173,7 +175,9 @@ def leastSquaredErr(points):
 
 ---
 
-### DP Exercises
+## More DP Exercises
+
+---
 
 #### Max weighted set of vertices out of a simple path
 
@@ -300,6 +304,123 @@ $$ Q(i) = max(Q(j) + quality(\; S[j, i] | 1<= j < i \;))$$
 
 ---
 
+#### Trunk Loading Problem
+
+__Problem Description:__ You've got a trunk with maximum loading weight W and n boxes each weights:  
+
+$$ \{\; w_{i} \;|\; 1 \leq i < n \;and\; w_{i} \leq W \;\} $$  
+
+Design a strategy to load as heavy goods as possible.
+
+__Key Observation:__ If we try all the combinations, it is exponential time. If we:  
+1. __reduce__ the problem by the first few boxes, with function maxLoad(i) denoting the max load if we only have boxes from 1 to i.  
+
+$$ maxLoad(i) = max(maxLoad(i-1),\;\; {\underset{1\leq j <i}{\operatorname{max}}} \{\; maxLoad(j) + w_{i}\;|\;maxLoad(j) + w_{i} \leq W \;\}) $$  
+
+2. __reduce__ the problem by both the number of boxes and the maximum capacity of the trunk, with maxLoad(i, j) denoting the max load we can carry if we only have boxes from 1 to i and the maximum capacity of the trunk is j.  
+
+$$ maxLoad(i, j) = max(w_{i} + maxLoad(i-1, j-w_{i}),\; maxLoad(i-1, j)) $$
+
+Meaning: The max load is you either include box i at capacity j, or exclude it.  
+
+_Note: both cases are initialized as 0._  
+
+---
+
+#### Knapsack Problem
+
+__This is too classic. I suggest the following:__ [催天翼 背包九讲](https://github.com/tianyicui/pack).
+
+---
+
+#### Edit Distance Problem
+
+__Problem Description:__ You are given two strings A and B, return the minimum edit distance of them. Every operation, include insertion, deletion (gap) and modification (match) takes a unit distance.  
+
+__Formulation:__  
+1. Subproblems: indexed by months i {1, 2, ..., n} and j {1, 2, ..., m}  
+
+2. Functions: ED(i, j) be the edit distance between A[:i+1] and B[:j+1]
+
+3. Goal: ED(n, m)
+
+4. Initial value:  
+ED(0, 0) = 0  
+ED(0, j) = j for j from 1 to m  
+ED(i, 0) = i for i from 1 to n  
+
+5. Recurrence:
+
+$$ ED(i, j) = min(ED(i-1, j-1) + 1, ED(i-1, j) + 1, ED(i, j-1) + 1) $$
+
+#### Bellman-Ford Shortest Path Algorithm
+
+__Problem Description:__ Given a weighted(with negative weights), directed graph G, find the min-cost path from s to t. Previously given a weighted (non-negative weights) directed graph, Dijkstra's Algorithm can find the min-cost path. Now, let's take a look at Bellman-Ford Algorithm.  
+
+_Note: if the graph contains negative cycle, then as long as s can find a path to that cycle, there's no solution to this problem. Here we are looking for a_ __simple__ _path solution._  
+
+__Bellman-Ford Algorithm:__ Different from Dijkstra's Algorithm, which greedily extends the reachability from s at the next lowest cost, Bellman-Ford Algorithm simply extends the reachability from s and updates the min-cost from s to all other vertex v at the same time __for (n-1) times__ where n is the number of vertices and (n-1) is the maxlength of the solution path because it is simple.  
+
+__Solution:__
+```
+def bellmanFord(graph):
+  cost = 2D Matrix // where cost[i][v] is the min-cost of from s to v at ith iteration.
+  cost[0][v] = + infinity // init
+  cost[0][s] = 0
+  predecessor = 1D Vector // note the predecessor of each vertex
+  for i from 1 to n: // where n is the # of vertices
+    for each edge (u, v) in E(graph):
+      if cost[i][u] + weight(u, v) < cost[i][v]:
+        cost[i][v] = cost[i][u] + weight(u, v)
+        predecessor[v] = u
+
+  for each edge (u, v) in E(graph): // the edge direction is implied
+    if cost[-1][u] + weight(u, v) < cost[-1][v]:
+      raise Error("negative cycle detected.")
+
+  return cost[-1][t], predecessor
+```
+
+NOTE:  
+1. the above algorithm takes O(nm) where n is the # of vertices and m is the # of edges. The space complexity can be reduced from O(n^2) to O(n) because we will never use the other "historical" records except the "last" ones.
+2. To understand how the detection of negative cycle works, you'd better draw a graph with such a cycle. But basically, if during the last iteration through all the edges and for some edge (u, v), `cost[-1][v]` got reduced to below `cost[-1][u]`, there is a cycle.
+
+---
+
+#### All Pairs Shortest Path Floyd's Algorithm
+
+__Problem Description:__ In a directed weighted graph G, find the min-cost path from every vertex to every other vertex.  
+
+__Analysis:__ If you read through the last problem using Bellman-Ford Algorithm, you will see that it can actually return the min-cost path from s to every other vertex. So this problem is solvable in O(mn^2). However, in extreme cases, m could be theoretically as large as n^2, which makes the above solution less efficient. Floyd's Algorithm runs in O(n^3).
+
+__Key Observation:__ Bellman-Ford Algorithm maintains a 2D matrix to record the min-cost from s to every other vertex v at all iterations. Here Floyd's Algorithm maintains a 3D matrix to record the min-cost from every other vertex v to every other vertex u at all iterations. The number of iterations needed is the same, n. Also, the space complexity can be reduced to O(n^2) like how we reduce it from O(n^2) to O(n) in Bellman-Ford.
+
+__Function:__ cost(k, i, j) is the min-cost of path from i to j with maximum k intermediate vertices allowed.  
+
+__Recurrence:__  
+
+$$ cost(k, i, j) =  min(cost(k-1, i, j), \; cost(k-1, i, k) + cost(k-1, k, j)) $$
+
+__Solution:__
+
+```
+// the following code assumes that the graph is under adjacency matrix representation
+
+def floyd(G):
+  cost = 3D Matrix // consider space complexity reduction
+  for i from 1 to n: // init
+    for j from 1 to n: // weight(i, i) = 0
+      cost[0][i][j] = weight(i, j) // weight(i, unreachable) = + infinity
+  for k from 1 to n:
+    for i from 1 to n:
+      for j from 1 to n:
+        cost[k][i][j] = min(cost[k-1][i][j], cost[k-1][i][k] + cost[k-1][k][j])
+  return cost[-1]
+```
+
+__Additional Note:__
+1. Think about why the second term is cost(k-1, i, k) + cost(k-1, k, j), instead of cost(k-1, i, k) + weight(k, j).
+2. Think about the situation where only a 2D matrix was maintained. If you can figure out the update code as follows: `cost[i][j] = min(cost[i][j], cost[i][k] + cost[k][j])`, you truly understand what the third dimension k means and how this algorithm works.
 
 
 <!-- #################################### -->
