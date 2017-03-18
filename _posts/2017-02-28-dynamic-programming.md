@@ -304,6 +304,41 @@ $$ Q(i) = max(Q(j) + quality(\; S[j, i] | 1<= j < i \;))$$
 
 ---
 
+#### Red Envelope Problem
+
+__Problem Description:__ You are moving along x-axis to pick up "red envelopes" with some amount of cash in it. value() function is provided for you to know how much cash there is in each envelop in advance. Each envelope is placed at positive or negative integer coordinates. Each envelope only exists for a certain amount of time. time() and loc() function is provided too. You start from the origin and move at the speed of 1. Now give an algorithm to compute the best strategy.  
+
+__Key Observation:__ This is a tricky problem. For choosing from the first i envelopes, you either pick up the ith envelope or you don't. If you don't, the value you collect will be the same as the value from the first (i - 1) envelopes
+no matter you picked up the (i-1)th envelope or not (__this is exactly why you can't maintain only one dp vector to solve this problem.__); If you do, then it must be possible that you get from where the previous envelope is to where the currect envelope is within the time frame in between.
+
+__Wrong Recurrence:__  
+
+$$ RE(i) = max(RE(i-1), \;\underset{0\leq j<i}{\operatorname{\max}}\{RE(j)+value(i) \;IF\; |loc(i) - loc(j)| \leq time(i) - time(j)\} ) $$
+
+NOTE: the above recurrence would only deploy one vector to solve the problem. But the following counter situation would occur:
+
+_RE(j) + value(i) is found to be the largest value and their distance is within the time frame. However, having some positive value in RE(j) doesn't justify that you took the previous envelope. It could well be RE(j - 1) where you simply give up the jth envelope, in which case, RE(j) + value(i) is a wrong answer._  
+
+__Correct Formulation:__  
+
+1. Subproblems: indexed by the envelopes, (0, 1, 2, ..., n) x (0, 1)  
+
+2. Functions:  
++ RE(i, 0) is the max value attainable for the first i envelopes if you don't take the ith envelope.  
++ RE(i, 1) is the max value attainable for the first i envelopes if you do take the ith envelope.
+
+3. Goal: max(RE(n, 0), RE(n, 1))  
+
+4. initialization: RE(0, 0) = 0, RE(0, 1) = 1
+
+5. Recurrence:  
+
+$$ RE(i, 0) = max(RE(i-1, 0), RE(i-1, 1)) $$  
+
+$$ RE(i, 1) = \underset{0\leq j<i}{\operatorname{\max}} \{ RE(j, 1) + value(i) \;IF\; |loc(i) - loc(j)| \leq time(i) - time(j)\} $$
+
+---
+
 #### Trunk Loading Problem
 
 __Problem Description:__ You've got a trunk with maximum loading weight W and n boxes each weights:  
@@ -313,11 +348,8 @@ $$ \{\; w_{i} \;|\; 1 \leq i < n \;and\; w_{i} \leq W \;\} $$
 Design a strategy to load as heavy goods as possible.
 
 __Key Observation:__ If we try all the combinations, it is exponential time. If we:  
-1. __reduce__ the problem by the first few boxes, with function maxLoad(i) denoting the max load if we only have boxes from 1 to i.  
 
-$$ maxLoad(i) = max(maxLoad(i-1),\;\; {\underset{1\leq j <i}{\operatorname{max}}} \{\; maxLoad(j) + w_{i}\;|\;maxLoad(j) + w_{i} \leq W \;\}) $$  
-
-2. __reduce__ the problem by both the number of boxes and the maximum capacity of the trunk, with maxLoad(i, j) denoting the max load we can carry if we only have boxes from 1 to i and the maximum capacity of the trunk is j.  
+__reduce__ the problem by both the number of boxes and the maximum capacity of the trunk, with maxLoad(i, j) denoting the max load we can carry if we only have boxes from 1 to i and the maximum capacity of the trunk is j.  
 
 $$ maxLoad(i, j) = max(w_{i} + maxLoad(i-1, j-w_{i}),\; maxLoad(i-1, j)) $$
 
