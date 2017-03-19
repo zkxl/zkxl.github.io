@@ -64,7 +64,7 @@ __Proof:__
 
 $$ IS \leq_pVC $$  
 
-1. __From__ a general instance of IS as such: Does G(V, E) have an IS of k vertices? (It only takes O(polynomial) to check if the answer is "yes" or no.) __Construct__ a specific instance of VS as such: Does G'(V', E') have an VC of k' vertices, where G' = G (V' = V and E' = E) and k' = |V'| - k?  
+1. __From__ a general instance of IS as such: Does G(V, E) have an IS of k vertices? (It only takes O(polynomial) to check if the answer is "yes" or no.) __Construct__ a specific instance of VS as such: Does G'(V', E') have an VC of k' vertices, where G' = G (V' = V and E' = E) and k' = size(V') - k?  
 
 2. __Show__ the construction takes O(polynomial), which is obvious in this case. (It also only takes O(polynomial) to check if the answer is "yes" or "no".)  
 
