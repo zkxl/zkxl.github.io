@@ -25,10 +25,11 @@ tag: algorithms
 
 
 1. Given a list of items to initiate the heap structure, calling __\_siftDown()__ from the last item to the first item gives O(n) complexity.  
-\- _proof:_  
-\- _given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
-\- _For any node at height of j, at most j siftDown() operations needed to find its correct place._  
-\- _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level._  
+
+_proof:_  
+_given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
+_For any node at height of j, at most j siftDown() operations needed to find its correct place._  
+_For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level._  
 
 $$ 2^{floor(logN) - j} < O(\frac {n} {2^j}) $$  
 
