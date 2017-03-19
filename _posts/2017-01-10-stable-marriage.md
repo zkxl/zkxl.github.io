@@ -107,13 +107,17 @@ Specifically:
 
 1. find a free man - keep only free man on a linked list so it takes O(1) to access the next free man;  
 
-* It takes O(n) to convert an array into a LinkedList;  
++ It takes O(n) to convert an array into a LinkedList;  
 
 2. for a given man m, find his next highest ranking woman w to whom m hasn't proposed - maintain a 1D array h, where h[m] == w; It takes O(n) to convert one man's preference_list into a LinkedList started with the highest ranking woman. Then it takes O(n^2) to convert all the men's preference_list to LinkedLists maintained within a 1D array.  
 
 3. For a given woman w, find out if she's currently engaged or not - maintain a 1D array c, where c[w] == null if w is not engaged and c[w] == m' if w is engaged with m'.  
 
 4. For a given woman w engaged with m', to whom m proposed, determine whether w prefers m to m' - this is tricky to do in O(1) because normally you'd need to reference to w's preference_list and find how m ranks to m'. __Solution: from woman's preference array, you need to create a "ranking" array r where r[w, m] = m's ranking in w's preference_list. This can be done in O(n^2).__  
+
+
+__NOTE: I think the above thinking process is quite valuable because O(n^2) is the ultimate goal for this algorithm and an algorithm is no more than a bunch of logical operations put together to solve a problem. The optimization of it can be thought as designing data structures to make it O(1) for each operation.__  
+
 
 ---
 
@@ -122,10 +126,10 @@ Specifically:
 
 Same problem. Under the circumstances that there are k (k < n) good men and k (k < n) women, (n - k) bad men and (n - k) bad women. Every man ranks good women higher than bad women. Every woman ranks good men higher than bad men. Show that in every stable matching, every good man is married to a good woman.  
 
-_Prove:  
-- Suppose there is a good man m married to a bad woman w', then there must be a good woman w married to a bad man m'. Thus, (m, w') and (m', w).  
-- Since good ones are always preferred, we have m prefers w to w', w prefers m to m'. This leads to an instability.  
-- This makes a contradiction._  
+_Prove:_  
+_Suppose there is a good man m married to a bad woman w', then there must be a good woman w married to a bad man m'. Thus, (m, w') and (m', w)._  
+_Since good ones are always preferred, we have m prefers w to w', w prefers m to m'. This leads to an instability._  
+_This makes a contradiction._  
 
 ---
 
@@ -137,8 +141,9 @@ Generalize the problem by explicitly stating that certain men-women pairs are fo
 * there's no such pair (m, w') and a single w, who has higher rank than w' in m's preference_list and also (m, w) $$ \notin $$ F.  
 * there's no single m and single w whose pair (m, w) $$ \notin $$ F.  
 
-_G-S algorithm can be adapted to work out this case:  
-- the only change is an added restriction on "while condition"_  
+_G-S algorithm can be adapted to work out this case:_  
+
+_the only change is an added restriction on "while condition"_  
 
 
 ```
@@ -155,11 +160,11 @@ endwhile
 return the set S of engaged pairs
 ```
 
-_prove:  
-- If there's a usual kind of instability, please see_ __Claim No.5__.  
-_- Suppose there is a pair (m', w) and a single m who is ranked higher than m' in w's preference_list and (m, w) is not forbidden. m must've  proposed to w and w rejected m for m', which is contradictory.  
-- Suppose there is a pair (m, w') and a single w who is ranked higher than w' in m's preference_list and (m, w) is not forbidden. Same as above.  
-- Suppose there are a single m and a single w and (m, w) is not forbidden, then m must've proposed to w and w can't still be single._  
+_prove:_  
+_If there's a usual kind of instability, please see_ __Claim No.5__.  
+_Suppose there is a pair (m', w) and a single m who is ranked higher than m' in w's preference_list and (m, w) is not forbidden. m must've  proposed to w and w rejected m for m', which is contradictory._  
+_Suppose there is a pair (m, w') and a single w who is ranked higher than w' in m's preference_list and (m, w) is not forbidden. Same as above._  
+_Suppose there are a single m and a single w and (m, w) is not forbidden, then m must've proposed to w and w can't still be single._  
 
 ---
 
@@ -172,10 +177,10 @@ Further generalize the SMP (stable matching problem) to RAP (resident assigning 
 _Analysis:  
 In a typical stable matching problem, we have the same number of men and women. Now two differences between SMP and RAP: 1) hospitals typically have more than 1 slots available; 2) there is a surplus of students._ __We address 1) by creating the same number (say n) of slots as students. We address 2) by creating a NULL hospital. The slots in NULL hospital are ranked by every student as their least desired ones. All the slots are distributed across all the hospitals according to a 1D array SlotsOwner[n].__
 
-_Set up preference_list:  
-- On one side, it's slotsPref[i][j], where slots of the same hospital have the same ranking of their preferred students.  
-- One the other, it's studentsPref[i][j], where each student has their ranking of preferred slots. Those slots coming from preferred hospital have higher ranking than those coming from a less preferred hospital.  
-- Finally all students prefer slots of non-NULL hospital to slots of NULL hospital._  
+_Set up preference_list:_  
+_On one side, it's slotsPref[i][j], where slots of the same hospital have the same ranking of their preferred students._  
+_One the other, it's studentsPref[i][j], where each student has their ranking of preferred slots. Those slots coming from preferred hospital have higher ranking than those coming from a less preferred hospital._  
+_Finally all students prefer slots of non-NULL hospital to slots of NULL hospital._  
 
 ```
 def RAP(hospPref, studentsPref, slotCount):
@@ -251,23 +256,25 @@ def preprocess(hospPref, studentsPref, slotCount):
 A variation of SMP, ship maintenance schedule problem. Safety rule: no two ships can be in the same port on the same day. Each ship has its own monthly schedule in terms of stopping at which port on which day of the month. Find an algorithm so that each ship can find a port to stop for maintenance for the rest of the month without violating the safety rule.  
 
 __Analysis:__  
-_- There are n ships and n ports.  
-- Eventually we want to find a set of (ship, port) pairs where there's no collision.  
-- If ports accept ships that come early, it will be less flexible and more likely to collide later.  
-- If ships decide on ports too late, it will be more likely that they miss the right port and thus collide.
-- Therefore each port should prefer ships that arrive later than the earlier ones.  
-- And each ship should prefer ports that are scheduled earlier than the later ones._  
+_There are n ships and n ports._  
+_Eventually we want to find a set of (ship, port) pairs where there's no collision._  
+_If ports accept ships that come early, it will be less flexible and more likely to collide later._  
+_If ships decide on ports too late, it will be more likely that they miss the right port and thus collide.__  
+_Therefore each port should prefer ships that arrive later than the earlier ones._  
+_And each ship should prefer ports that are scheduled earlier than the later ones._  
+
+__NOTE:__ the essence of this variation is the preference list is very implicit. While in RAP, the match of the number of slots and the number of students is very implicit.  
 
 __Set up preference_list and run G-S algorithm to find a stable match:__  
-_- Each port ranks ships from latest to earliest.  
-- Each ship ranks ports from earliest to latest._  
+_Each port ranks ships from latest to earliest.  
+_Each ship ranks ports from earliest to latest._  
 
 __Prove it is working:__  
-_- Suppose there is a collision where s' later arrived at p but (s, p) are already matched. s' ended up being matched with p'.    
-- This indicates that:  
-- 1) p ranked s' higher than s since s' arrived at p later than s.  
-- 2) s' ranked p higher than p' since s' arrived at p earlier than p'.  
-- That makes an instability between (s, p) and (s', p')._  
+_Suppose there is a collision where s' later arrived at p but (s, p) are already matched. s' ended up being matched with p'._    
+_This indicates that:_  
+1. _p ranked s' higher than s since s' arrived at p later than s._  
+2. _s' ranked p higher than p' since s' arrived at p earlier than p'._  
+_That makes an instability between (s, p) and (s', p')._  
 
 ---
 
