@@ -53,6 +53,13 @@ $$ if\;f(n) = \Omega(n^{\log_{b}^{a + \epsilon}})\;\;for\;some\;constant\;\epsil
 
 $$ T(n) = \Theta(f(n)) $$
 
+__Interpretation:__
+1. If the operation cost is upper bounded by $$ n^{\log_{b}^{a}} $$, recursion cost matters.  
+
+2. If the operation cost is equal to $$ n^{\log_{b}^{a}} $$, both recursion and operation costs matter the same.
+
+3. If the operation cost is lower bounded by $$ n^{\log_{b}^{a}} $$, operation cost matters.  
+
 Taking __Merge Sort__ as an example, __intuitively__:
 
 1. If operation cost is __linearly__ decreasing as we divide the problem (case2), T(n) is the operation cost at each level times the number of levels.  
@@ -123,6 +130,10 @@ class MinHeap(object):
 
 ---
 
+__Thought: The above and the following problems show to me that: Applying divide and conquer algorithm to solve a problem is like solving the problem on a binary tree. Solve the left part, solve the right part and use the results from those two parts to solve the whole problem from the root.__
+
+---
+
 #### Planar Closest Pair Problem
 
 Input: a list of points: [{Point(x, y)}]  
@@ -187,6 +198,10 @@ def closestPair(points):
 
   return delta
 ```
+---
+
+<video src="{{ '/styles/images/greedy-algo-on-graph/paralyzed.mp4' }}" width="50%" />
+
 ---
 
 ### Warm up
