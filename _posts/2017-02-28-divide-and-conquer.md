@@ -254,12 +254,12 @@ def median(n, a, b):
 
 __Problem Description:__ Given a set of elements, each of them has a value. You have no way to access their values but you are given a equivalentTest(a, b) function that returns True if a's value == b's value and False otherwise. How to find out if more than half of the elements have the same value?
 
-__Key Observation:__ If there are more than half elements that share the same value and if you divide the elements into two sets of equal size and pick an element whose value is x from either of them, at least one of the set contains more than half elements that have value x. If that value exists, it must be either in the left half or in the right half.
+__Key Observation:__ If there are more than half elements that share the same value and if you divide the elements into two sets of equal size, then the following must be True: If the size of the two sets is (n/2), one of them contains __more than__ (n/4) elements with the same value.__ __Otherwise,__ such value doesn't exist. The problem keeps dividing itself into half until there is only one element in the input array.  
 
 __Solution:__
 ```
 def superMajority(A<elements>):
-  if len(A) == 1: return True
+  if len(A) == 1: return (True, A[0], 1)
 
   (left, x, left_num) = superMajority(A[ : len(A)/2])
   if left is True:
