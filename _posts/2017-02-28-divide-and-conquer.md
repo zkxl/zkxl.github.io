@@ -198,9 +198,6 @@ def closestPair(points):
 
   return delta
 ```
----
-
-<video src="{{ '/styles/images/greedy-algo-on-graph/paralyzed.mp4' }}" width="50%" />
 
 ---
 
