@@ -11,6 +11,8 @@ tag: algorithms
 
 
 
+Last Modified: 20170319
+
 __Greedy Algorithm: Make decision based on some local optima and hoping it can achieve global optima in the end.__  
 
 ---
@@ -21,7 +23,7 @@ Input: A set of jobs with start and end time.
 
 Output: Maximum number of jobs in a __sequence__ so that there is no overlap.  
 
-Algorithm: Earliest Finish Time First O(nlogn).  
+Algorithm: Earliest Finish Time First O(nlogn). _You goal is to maximize the number of non-overlapping jobs within the time frame._  
 
 ---
 
@@ -31,16 +33,16 @@ Input: A set of jobs with start and end time.
 
 Output: Minimum number of colors needed to label __all__ the jobs so that there is no overlap between same-color jobs.  
 
-Algorithm: Earliest Start Time First O(nlogn).  
+Algorithm: Earliest Start Time First O(nlogn). _All the jobs need to be labeled sooner or later._
 
 NOTE:  
-1. Sort by start time as well as __end__ time - O(nlogn)    
+1. Sort by start time as well as __end__ time - O(nlogn) _So it only takes O(1) to find the next earliest finishing job, its actual finishing time and assigned color. Every time, you only need to compare with the next earliest finishing job. Otherwise, this algorithm takes O(n^2)._  
 2. __Take/Add__ next available color from a LinkedList - O(1)  
 3. Assign the next available color to a job when it overlaps with all previously scheduled jobs.  
 4. Assign the color ready for reuse to a job when the current job starts later than the finished one.  
 
 _Why not using earliest finishing time?_  
-_Intuitively, earliest starting time first strategy allows you to start earlier, which saves time that would've been wasted if you use earliest finising time first strategy. Even the former doesn't guarantee you earlier ending time in any case, that's fine. Just assign the next available color to the next job. It is inevitable that you do them in parallel._
+_Intuitively, earliest starting time first strategy allows you to start earlier, which saves time that would've wasted if you use earliest finishing time first strategy. Even the former doesn't guarantee you earlier ending time in any case, that's fine. Just assign the next available color to the next job. It is inevitable that you do them in parallel._
 
 ---
 
@@ -110,6 +112,8 @@ def shortest_path_from(s, graph, costs):
   return r
 ```
 
+<img src="{{ '/styles/images/greedy-algo-on-graph/DijkstraDemo.gif' }}" width="100%" />
+
 NOTE:  
 1. To find the shortest path from s to t, start from t and follow the parent pointer.  
 2. The complexity is O((m + n)logn)
@@ -133,7 +137,7 @@ def prims_MST(s, graph, costs):
   # @ costs: a function that can return the cost of an edge
 
   r = s.copy() # copy s as the root node of our tree
-  d = HashMap<node, distance>() # O(1) to find the shortest distance from s to node
+  d = HashMap<node, distance>() # O(1) to find the shortest distance from any node in the growing tree to the this node
   q = PriorityQueue<distance, node>() # O(1) to find and delete the min-key element
 
   # store info in these two data structure where the key in PriorityQueue is referencing d[node]
@@ -171,7 +175,7 @@ There are 3 data structures to be maintained in a Dijkstra-prim algorithm:
 __Kruskal’s Algorithm does two things:  
 Initialize a graph T with every node from G but no edge at all.  
 Connect nodes in T with edges in G sorted in order of increasing weight.  
-(skip the edge that creates a circle, in other word if the edge points to a node that’s already in T).__
+(skip the edge that creates a circle, in other word if the edge points to a node that’s already in T. This is equivalent to connecting a node in T with a node in G yet not in T, in Prim's.)__
 
 To efficiently detect cycle, a Union-Find data structure comes in handy.  
 The most important take away here is how this Union-Find data structure is constructed and utilized.  
@@ -257,6 +261,8 @@ def kruskals_MST(graph, s, costs):
   return T
 
 ```
+
+__NOTE:__ For a second, I was wondering why we can't use a "visited" array to detect cycle like what we did in Prim's. There are ultimate differences between these two algorithms, the union-find data structure is necessary for this algorithm to work.  
 
 __A very natural use case of Kruskal's Algorithm: K-clustering:__  
 
