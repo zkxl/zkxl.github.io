@@ -112,7 +112,7 @@ def shortest_path_from(s, graph, costs):
   return r
 ```
 
-<img src="{{ '/styles/images/greedy-algo-on-graph/DijkstraDemo.gif' }}" width="100%" />
+<img src="{{ '/styles/images/greedy-algo-on-graph/DijkstraDemo.gif' }}" width="50%" />
 
 NOTE:  
 1. To find the shortest path from s to t, start from t and follow the parent pointer.  
