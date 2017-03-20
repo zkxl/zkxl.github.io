@@ -11,6 +11,8 @@ tag: algorithms
 
 
 
+Last Modified: 20170319
+
 ## Definitions and Representation
 
 ---
@@ -123,9 +125,7 @@ __Existence problem: given a graph and a pair of nodes in the graph, (v, u), if 
 
 __Reachability problem: given a graph and a node u, find all nodes which there exists a path from u to.__
 
-__Connectivity problem: Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left.__  
-
-_A set of "connected components" containing start_node was generated._   
+__Connectivity problem: Run BFS/DFS on an unvisited node u and label them as connected till there is no unvisited node left.__ _A set of "connected components" containing start_node was generated._   
 
 ---
 
@@ -133,11 +133,14 @@ _A set of "connected components" containing start_node was generated._
 
 In a graph G, starting from a node u, run DFS and we got a DFS tree T that includes all the nodes in G. Now run BFS and we got the same tree. Prove: G = T. In other words, prove G doesn't contain any edge that is not in T.  
 
-_Analysis:  
-1. What is a DFS tree and how it is built?  
-2. What is a BFS tree and how it is built?  
-3. As long as there is an edge (u, v) in G, u and v are_ __at most__ _1-layer away in a BFS tree, regardless of the start_node.  
-4. As long as there is an edge (u, v) in G, u and v are either 1-layer away OR one of them is the ancestor of the other in a DFS tree T. If (u, v) is not in T, however, one of them must be the ancestor of the other._  
+__NOTE:__ Typically, edges in a BFS/DFS tree must be in the original graph but edges in the original graph are not necessarily in the tree.  
+
+
+_Analysis:_  
+1. _What is a DFS tree and how it is built?_  
+2. _What is a BFS tree and how it is built?_  
+3. _As long as there is an edge (u, v) in G, u and v are_ __at most__ _1-layer away in a BFS tree, regardless of the start_node._  
+4. _As long as there is an edge (u, v) in G, u and v are either 1-layer away OR one of them is the ancestor of the other in a DFS tree T. If (u, v) is not in T, however, one of them must be the ancestor of the other._  
 
 Prove by contradiction:  
 1. Suppose there is an edge (u, v) in G but not in T.  
@@ -201,9 +204,9 @@ def bipartite(graph, start_node):
 
 __Define strong connectivity: For every pair of nodes (u, v) in G, there is a path from u to v and a path from v to u.__  
 
-_1. Pick a node in Graph and check if it can reach to every other node in the same graph.  
-2. Starting from the same node, test on_ $$ G^{REV} $$ _(reverse all the edges) if it can still reach to every other node.  
-3. If both tests pass, G is strongly connected, else return False._
+1. _Pick a node in Graph and check if it can reach to every other node in the same graph._  
+2. _Starting from the same node, test on_ $$ G^{REV} $$ _(reverse all the edges) if it can still reach to every other node._    
+3. _If both tests pass, G is strongly connected, else return False._  
 
 The algorithm takes O(m + n).  
 
@@ -211,12 +214,19 @@ The algorithm takes O(m + n).
 
 #### A directed acyclic graph has topological ordering  
 
-\- _Find a node v with no incoming edges. Assign the next order number to v.__
-\- _Delete v and all its outgoing edges._
-\- _Repeat the above steps till no such node v exists._
-\- _If all nodes have been deleted, a topological ordering has been found, else, the graph contains cycles._
+Topological ordering is the numbering of the vertices so that each edge is directed from a vertex with lower number to one with higher number.  
 
-__NOTE- topological ordering is the numbering of the vertices so that each edge is directed from a vertex with lower number to one with higher number.__
+```
+1. Find a node v with no incoming edges. Assign the next order number to v.
+2. Delete v and all its outgoing edges.
+3. Repeat the above steps till no such node v exists.
+4. If all nodes have been deleted, a topological ordering has been found, else, the graph contains cycles.
+```
+
+__NOTE:__  
+1. A directed acyclic graph must have at least one vertex that has no incoming edges.  
+2. If there are multiple vertices without any incoming edges, their orderings can be randomly assigned but no two vertices can be assigned with the same ordering.  
+3. Algorithm application includes: look for the shortest path in an acyclic graph; job scheduling with dependencies.
 
 ```
 Implementation Details: graph represented in Adjacency list.
@@ -267,29 +277,32 @@ def topological_ordering(graph):
 
 A student is provided with a bunch of butterfly specimens pairs. Each butterfly either is of type A or type B. Each pair was labeled with "same" if this student thinks they are the same type or "different" if the student thinks they are from different types. Design an algorithms to tell if the student's labeling is consistent or not.
 
-_1. Create a node for each specimen.  
-2. Add one edge to connect the pair of nodes with “different” judgement.  
-3. Create a dummy node for each “same” judgement, representing a fake specimen different from both of them.  
-4. Add two edges from the pair of nodes with “same“ judgement, to the dummy node.  
-5. Start a bipartite algorithm from a auxiliary node.  
-6. If it can be two-colored, it is consistent. Otherwise, it is inconsistent._  
+1. _Create a node for each specimen._  
+2. _Add one edge to connect the pair of nodes with “different” judgement._  
+3. _Create a dummy node for each “same” judgement, representing a fake specimen different from both of them. Add an edge from each of them to the dummy node._  
+4. _Start a bipartite algorithm from a dummy node._  
+5. _If it can be two-colored, it is consistent. Otherwise, it is inconsistent._  
 
 ---
 
 #### Strong Components Labeling  
 
-__Definition: A strongly connected subgraph of G where any two nodes u and v are mutually reachable from each other.__  
+__Strong Component: A strongly connected subgraph of G where any two nodes u and v are mutually reachable from each other.__  
 
-NOTE: Mutual reachability is an equivalence relation. A equivalence class is a strong component. (From there, I'd say a set of nodes consisting of a strongly connected subgraph of G is a strong component of G).  
+NOTE: Mutual reachability is an equivalence relation. A equivalence class is a strong component.  
 
-_1. DFS traversing the graph and label each node with a timestamp when it leaves DFS.  
-2. Pick an unvisited node from a list of nodes sorted by their leaving time at a descending order and run DFS with all the edges reversed.  
-3. Trace all the nodes in 2 and they make a strong component.  
-4. Repeat 2 and 3 till all nodes are visited._  
-
+__Algorithm Sketch__
 
 ```
+1. DFS traversing the graph and label each node with a timestamp when it leaves DFS.  
+2. Pick an unvisited node from a list of nodes sorted by their leaving time at a descending order and run DFS with all the edges reversed.  
+3. Trace all the nodes in 2 and they make a strong component.  
+4. Repeat 2 and 3 till all nodes are visited.
+```
 
+__Implementation Details__
+
+```
 def strong_components(graph, start_node):
   # graph is a directed graph, represented with two lists of edges for each node
   # graph = {
