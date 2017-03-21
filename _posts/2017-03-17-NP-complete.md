@@ -103,19 +103,30 @@ _For the problems that belongs to NP and not NP-complete, there is just not a pr
 
 __SAT__ short for boolean satisfiability problem, says: given N boolean variables and a collection of clauses. Each clause consists of a number of such variables connected by __OR__. Find an boolean assignment for each variable such that all the clauses are True.  
 
-__3SAT__ is the same problem with 3 boolean variables as input. Both of them are fundamental combinatorial search problems.  
+__3SAT__ is the same problem with limited 3 boolean variables in every clause. Both of them are fundamental combinatorial search problems.  
 
 __NOTE:__ In fact, they are computationally __hard__ problems in that: we have to make N decisions to assign each of them as True or False such that a __set__  of the constraints are satisfied. If the problem were to satisfy each of the constraints in isolation, that'd be easy.  
 
 
 ### Reduce 3SAT to IS  
 
+__NOTE:__  
+If we have X variables, how many clauses can we possibly construct without duplicates?  
 
-1. __From__ a general instance of 3SAT as such: if all of the k clauses (xyz) satisfiable? __Construct__ a specific instance of IS as such: Each variable is a vertex and each clause is an triangle graph made of 3 such vertices. Create k such groups as there are k clauses. Add edges to connect every two vertices in the same group. Add edges between vertices if one is the negation of the other.  
+$$ C_{x}^{3} $$
+
+If we negate a variable and that adds one more clause, how many are there?  
+
+$$ C_{2x}^{3} $$
+
+Now __THINK:__ What is the maximum number of clauses that can be allowed so that a truth assignment to make all of them True is guaranteed?  
+
+1. __From__ a general instance of 3SAT as such: if all of the k clauses (xyz) satisfiable? __Construct__ a specific instance of IS as such: Each variable is a vertex and each clause is an triangle graph made of 3 such vertices. Create __k__ such groups as there are k clauses. Add edges to connect every two vertices in the same group. Add edges between vertices if one is the negation of the other.  
 
 2. __Show__ the construction takes O(polynomial), in fact it goes the same rate as the number of variables increases.
 
 3. __Prove__ the 3SAT instance is a "yes-instance" __iff__ the IS instance is a "yes-instance" by proving:  
+
 + if 3SAT instance is a "yes-instance", IS instance is a "yes-instance".  
 
 _if 3SAT instance is a yes-instance, each triangle in the graph must contain one vertex that's evaluated to be True. Let S be a set containing all such vertices and I claim S is an independent set because there is no edges between any two of them. If there is, they should be evaluated conflict with one being True and the other being False._
