@@ -62,7 +62,7 @@ __cut capacity:__ the sum of capacities of edges going out of A.
 __max-flow min-cut theorem:__ the value of the maximum flow is equal to the capacity of the minimum cut.
 
 __proof:__
-1. Given G, the value of any flow <= the capacity of any cut because flow(e) <= capacity(e).
+1. Given G, the value of any flow <= the capacity of any cut, because flow(e) <= capacity(e).
 2. Suppose the max-flow is found and Gf has no augmenting path. Let A be a set of all nodes reachable from s in Gf. B = G(V) - A. Now the maximum flow value equals to the capacity of the cut (A, B).
 
 __Algorithm to find minimum cut:__
@@ -96,9 +96,13 @@ Now if you have certain supplies of each type of blood as well as demands for ea
 
 __Solution:__  
 Let supplies be:  
-$$ S_{A},\; S_{B},\; S_{O},\; S_{AB} $$
+
+$$ S_{A},\; S_{B},\; S_{O},\; S_{AB} $$  
+
 Let demands be:  
-$$ D_{A},\; D_{B},\; D_{O},\; D_{AB} $$
+
+$$ D_{A},\; D_{B},\; D_{O},\; D_{AB} $$  
+
 1. Create a node for each type of blood in supplies as well as each type of blood in demands.
 2. Create a source node s and a terminal node t.
 3. Draw edges from s to each supply node with the amount of supply being the capacity. Draw edges to t from each demand node with the amount of demand being the capacity. Draw edges from each supply node to each demand node with capacity being infinite.  
