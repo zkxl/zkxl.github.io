@@ -24,7 +24,7 @@ Initialize git repo locally
 
 Connect local git with remote repo and name it "origin"  
 ```shell
-> git remote add origin [remote git repo url]
+> git remote add origin repo-url
 ```
 
 Create __untracked__ files, such as "README.md" and "index.html"  
@@ -141,8 +141,10 @@ _You DO want to rebase when:_
 * _You are one of the developers for some large project and integration manager pushed someone's code to remote server. (This is when you rebase your work on top of the latest code on remote server.)_
 
 ---
+
 __Now you know how to develop your code back and forth locally.__  
 __The following shows you how to bounce between local directory and remote server.__  
+
 ---
 
 # Git Remote
@@ -164,7 +166,7 @@ git pull origin master
 git push origin master
 ```
 
-3. If you and your collaborators are working on different lines of the same module, prior to doing the same as "Scenario 2", you should commit your updates locally, for example:
+3. If you and your collaborators are working on different lines of the same module, prior to doing the same as "Scenario 2", you should commit your updates locally, for example:  
 ```shell
 git add index.html
 git commit -m "local change to index.html before merging with somebody's code."
@@ -176,7 +178,8 @@ git push origin master
 + commit your changes locally
 + pull down their work - this is where "conflicts" occur.
 + manually go through the diff, resolve the conflict and locally commit the resolved code
-+ then push to server
++ then push to server  
+
 ```shell
 git add index.html # line 7 changed
 git commit -m "local change to index.html before merging with somebody's code."
