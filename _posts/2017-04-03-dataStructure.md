@@ -1,6 +1,6 @@
 ---
 layout: post
-title: CS261 Data Structure
+title: ICS261 Data Structure
 date: 2017-04-03 13:00:00 -0700
 categories: Study-Notes
 tag: Data-Structure
