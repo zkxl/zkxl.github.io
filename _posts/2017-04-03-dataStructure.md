@@ -10,7 +10,7 @@ tag: Data-Structure
 
 
 
-Last Modified: 20170403
+Last Modified: 20170405
 
 ## Stack
 
@@ -112,7 +112,91 @@ while the number of clusters > 1:
 __Note:__
 1. This is a tricky algorithm to think about, you'd better do a hand stimulation by drawing a sequence of points on a line with decreasing distances between one and the next.
 
+---
 
+## Array
+
+#### Fixed size array
+
+Array has its primitive implementation in C language:   
+1. An array of size S is represented as a block of __S * size(int) bytes__ memory.
+2. It doesn't have a __size__ pointer and therefore out-of-bound access causes __segmentation fault__.
+3. Indexing access A[i] translates into memory address access at __(start of A) + i * size(int)__.
+
+__Pros and Cons:__
+1. Look up operation takes O(1) while it takes O(n) in a LinkedList.
+2. Insertion takes O(n) while it takes O(1) in a LinkedList.(Not including finding the element.)
+
+
+#### Dynamic array
+
+High-level description: Dynamic array wraps around primitive array.  
+
+``` Python
+class DynamicArray():
+  def __init__(self):
+    memory_block self.A = malloc[initial_size]
+    int self.size = initial_size # size pointer
+    int self.length = 0 # actual length pointer
+    # data struc invariant : length <= size
+
+  def get(int i): # indexing access at i
+    if i >= self.length: raise Exception("Out of bound.") # check index within bound
+    return self.A[i] # translates to memory address access
+
+  def put(int i, int val):
+    if i >= self.length: raise Exception("Out of bound.") # check index within bound
+    self.A[i] = val
+
+  def append(int val):
+    if self.length == self.size:
+      memory_block B = malloc[constant * self.size]
+      for i in range(self.length): # copy over
+        B[i] = self.A[i]
+      self.A = B
+      self.size = constant * self.size
+      # canonical expansion: size = 2 * size (potentially 50% memory waste)
+      # expansion in Java: size = 1.5 * size
+      # constant in Python: size = size + size >>> 3
+
+    self.A[self.length] = val # append
+    self.length += 1
+
+  def pop():
+    if self.length <= 0: raise Exception("Nothing to pop from empty array.")
+    return self.A[self.length]
+
+  def remove():
+    # A few implementations discussed below.
+    return ;
+
+
+```
+
+Removing an element from an array:  
+1. takes O(n) if you create a new array and copy everything over except the target.  
+2. takes O(n) if you move everything after the target upfront by 1 index.
+3. takes O(1) if you don't care about its sequence, you can swap the target with the last element and do a pop.
+4. takes O(1) if you'd rather mark the target as "unaccessible" than actually freeing up the memory.
+
+
+__Amortized Analysis:__
+
+---
+
+__Mathematical framework will come soon.__
+
+---
+
+If we can prove, any sequences of N operations on this data structure is in O(N), we can say that such an operation takes amortized O(1) time.  
+
+The most expansive so far operation in dynamic array is "append" because it potentially takes O(N). Assuming the last append triggers array copy and thus takes O(N), in total:  
+
+$$ \log_{2}^{N} $$ times of copy takes $$ O(N + n/2 + n/4 + ... 2 + 1) $$. N times of "direct" append takes O(N). Total amortized time is still O(N).
+
+
+__Note:__
+A trade off between potential space waste and ops efficiency. If the expansion factor shrinks from 2 (potential 50% waste) to 1.5, there will be higher constant factor placed on operation amortized time taken.
 
 
 <!--
