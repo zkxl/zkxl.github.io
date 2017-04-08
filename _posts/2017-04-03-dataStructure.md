@@ -10,7 +10,7 @@ tag: Data-Structure
 
 
 
-Last Modified: 20170405
+Last Modified: 20170407
 
 ## Stack
 
@@ -167,11 +167,20 @@ class DynamicArray():
     return self.A[self.length]
 
   def remove():
-    # A few implementations discussed below.
+    # A few things discussed below.
+    # ------------------------------------
+    # in case of constant being 2, the following
+    # "3/2 implementation" can give a good amortized time.
+    # ------------------------------------
+    # if 3 * length == self.size:
+    #   memory_block B = malloc[self.size/2]
+    #   copy over
+    # self.A = B
+    # self.size = self.size/2
     return ;
 
-
 ```
+* See amortized analysis for "3/2 implementation" in Mathematical Framework for Amortized Analysis.  
 
 Removing an element from an array:  
 1. takes O(n) if you create a new array and copy everything over except the target.  
@@ -181,12 +190,6 @@ Removing an element from an array:
 
 
 __Amortized Analysis:__
-
----
-
-__Mathematical framework will come soon.__
-
----
 
 If we can prove, any sequences of N operations on this data structure is in O(N), we can say that such an operation takes amortized O(1) time.  
 
@@ -198,8 +201,53 @@ $$ \log_{2}^{N} $$ times of copy takes $$ O(N + n/2 + n/4 + ... 2 + 1) $$. N tim
 __Note:__
 A trade off between potential space waste and ops efficiency. If the expansion factor shrinks from 2 (potential 50% waste) to 1.5, there will be higher constant factor placed on operation amortized time taken.
 
+---
+
+### __Mathematical Framework for Amortized Analysis:__
+_(more example needed to make it clearer)_
+
+__Define Potential Function__ $$ \Phi $$
+1. map states of data structure to numbers.
+2. must be 0 upon the initialization of the data structure.
+3. no smaller than 0 after initialization.
+
+__Define: Amortized Time__ = actual time + C * ($$ \Phi_{i} - \Phi_{j} $$)
+
+1. _actual time: each operation's actual time cost._
+2. _C: constant, arbitrarily large to make the amortized time ideal._
+3. $$ \Phi $$ _: potential function._
+
+With all the above constraints, we can say: __No matter how we choose potential function and C, we have: total time <= the sum of all operations' amortized time__ = time(ops1) + C($$ \Phi_1 - \Phi_0 $$) + time(ops2) + C($$ \Phi_2 - \Phi_1 $$) + ... + time(opsn) + C($$ \Phi_n - \Phi_{n-1}} $$).
+
+__In the case of dynamic array:__  
+Potential function = max(0, 2 * length - size)
+
+|                    | actual    | change        | total
+|--------------------|-----------|---------------|------
+| remove             | O(1)      | -2            | O(1)
+| add_non-reallocate | O(1)      | +2            | O(1)
+| add_reallocate     | O(length) | 2 - length    | O(1)
+| "3/2" removal      | O(length) | 2 + 3/2 length| O(1)
+
+* __add_reallocate:__ 2 - length = ((2 * length - new size before operation) - (2 * length - old size after operation) + 2) = (0 - length) + 2. This operation is only performed when length == size.
+* __"3/2" removal:__ 2 - length = ((2 * length - new size before operation) - (2 * length - old size after operation) + 2) = (1/2 * length - (- length)) + 2
+
+In the above case, as long as we choose C greater than the constant in O(length), we can have O(1) total time.  
+
+If we define: $$ \Phi = 0 $$ means the data structure is in an ideal state. $$ \Phi $$ now has concrete meaning instead of an abstract mathematical measure - the distance from ideal state.
+
+---
 
 <!--
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
 buffer
 buffer
 buffer
