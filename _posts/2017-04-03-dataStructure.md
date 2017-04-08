@@ -211,13 +211,13 @@ __Define Potential Function__ $$ \Phi $$
 2. must be 0 upon the initialization of the data structure.
 3. no smaller than 0 after initialization.
 
-__Define: Amortized Time__ = actual time + C * ($$ \Phi_{i} - \Phi_{j} $$)
+__Define: Amortized Time__ = actual time + $$ C * (\Phi_{i} - \Phi_{j}) $$
 
 1. _actual time: each operation's actual time cost._
 2. _C: constant, arbitrarily large to make the amortized time ideal._
 3. $$ \Phi $$ _: potential function._
 
-With all the above constraints, we can say: __No matter how we choose potential function and C, we have: total time <= the sum of all operations' amortized time__ = time(ops1) + C($$ \Phi_1 - \Phi_0 $$) + time(ops2) + C($$ \Phi_2 - \Phi_1 $$) + ... + time(opsn) + C($$ \Phi_n - \Phi_{n-1}} $$).
+With all the above constraints, we can say: __No matter how we choose potential function and C, we have: total time <= the sum of all operations' amortized time__ = time(ops1) + C($$ \Phi_1 - \Phi_0 $$) + time(ops2) + C($$ \Phi_2 - \Phi_1 $$) + ... + time(opsn) + C($$ \Phi_n - \Phi_{n-1} $$).
 
 __In the case of dynamic array:__  
 Potential function = max(0, 2 * length - size)
