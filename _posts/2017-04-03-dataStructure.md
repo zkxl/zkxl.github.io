@@ -10,7 +10,7 @@ tag: Data-Structure
 
 
 
-Last Modified: 20170407
+Last Modified: 20170403
 
 ## Stack
 
@@ -85,7 +85,7 @@ __Note:__
 2. Potential memory usage waste is the only downside here. It depends on how good your estimate is.
 3. Minor: array indexing access is a little bit more efficient than pointer access.
 
-### Use case
+### Classic Use case
 
 #### Nearest neighbor chain algorithm:
 
@@ -114,6 +114,8 @@ __Note:__
 
 ---
 
+Last Modified: 20170407
+
 ## Array
 
 #### Fixed size array
@@ -130,7 +132,8 @@ __Pros and Cons:__
 
 #### Dynamic array
 
-High-level description: Dynamic array wraps around primitive array.  
+High-level description: [Dynamic array](https://en.wikipedia.org/wiki/Dynamic_array) wraps around primitive array.  
+
 
 ``` Python
 class DynamicArray():
@@ -206,10 +209,12 @@ A trade off between potential space waste and ops efficiency. If the expansion f
 ### __Mathematical Framework for Amortized Analysis:__
 _(more example needed to make it clearer)_
 
-__Define Potential Function__ $$ \Phi $$
+__Define:__ [Potential Function](https://en.wikipedia.org/wiki/Potential_method)  $$ \Phi $$
 1. map states of data structure to numbers.
 2. must be 0 upon the initialization of the data structure.
 3. no smaller than 0 after initialization.
+
+
 
 __Define: Amortized Time__ = actual time + $$ C * (\Phi_{i} - \Phi_{j}) $$
 
@@ -237,6 +242,81 @@ In the above case, as long as we choose C greater than the constant in O(length)
 If we define: $$ \Phi = 0 $$ means the data structure is in an ideal state. $$ \Phi $$ now has concrete meaning instead of an abstract mathematical measure - the distance from ideal state.
 
 ---
+
+Last Modified: 201704010
+
+## Dictionary / HashMap
+
+Let's see how it came from the most primitive abstract to the most useful data structure in modern languages.  
+
+[Dictionary](https://en.wikipedia.org/wiki/Associative_array) is the __abstract idea__ on a collection of (k, v) pairs with one key mapping to one value.  
+
+Essential Operations:
+1. Look-up (static/dynamic dictionary).
+2. Store new value [add or replace] (dynamic dictionary).
+3. Remove (k, v) pair.
+
+### Classic Use case
+
+#### Decorator Pattern
+
+__Description:__ For some graph algorithms, where you want to associate some info with vertices without modifying these vertices.
+
+__Solution:__
+1. Each vertex is associated with a dictionary, where (field_name, info) are stored.
+2. Each field is associated with a dictionary, where (vertex, info) are stored. _Things will not screw up if field_name changes._  
+
+### Implementation - HashMap
+
+__Maintain:__
+1. An array of size N, greater than the number of (k, v) pairs. So __load factor__ < 1.
+2. A hash function.
+
+__Hash Function:__
+
+Regardless of the choice of hash function, the following assumption is held as standard to conclude that __dict ops are O(1): Hash function's mapping of key to index is uniformly distributed and independent of other keys__.
+
+__Performance Analysis:__  
+
+With:
+1. An array of size N
+2. A uniformly distributed hash function
+3. n entries in total  
+
+
+Collision occurs while looking up one of them with $$ \frac{{n-1}{N}} $$ probability. Each collision takes one comparison. So the loop-up operation takes time of (load_factor - 1/N) = O(1).
+
+the probability of a collision is (1/N). Each collision costs one comparison. .
+
+__Collision__ is unavoidable because [birthday paradox.](https://en.wikipedia.org/wiki/Birthday_problem)
+
+#### Handle Collisions
+
+__Open addressing__
+
+
+__Hash chaining__
+
+``` Python
+Array<List<Pair>> H = new Array<List<Pair>> # associative list
+
+# SET(key, value) Method
+for pairs in H[hash(key)]:
+  if pair.key == key:
+    pair.value = value
+    return ;
+H[hash(key)].append(new Pair(key, value))
+return ;
+
+# GET(key) Method
+for pair in H[hash(key)]:
+  if pair.key == key: return pair.value;
+raise Exception("can't find the key.")
+
+# Note: see why hash chaining is object-heavy? These Pairs() obj can be replaced by Tuple() and no more reduction.
+```
+
+
 
 <!--
 buffer
