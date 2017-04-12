@@ -10,7 +10,7 @@ tag: github
 
 
 
-Last Modified: 20170328
+Last Modified: 20170411
 
 
 # Git Local
@@ -115,7 +115,10 @@ If you don't like the changes you made on "ideaTest" branch. Just switch back to
 > git branch -d ideaTest
 ```
 
-If you like the changes you made "ideaTest" branch, you can merge these changes to the working version on master branch.  
+If you like the changes you made "ideaTest" branch, you can:
+1. commit them on "ideaTest" branch
+2. switch back to master branch
+3. merge these changes to the previous working version on master branch.  
 ```shell
 > git checkout master
 > git merge ideaTest
