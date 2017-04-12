@@ -286,7 +286,7 @@ With:
 
 Collision occurs while looking up one of them with $$ \frac{{n-1}{N}} $$ probability. Each collision takes one comparison. So the loop-up operation takes time of (load_factor - 1/N) = O(1).
 
-the probability of a collision is (1/N). Each collision costs one comparison. .
+the probability of a collision is (1/N). Each collision costs one comparison.
 
 __Collision__ is unavoidable because [birthday paradox.](https://en.wikipedia.org/wiki/Birthday_problem)
 
