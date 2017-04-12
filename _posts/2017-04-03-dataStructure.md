@@ -196,9 +196,7 @@ __Amortized Analysis:__
 
 If we can prove, any sequences of N operations on this data structure is in O(N), we can say that such an operation takes amortized O(1) time.  
 
-The most expansive so far operation in dynamic array is "append" because it potentially takes O(N). Assuming the last append triggers array copy and thus takes O(N), in total:  
-
-$$ \log_{2}^{N} $$ times of copy takes $$ O(N + n/2 + n/4 + ... 2 + 1) $$. N times of "direct" append takes O(N). Total amortized time is still O(N).
+The most expansive so far operation in dynamic array is "append" because it potentially takes O(N). Assuming the last append triggers array copy and thus takes O(N), in total: $$ \log_{2}^{N} $$ times of copy takes $$ O(N + n/2 + n/4 + ... 2 + 1) $$. N times of "direct" append takes O(N). Total amortized time is still O(N).
 
 
 __Note:__
@@ -284,7 +282,7 @@ With:
 3. n entries in total  
 
 
-Collision occurs while looking up one of them with $$ \frac{{n-1}{N}} $$ probability. Each collision takes one comparison. So the loop-up operation takes time of (load_factor - 1/N) = O(1).
+Collision occurs while looking up one of them with $$ {\frac{n-1}{N}} $$ probability. Each collision takes one comparison. So the loop-up operation takes time of (load_factor - 1/N) = O(1).
 
 the probability of a collision is (1/N). Each collision costs one comparison.
 
