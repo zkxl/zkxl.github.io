@@ -116,15 +116,14 @@ If you don't like the changes you made on "ideaTest" branch. Just switch back to
 ```
 
 If you like the changes you made "ideaTest" branch, you can:
-1. commit them on "ideaTest" branch
-2. switch back to master branch
-3. merge these changes to the previous working version on master branch.  
+
 ```shell
+> git add & commit changes on ideaTest branch
 > git checkout master
 > git merge ideaTest
 ```
-_Note:_
-* _make sure you switched back to master branch prior to merging._
+
+_Note: make sure you switched back to master branch prior to merging._
 
 
 Another way to "merge" changes from both branches is "rebase". The difference is that the latter makes the commitment history cleaner.

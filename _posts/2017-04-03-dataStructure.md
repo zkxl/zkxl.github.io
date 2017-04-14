@@ -114,7 +114,7 @@ __Note:__
 
 ---
 
-Last Modified: 20170407
+Last Modified: 201704012
 
 ## Array
 
@@ -123,7 +123,13 @@ Last Modified: 20170407
 Array has its primitive implementation in C language:   
 1. An array of size S is represented as a block of __S * size(int) bytes__ memory.
 2. It doesn't have a __size__ pointer and therefore out-of-bound access causes __segmentation fault__.
-3. Indexing access A[i] translates into memory address access at __(start of A) + i * size(int)__.
+3. __Indexing__ access A[i] translates into memory address access at (start of A) + i * size(int).
+4. __Removing__ an element by memory leads to copy over all other elements after the removed one, one step ahead, leaving the array size unchanged.
+
+
+__Note:__
+1. Practically, it is surprisingly fast because of __good memory locality__.  
+2. Another fast strategy is __lazy removal__, it simply marks the removed element as unaccessible. Indexing it no longer makes sense.
 
 __Pros and Cons:__
 1. Look up operation takes O(1) while it takes O(n) in a LinkedList.
@@ -169,17 +175,20 @@ class DynamicArray():
     if self.length <= 0: raise Exception("Nothing to pop from empty array.")
     return self.A[self.length]
 
-  def remove():
+  def remove(int i):
+    for j in range(i + 1, self.length+1):
+      self.A[j-1] = copy(self.A[j])
+    self.length -= 1
     # A few things discussed below.
     # ------------------------------------
     # in case of constant being 2, the following
     # "3/2 implementation" can give a good amortized time.
     # ------------------------------------
-    # if 3 * length == self.size:
-    #   memory_block B = malloc[self.size/2]
-    #   copy over
-    # self.A = B
-    # self.size = self.size/2
+    if 3 * length == self.size:
+      memory_block B = malloc[self.size/2]
+      " copy over "
+    self.A = B
+    self.size = self.size/2
     return ;
 
 ```
@@ -241,7 +250,7 @@ If we define: $$ \Phi = 0 $$ means the data structure is in an ideal state. $$ \
 
 ---
 
-Last Modified: 201704010
+Last Modified: 201704012
 
 ## Dictionary / HashMap
 
@@ -290,15 +299,17 @@ __Collision__ is unavoidable because [birthday paradox.](https://en.wikipedia.or
 
 #### Handle Collisions
 
-__Open addressing__
-
-
-__Hash chaining__
+__Hash chaining__  
+GET: Find bucket and match key.  
+SET: Find bucket and append new key value pair.  
+REMOVE: Find bucket and do the same as remove from an array.  
+Lazy Remove: Find bucket, match key and mark as "unaccessible".  
 
 ``` Python
+# initialization
 Array<List<Pair>> H = new Array<List<Pair>> # associative list
 
-# SET(key, value) Method
+# SET(key, value) Method - find bucket and append
 for pairs in H[hash(key)]:
   if pair.key == key:
     pair.value = value
@@ -312,9 +323,88 @@ for pair in H[hash(key)]:
 raise Exception("can't find the key.")
 
 # Note: see why hash chaining is object-heavy? These Pairs() obj can be replaced by Tuple() and no more reduction.
+
+# REMOVE(key)
+bucket = H[hash(key)]
+for i in range(len(bucket)):
+  pair = bucket[i]
+  if pair.key == key: # find the removable
+    for j in range(i + 1, len(bucket)): # toggle everything after
+      bucket[j - 1] = bucket[j] # decrement length as needed
+    return
+
+# Lazy Removal(key) requires modifications on GET and SET.
+for i in range(len(bucket)):
+  pair = bucket[i]
+  if pair.key == key:
+    pair.key = "unaccessible" # mark as unaccessible
+  else: # if pair.key is a mismatch or unaccessible
+    continue # skip it without decrementing length
 ```
 
+__Open addressing - linear probing__  
+GET: Find bucket and probe the next one to match key.  
+SET: Find bucket and probe the next empty one.  
+REMOVE: Roll back one at a time.
+Lazy Remove: Mark "unaccessible". (Create table pollution and drag down the data structure performance as the number of deletions goes high)
 
+``` Python
+# initialization
+Array<Pair> H = new Array<Pair>
+int N = H.size
+int n = " the number of current entries in H "
+int load_factor = 0.5
+
+# SET(key, value) Method
+bucket = hash(key)
+while True:
+  pair = H[bucket]
+  if pair.key = key: # reset value for this key
+    pair.value = value
+    return ;
+  elif pair.isEmpty():
+    if (n / N) > 0.5:
+      # check to ensure the efficiency of this data structure.
+      " reallocate bigger memory to H and copy over existing entries. "
+    pair.key = key
+    pair.value = value
+    n += 1
+    return ;
+  else: # the bucket has been taken
+    bucket = (bucket + 1) % N
+
+# GET(key) Method
+bucket = hash(key)
+while True:
+  pair = H[bucket]
+  if pair.key == key:
+    return pair.value
+  elif pair.isEmpty():
+    raise Exception("KeyNotFound Error")
+  else:
+    bucket = (bucket + 1) % N
+
+# REMOVE(key)
+bucket = hash(key)
+while True:
+  if (bucket + 1) % N <= bucket: # turn around
+    if H[(bucket + 1) % N].key == key:
+      H[bucket] = H[(bucket + 1) % N] # replace
+    bucket = (bucket + 1) % N
+    continue
+  if H[bucket + 1].isEmpty():
+    " empty H[bucket] "
+    return;
+  else:
+    if H[bucket + 1].key == key:
+      H[bucket] = H[bucket + 1]
+    bucket += 1
+```
+
+__Chaining Vs. Linear Probing__:  
+1. In __theory__, chaining and probing give O(1) performance when load_factor is a lot smaller than 1. However when load_factor exceeds 1, chaining still works with a slightly higher constant. But the performance of probing will be destroyed.
+2. In __practice__, probing is efficient because chaining involves going from hash cell to dynamic array which is an object wrapping around array. On the other hand, probing has better __memory locality__. Random memory access is expensive compared with cached-in memory operations.
+3. Linear probing requires a higher-quality hash function. In case of low-quality hash function, a big __continuous chunk of array__ will be occupied, which drags down the performance significantly.
 
 <!--
 buffer
