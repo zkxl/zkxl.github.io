@@ -9,6 +9,7 @@ tag: Data-Structure
 {:toc}
 
 
+__RECOMMEND:__ [Fundamental Data Structure](https://en.wikipedia.org/wiki/Book:Fundamental_Data_Structures)
 
 Last Modified: 20170403
 
@@ -297,7 +298,7 @@ the probability of a collision is (1/N). Each collision costs one comparison.
 
 __Collision__ is unavoidable because [birthday paradox.](https://en.wikipedia.org/wiki/Birthday_problem)
 
-#### Handle Collisions
+#### Different Hashing to Counter Collision
 
 __Hash chaining__  
 GET: Find bucket and match key.  
@@ -405,6 +406,95 @@ __Chaining Vs. Linear Probing__:
 1. In __theory__, chaining and probing give O(1) performance when load_factor is a lot smaller than 1. However when load_factor exceeds 1, chaining still works with a slightly higher constant. But the performance of probing will be destroyed.
 2. In __practice__, probing is efficient because chaining involves going from hash cell to dynamic array which is an object wrapping around array. On the other hand, probing has better __memory locality__. Random memory access is expensive compared with cached-in memory operations.
 3. Linear probing requires a higher-quality hash function. In case of low-quality hash function, a big __continuous chunk of array__ will be occupied, which drags down the performance significantly.
+
+__Linear Probing Requires High-Quality Hash Function.__ Here's why:  
+If the hash function can't produce uniformly distributed results. It's possible that we have a continuous chunk of array occupied. Let's say such block i has length $$ L_{i} $$ and every operation cost is $$ O(L_{i}) $$. The cost of n such operations is:  
+
+$$ O({\frac{1}{n}} \sum_{block_i} L_{i}^{2}) $$
+
+Now with load_factor = $$ \alpha $$, the expected number of keys mapped to any of such blocks is: $$ \alpha L $$. According to [Churnoff Bound](https://en.wikipedia.org/wiki/Chernoff_bound), the probability (P) of mapping a key to a continuous block:  
+
+$$ P <= ({\frac{e^{\epsilon}}{(1+\epsilon)^{1+\epsilon}}})^{\alpha L} $$
+
+s.t:  
+
+$$ (1 + \epsilon) \alpha = 1 $$
+
+In case $$ \alpha = 0.5 $$, $$ P < {\frac{e}{4}}^{{\frac{L}{2}}} $$
+
+__Cuckoo Hashing__
+
+Pros:
++ constant worse-case time for lookup and delete ops.  
+Cons:
++ With a load_factor < 1/2, insertion fails at probability of (1 / N^2) where N is the size of the hash table. When fail occurs, table needs to be rebuilt.  
++ Bigger load_factor causes drastic increase of insertion failures.  
++ Thus, deterministic hash functions cannot be used. Otherwise, rebuild makes no sense.  
+
+``` Python
+# Initialize two hash table with size N/2 for each
+Array<Pair> H0 = new Array<Pair> with hash function h0
+Array<Pair> H1 = new Array<Pair> with hash function h1
+
+# SET(key, value)
+itern = 0
+while True:
+  if H0[h0(key)].isEmpty():
+    H0[h0(key)] = new Pair(key, value)
+    return
+  if H1[h1(key)].isEmpty():
+    H1[h1(key)] = new Pair(key, value)
+    return
+  if H0[h0(key)].key == key:
+    H0[h0(key)].key = key
+    H0[h0(key)].value = value
+    return
+  if H1[h1(key)].key == key:
+    H1[h1(key)].key = key
+    H1[h1(key)].value = value
+    return
+  # if both of them are not empty but none contains the key
+  # start kicking from 0
+  tmp0 = H0[h0(key)]
+  H0[h0(key)] = new Pair(key, value)
+  tmp1 = H1[h1(key)]
+  H1[h1(key)] = tmp0
+  key = tmp1.key
+  value = tmp1.value
+  if itern > threshold: start rebuilding
+  itern += 1
+
+
+# GET(key)
+if H0[h0(key)].key == key:
+  return H0[h0(key)].value
+if H1[h1(key)].key == key:
+  return H1[h1(key)].value
+raise Exception("Not found.")
+
+# REMOVE(key)
+if H0[h0(key)].key == key:
+  "clear the cell"
+  return
+if H1[h1(key)].key == key:
+  "clear the cell"
+  return
+raise Exception("Not found.")
+```
+
+__Graph Representation of Cuckoo Hashing__
+
+Graph: G = (V, E)  
+Vertices: V = table cells of H0 and H1  
+Edges: E = pairs of cells connected by hashing the same key through h0 and h1  
+
+1. Direct edges to point to where each key is stored.
+2. A valid assignment is: each vertex has <= 1 incoming edge.
+3. Insertion could reverse edges along a single path to try out different possible assignment.
+
+__If and only if all the components of G is a tree or a tree + one edge (potentially one circle allowed). Otherwise, infinite loop.__
+
+When load_factor <= 1/2, there are $$ \Theta(N) $$ small trees and $$ \Theta(1) $$ tree + one edge. When load_factor gets even slightly larger than 1/2, small trees will gradually turn into a giant component, where infinite loops arise.
 
 <!--
 buffer
