@@ -420,7 +420,7 @@ s.t:
 
 $$ (1 + \epsilon) \alpha = 1 $$
 
-In case $$ \alpha = 0.5 $$, $$ P < {\frac{e}{4}}^{{\frac{L}{2}}} $$
+In case $$ \alpha = 0.5 $$, $$ P < {\frac{e}{4}}^{\frac{L}{2}} $$
 
 __Cuckoo Hashing__
 
