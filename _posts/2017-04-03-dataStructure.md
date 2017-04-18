@@ -496,6 +496,49 @@ __If and only if all the components of G is a tree or a tree + one edge (potenti
 
 When load_factor <= 1/2, there are $$ \Theta(N) $$ small trees and $$ \Theta(1) $$ tree + one edge. When load_factor gets even slightly larger than 1/2, small trees will gradually turn into a giant component, where infinite loops arise.
 
+
+#### Hash Function
+
+1. Cryptographic hashing functions, such as SHA-256 and MD5, are a good candidate in theory. But they are too slow to be used in a data structure.
+2. [Tabulation hasing.](https://en.wikipedia.org/wiki/Tabulation_hashing#Method)
+3. Polynomial random linear hashing.
+
+_Side note: MD5 stands for message digest 5._
+
+__Tabulation Hashing:__
+
+Quote from Wiki -  
+_"Let p denote the number of bits in a key to be hashed, and q denote the number of bits desired in an output hash function. Choose another number r, less than or equal to p; this choice is arbitrary, and controls the tradeoff between time and memory usage of the hashing method: smaller values of r use less memory but cause the hash function to be slower. Compute t by rounding p/r up to the next larger integer; this gives the number of r-bit blocks needed to represent a key. For instance, if r = 8, then an r-bit number is a byte, and t is the number of bytes per key. The key idea of tabulation hashing is to view a key as a vector of t r-bit numbers, use a lookup table filled with random values to compute a hash value for each of the r-bit numbers representing a given key, and combine these values with the bitwise binary exclusive or operation. The choice of r should be made in such a way that this table is not too large; e.g., so that it fits into the computer's cache memory."_ [[1]](https://books.google.com/books?id=vMqSAwAAQBAJ&pg=SA11-PA3#v=onepage&q&f=false)
+
+__Polynomial random linear hashing:__
+
+For a hash table with size N,  
+
+Set a large prime number P (P >> N) so that hash(x) = (x % P) % N is close to being uniformly distributed.  
+
+Set a small positive integer d as polynomial degree and generate a set of random coefficients $$\alpha_i = \alpha_i\;mod\;P $$ so that:  
+
+$$ hash(x) = ((\sum_{i=0}^{d} x_i \alpha_i)\;mod\;P)\;mod\;N $$
+
+where, if two keys: k1 and k2 have the same digest, $$ \sum_{i=0}^{d} x_i \alpha_i $$ is still uniformly distributed.  
+
+which means:  
+
+$$ Pr(collision) = 1/N $$
+
+Note: P is either a random large number or a fixed number larger than the maximum key to ensure the above properties.  
+
+__Introduce K-independent Hashing:__
+
+The concept was derived from the above polynomial random linear hashing function. Such a function with degree d is viewed as d-independent hashing function.  
+
+Formally defined as: K-independent hash function is a family of hash functions that can map any set of K keys to a set of K independent random variables.
+
+Quote from Wiki -  
+_"The original technique for constructing k-independent hash functions, given by Carter and Wegman, was to select a large prime number p, choose k random numbers modulo p, and use these numbers as the coefficients of a polynomial of degree k whose values modulo p are used as the value of the hash function. All polynomials of the given degree modulo p are equally likely, and any polynomial is uniquely determined by any k-tuple of argument-value pairs with distinct arguments, from which it follows that any k-tuple of distinct arguments is equally likely to be mapped to any k-tuple of hash values."_ [[2]](http://www.fi.muni.cz/~xbouda1/teaching/2009/IV111/Wegman_Carter_1981_New_hash_functions.pdf)
+
+
+
 <!--
 buffer
 buffer
