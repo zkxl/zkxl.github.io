@@ -538,6 +538,91 @@ Quote from Wiki -
 _"The original technique for constructing k-independent hash functions, given by Carter and Wegman, was to select a large prime number p, choose k random numbers modulo p, and use these numbers as the coefficients of a polynomial of degree k whose values modulo p are used as the value of the hash function. All polynomials of the given degree modulo p are equally likely, and any polynomial is uniquely determined by any k-tuple of argument-value pairs with distinct arguments, from which it follows that any k-tuple of distinct arguments is equally likely to be mapped to any k-tuple of hash values."_ [[2]](http://www.fi.muni.cz/~xbouda1/teaching/2009/IV111/Wegman_Carter_1981_New_hash_functions.pdf)
 
 
+## Set
+
+Last update: 20170419
+
+__Standard Operations:__
+1. test membership - always
+2. add/remove - usually
+3. union/intersect - sometimes
+
+__Union/Intersect Operations can be easily implemented through 1 and 2.__  
+
+``` Python
+def Union(S1, S2):
+  C = deepcopy(S1)
+  for element in S2:
+    C.add(element)
+  return C
+
+def Intersect(S1, S2):
+  C = emptySet
+  for element in S1: # if S1 is shorter
+    if element in S2:
+      C.add(element)
+  return C
+```
+
+__The chart shows how efficient test/add/remove ops will be under different Implementations.__
+
+* n denotes the number of current keys in the SET.  
+* U denotes the number of all possible keys that could go into the SET.
+
+| Implementation     | Time      | Space         
+|--------------------|-----------|---------------
+| HashTable          | O(1)      | O(n) keys / O(nlogU) bits ?
+| BitVector          | O(1) fast | O(U) bits
+| BloomFilter        | O(1)      | O(n)
+
+#### BitVector Implementation
+
+If you want to represent a SET of integers {0, 1, 2 ... 31}, you can use a single 32-bit integer S to do it, with each bit 1 or 0 denoting corresponding element's membership. Such that:  
+
+``` Python
+def isMember(x, S):
+  return (S & (1 << x) != 0)
+
+def add(x, S):
+  S = S | (1 << x)
+
+def remove(x, S):
+  S = S & ~(1 << x)  
+```
+
+__Note__ two obvious constraints:  
+1. the number of elements representable is limited by [word size](https://en.wikipedia.org/wiki/Word_(computer_architecture)).
+2. the type of elements can only be integer.
+
+#### Bloom Filter
+
+[Bloom Filter](https://en.wikipedia.org/wiki/Bloom_filter) is a time/space efficient data structure when small chances of false positive is not a big issue.  
+
+__Here is how it is designed:__
+
+Create an bitArray of size (C * n) where C is a small constant and n is the number of keys you want to store.
+
+Create k independent hash functions mapping each key to k bits.
+
+What does the following mean?  
+hash one time. key -> (klog(Cn)) bits - then split values to {h1, h2, ..., hk}  
+
+``` Python
+
+def isMember(x, B):
+  for i in range(k):
+    h = H[i] # think H as a mapping between i and the hash function.
+    if B[h(x)] is False: return False
+  return True
+
+def add(x, B):
+  for i in range(k):
+    h = H[i] # think H as a mapping between i and the hash function.
+    B[h(x)] = 1
+```
+
+__Note:__ When checking membership of some element x in a bloomFilter, there is a chance (less than $$ {\frac{k}{C}}^{k} $$) that false positive occurs. That is returning True with a key that's not in BF.
+
 
 <!--
 buffer
