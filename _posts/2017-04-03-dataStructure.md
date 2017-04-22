@@ -496,6 +496,8 @@ __If and only if all the components of G is a tree or a tree + one edge (potenti
 
 When load_factor <= 1/2, there are $$ \Theta(N) $$ small trees and $$ \Theta(1) $$ tree + one edge. When load_factor gets even slightly larger than 1/2, small trees will gradually turn into a giant component, where infinite loops arise.
 
+__Note:__ If you want it to work without half space wasted, a trick you can do is let every array cell stores a constant number of (k, v) pairs, which differs from hash chaining in that only constant number of pairs are allowed so it is still constant time access in a sense.  
+
 
 #### Hash Function
 
@@ -621,8 +623,56 @@ def add(x, B):
     B[h(x)] = 1
 ```
 
-__Note:__ When checking membership of some element x in a bloomFilter, there is a chance (less than $$ {\frac{k}{C}}^{k} $$) that false positive occurs. That is returning True with a key that's not in BF.
+__Note:__ When checking membership of some element x in a bloomFilter, there is a chance (less than $$ ({\frac{k}{C}})^{k} $$) that false positive occurs. That is returning True with a key that's not in BF.
 
+
+Last update: 20170419
+
+#### Cuckoo Filter
+
+Similarity with Bloom Filter:  
+1. constant rate of false positive.
+2. linear number of bits space consumed.  
+
+Difference from Bloom Filter:
+1. increasing number of entries will not affect false positive rate  
+2. allow deletion (because it uses a lookup table implementation)
+3. better reference locality. WHY? BF only needs one array.
+
+__Implementation:__
+1. create two tables as they are in Cuckoo hashing.
+2. hash the key to find its location in 1st table and put in a $$ \log_{2}^{\frac{1}{\epsilon}} $$ bits checksum (epsilon is the false positive rate). (there is a chance when different keys have the same checksum)
+3. when kicking a checksum from 1st table to 2nd table, use the following to compute its location in 2nd table: original_location XOR hash(checksum). (Use XOR so that when the 2nd cell is found to be filled, using the above formula can throw it back to the same cell in 1st table.)
+
+
+#### Inverted Bloom Filter
+
+The use case of IBF is typically finding the small differences between two large sets. And this data structure is specifically tailored for that purpose.  
+
+Similarity with Bloom Filter:
+1. false positive rate? why would it work if false positive still possible.
+2. linear bits space consumed ? not implemented by bits.
+
+Difference from Bloom Filter:  
+1. allow deletion.
+2. designed to list remaining element.
+3. For a fixed space, arbitrary number of entries are allowed, because the whole point of this data structure is not membership testing or whatsoever typically in a SET data structure.  
+
+__Use case - "Set Reconciliation" - Distributed Version Control__
+
+1. add every line in textA as an element into IBF
+2. for every line in textB, remove it from IBF.
+3. list the remaining element in IBF - the different content that A has but B doesn't.
+4. repeat the above process to find out the different content that B has but A doesn't.
+
+__Implementation:__
+
+Each cell in IBF contains (x, y, z) where: WHY do we need these three info?  
+1. x : the number of elements in this cell.
+2. y : the sum of elements in this cell.
+3. z : the sum of checksum of each element in this cell.
+
+* "Pure cell" : the cell that has only one element within it.
 
 <!--
 buffer
