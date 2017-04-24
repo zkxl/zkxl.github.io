@@ -674,6 +674,9 @@ Each cell in IBF contains (x, y, z) where: WHY do we need these three info?
 
 * "Pure cell" : the cell that has only one element within it.
 
+
+Last Modified: 201704024
+
 ### Streaming Algorithm
 
 __Characteristics:__ [Streaming algorithm](https://en.wikipedia.org/wiki/Streaming_algorithm) computes some non-trivial properties of the input sequence in a single path using constant space.
@@ -710,11 +713,9 @@ __Note:__ Given any input sequence without a clear majority, such as (1, 1, 2, 2
 __Claim:__
 1. If there is a clear majority in input sequence of n elements, there are at most (n/2) times of counter decrements.
 
-2. $$ O_{x} - {\frac{n}{2}} $$ <= estimate(x) <= $$ O_{x} $$  
+2. $$ O_{x} - {\frac{n}{2}} $$ <= estimate(x) <= $$ O_{x} $$ ($$ O_{x} $$: number of actual occurrences of elements x)
 
-* $$ O_{x} $$: number of actual occurrences of elements x  
-
-* $$ estimate(x) = {\begin{cases}  majority.counter & {\text{ if }} x = majority.value \\ 0 & {\text{ otherwise }} \end{cases}} $$
+$$ estimate(x) = {\begin{cases}  majority.counter & {\text{ if }} x = majority.value \\ 0 & {\text{ otherwise }} \end{cases}} $$
 
 __Generalization of Majority Vote Algorithm - estimate the number of occurrences of each element within some error range.__
 
