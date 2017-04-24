@@ -674,6 +674,50 @@ Each cell in IBF contains (x, y, z) where: WHY do we need these three info?
 
 * "Pure cell" : the cell that has only one element within it.
 
+### Streaming Algorithm
+
+__Characteristics:__ [Streaming algorithm](https://en.wikipedia.org/wiki/Streaming_algorithm) computes some non-trivial properties of the input sequence in a single path using constant space.
+
+#### Warm up - Majority Vote Algorithm
+
+__Problem:__ Find the majority out of a sequence of values.
+
+__Tentative Solutions:__
+1. HashTable, taking O(n) time and O(n) space.
+2. Double loop with global optimal, taking O(n^2) time and O(1) space.
+
+__Majority Vote Algorithm:__
+
+``` Python
+def majorityVote(seq):
+  majority = Pair(value, counter)
+
+  for x in seq:
+    if majority.counter == 0:
+      majority.value = x
+    if majority.value == x:
+      majority.counter += 1
+    else:
+      majority.counter -= 1
+
+  return majority.value
+```
+
+__What the above algorithm says is:__ If there is no majority (counter == 0), whatever comes along next is the become the majority.
+
+__Note:__ Given any input sequence without a clear majority, such as (1, 1, 2, 2, 3), the algorithm will not return anyone with the highest count.
+
+__Claim:__
+1. If there is a clear majority in input sequence of n elements, there are at most (n/2) times of counter decrements.
+2. $$ O_{x} $$ - (n/2) <= estimate(x) <= $$ O_{x} $$
+
+* $$ O_{x} $$: number of actual occurrences of elements x
+* $$ estimate(x) = {\begin{cases}  majority.counter & {\text{ if }} x = majority.value \\ 0 & {\text{ otherwise }}, \end{cases}} $$
+
+__Generalization of Majority Vote Algorithm - estimate the number of occurrences of each element within some error range__
+
+
+
 <!--
 buffer
 buffer
