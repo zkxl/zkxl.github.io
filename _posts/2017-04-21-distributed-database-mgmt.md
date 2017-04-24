@@ -26,27 +26,27 @@ __RW locking__ has
 
 2PL RW locking ensures __serializability__ but it is also subject to __irrecoverability, deadlock and starvation__.
 
-__Irrecoverability__  
+__Irrecoverability__
+picture reference http://www.edugrabs.com/2-phase-locking/  
 <img src="{{ '/styles/images/distributed-database-mgmt/irrecoverability.png' }}" width="50%" />
 
-* reference http://www.edugrabs.com/2-phase-locking/
 
-__Deadlock__  
+__Deadlock__
+picture reference http://www.edugrabs.com/2-phase-locking/  
 <img src="{{ '/styles/images/distributed-database-mgmt/deadlock.png' }}" width="50%" />
 
-* reference http://www.edugrabs.com/2-phase-locking/
 
-__Starvation__  
+__Starvation__
+picture reference http://www.edugrabs.com/2-phase-locking/  
 <img src="{{ '/styles/images/distributed-database-mgmt/starvation.png' }}" width="50%" />
 
-* reference http://www.edugrabs.com/2-phase-locking/
 
 To prevent deadlock, we don't use prevention algorithm because it is too slow and 99% of cases don't yield any deadlock.
 1. Instead, we use __conservative 2PL RW locking__, which acquires all the resources needed in a transaction before it starts to executing anything. But it leads to problems such as less resources utilization and less concurrency.
 2. On the other side, __strict 2PL RW locking__ will execute whatever the current resources allow in a transaction, under the condition that all the write locks will be not be released until the transaction commits. Of course, strict 2PL ensures serializability but doesn't prevent deadlock.
 3. More strictly, __rigorous 2PL RW locking (strongly strict 2PL)__ will hold all the R/W locks till the transaction commits.
 
-__Relations between CSR, VSR and variations of 2PL lockings__
+__Relations between CSR, VSR and variations of 2PL lockings__ picture reference http://www.edugrabs.com/2-phase-locking/
 <img src="{{ '/styles/images/distributed-database-mgmt/coverability-csr-vsr-2pl.png' }}" width="50%" />
 
 
@@ -75,7 +75,7 @@ __Middle ground: Forgo serialized execution of transactions to increase concurre
 __How to define equivalence?__
 1. Final state equivalence -> Final state serializability (FSR)
 2. View equivalence -> View serializability: respective transactions in two different schedules READ the same data values
-3. Conflict equivalence -> Conflict serializability: 
+3. Conflict equivalence -> Conflict serializability:
 
 
 #### Final State Serializability
@@ -86,7 +86,7 @@ For some transaction T on objects x and y:
 
 Augment it with:
 1. $$ T_{0} $$ consisting of WRITE only, one WRITE for each object (initial state).
-2. $$ T_{-1} $$ consisting of READ only, one READ for each object (final state).
+2. $$ T_{e} $$ consisting of READ only, one READ for each object (final state).
 
 Make each R/W operation a vertex.  
 
@@ -99,6 +99,41 @@ Draw an edge from WRITE to READ if they are in different transactions.
 Delete vertices and edges that don't lead to the final state.  
 
 __Claim:__ Two schedules are final-state equivalent if they produce the same graph after the above processes, which take O(n) to run, where n is the number of the operations. One schedule is final-state serializable if it produces the same graph as the serialized execution of transactions does.  
+
+#### View Serializability(VSR)
+
+__Claim:__ Two schedules are view equivalent if they produce the same graph before "deleting" anything during the same process as in "FSR". Testing view equivalence is NP-hard.  
+
+__Compare:__ VSR ensures that each transaction's view of the DB is the same as they are in a serialized execution. FSR only ensures that transactions that have some impact on the final state of the DB have the same view of the DB as they are in a serialized execution.  
+
+#### Conflict Serializability(CSR)
+
+__Operations are conflicting if:__
+1. they are on the same object, such as R(x) and W(x)
+2. they belong to different transactions
+3. at least one of them is WRITE.
+
+__Construct Serializability Graph - SG(V, E)__
+1. Make a vertex for every transaction.
+2. Draw an edge from $$ T_{x} $$ to $$ T_{y} $$ if:  
+* $$ T_{x} $$ contains an operation $$ O_{x} $$
+* $$ T_{y} $$ contains an operation $$ O_{y} $$
+* $$ O_{x} $$ occurs earlier than $$ O_{y} $$ in schedule S.
+* $$ O_{x} $$ and $$ O_{y} $$ are conflicting.
+
+__Claim:__ A schedule is CSR iff the SG(V, E) constructed as above is acyclic. Testing if a graph contains a cycle takes O(n^2) where n is the number of vertices.
+
+#### Recoverability, Cascadeless, Strictness
+
+For a schedule S:
+
+__Recoverability__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$, then $$ T_{y} $$ commits before $$ T_{x} $$ commits.
+
+__Cascadeless or ACA(avoid cascading aborts)__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$, then $$ T_{y} $$ commits before $$ T_{x} $$ reads.
+
+__Strictness__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$ or if $$ T_{x} $$ overwrites $$ T_{y} $$, it does so after $$ T_{y} $$ commits.
+
+* Commercial DBMS ensures strictness.
 
 
 <!--
