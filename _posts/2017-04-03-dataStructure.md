@@ -690,7 +690,7 @@ __Majority Vote Algorithm:__
 
 ``` Python
 def majorityVote(seq):
-  majority = Pair(value, counter)
+  majority = Pair(value == None, counter = 0)
 
   for x in seq:
     if majority.counter == 0:
@@ -709,14 +709,44 @@ __Note:__ Given any input sequence without a clear majority, such as (1, 1, 2, 2
 
 __Claim:__
 1. If there is a clear majority in input sequence of n elements, there are at most (n/2) times of counter decrements.
-2. $$ O_{x} $$ - (n/2) <= estimate(x) <= $$ O_{x} $$
 
-* $$ O_{x} $$: number of actual occurrences of elements x
-* $$ estimate(x) = {\begin{cases}  majority.counter & {\text{ if }} x = majority.value \\ 0 & {\text{ otherwise }}, \end{cases}} $$
+2. $$ O_{x} - {\frac{n}{2}} $$ <= estimate(x) <= $$ O_{x} $$  
 
-__Generalization of Majority Vote Algorithm - estimate the number of occurrences of each element within some error range__
+* $$ O_{x} $$: number of actual occurrences of elements x  
 
+* $$ estimate(x) = {\begin{cases}  majority.counter & {\text{ if }} x = majority.value \\ 0 & {\text{ otherwise }} \end{cases}} $$
 
+__Generalization of Majority Vote Algorithm - estimate the number of occurrences of each element within some error range.__
+
+For example, given a sequence of input, find the most majority one, the second to the most majority, the third ..., the kth.
+
+``` Python
+def kthMajorityVote(seq, k):
+
+  # some special data structure is needed for this algorithm to work
+  # assuming we have such abstract data structure that:
+  # 1. holds k pairs of (value, counter) subject to in-place modification
+  # 2. O(1) lookup time
+  # 3. return the next available pair whose counter == 0
+  ads = AbstractDataStructure()
+
+  for x in seq:
+    if x not in ads and ads.next().counter == 0:
+      ads.next().value = x
+    if x in ads:
+      increment counters of all pairs in ads
+    else:
+      decrement counters of all pairs in ads
+
+  return ads
+  # now ads holds counter info of each value in seq that we can use to estimate the actuall occurrences of each value.
+```
+
+__Claim:__ With the same estimate function, we have:  
+
+$$ O_{x} - {\frac{n}{k}} $$ <= estimate(x) <= $$ O_{x} $$  
+
+Meaning: we have an estimated occurrences within (n/k) error range for each element in sequence.
 
 <!--
 buffer
