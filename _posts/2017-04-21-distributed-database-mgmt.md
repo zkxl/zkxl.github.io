@@ -135,6 +135,58 @@ __Strictness__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$ or if $$ T_{x} $
 
 * Commercial DBMS ensures strictness.
 
+#### Replications in Distributed System
+
+__Why replica?__ Improve availability and performance.
+
+To ensure distributed system consistency, our goal is __one copy serializability__, which means the distributed DBMS behaves like a serial processor of transactions on a one-copy database. Essentially, it is __synchronized replication__, which comes with huge cost.
+
+Now we talk about __asynchronous replication__ strategies:
+1. Primary copy
+2. Multi-master
+3. Quorum consensus
+
+__Primary copy: (1SR, not partition tolerable)__
+1. Clients READ from secondaries and WRITE through primary node only.
+2. Updates flow from primary copy to secondaries asynchronously.
+3. WRITE is not permitted during partition.
+
+__Multi-master: (non-1SR, partition tolerable)__
+1. Clients READ/WRITE to different masters directly.
+2. Updates between multiple masters are designed to be __commutative or conflicting updates are merged__.
+
+__Quorum consensus: (1SR, partition tolerable)__ Each READ/WRITE operation has to obtain a certain amount of votes (more than half of the total votes) before execution.
+
+__Commutative downstream updates:__
+Thomas's Write Rule:
+* Assign timestamp to each of clients' WRITE operation.
+* Apply downstream updates to every replica with the latest WRITE.
+
+#### Isolation Levels
+
+Refer to [wiki isolation](https://en.wikipedia.org/wiki/Isolation_(database_systems)) for detailed isolation levels and read phenomena.  
+
+1. __Serializable:__ Hold R/W lock till the end of the transaction. Hold range lock in READ operation to avoid _phantom read_.
+
+2. __Repeatable Reads:__ Hold R/W lock till the end of the transaction.
+
+3. __Read Committed:__ Hold W lock till the end of the transaction. R lock is released as soon as READ operation is done. _Non-repeatable read_ may occur.
+
+4. __Read Uncommited:__ Only W lock is managed. _Dirty read_ may occur.
+
+#### Snapshot Isolation
+
+Before executing transaction T:
+1. take a snapshot of committed data
+2. execute READ/WRITE operation on the snapshot
+3. updates are not visible to other concurrent transactions
+4. commit WRITE only if there is no other transaction has preceding WRITE on the same data
+5. otherwise, abort and rollback the current transaction
+
+Problem with SI is [write skew anomaly](https://en.wikipedia.org/wiki/Snapshot_isolation).  
+
+__Inconsistency is often not a showstopper, but a mere inconvenience. All we need to do is making sure that application logic doesn't lead to inconsistency or inconsistency can be worked around on application layers.__
+
 
 <!--
 buffer
