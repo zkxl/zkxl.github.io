@@ -804,7 +804,7 @@ __Use Case: compute document similarity__
 4. Approximate similarity between docA and docB by computing:  
 * dotProduct(row_i_of_cmsA, row_i_of_cmsB) for each row
 * return the minimum value from them.  
-5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \delta |cmsA.length| |cmsB.length| $$]
+5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \delta cmsA.length cmsB.length $$], where cmsA.length is __?__
 
 
 <!--
