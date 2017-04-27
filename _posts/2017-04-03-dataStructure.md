@@ -94,7 +94,7 @@ Naive Hierarchical Clustering takes O(n^2) to decide the next pair of clusters t
 
 Stack-based Hierarchical Clustering takes O(n). Here's the magic:  
 
-```
+``` python
 S = new Stack()
 while the number of clusters > 1:
   if S.isEmpty(): S.push(some arbitrary cluster centroid)
@@ -142,7 +142,7 @@ __Pros and Cons:__
 High-level description: [Dynamic array](https://en.wikipedia.org/wiki/Dynamic_array) wraps around primitive array.  
 
 
-``` Python
+``` python
 class DynamicArray():
   def __init__(self):
     memory_block self.A = malloc[initial_size]
@@ -191,8 +191,8 @@ class DynamicArray():
     self.A = B
     self.size = self.size/2
     return ;
-
 ```
+
 * See amortized analysis for "3/2 implementation" in Mathematical Framework for Amortized Analysis.  
 
 Removing an element from an array:  
@@ -306,7 +306,7 @@ SET: Find bucket and append new key value pair.
 REMOVE: Find bucket and do the same as remove from an array.  
 Lazy Remove: Find bucket, match key and mark as "unaccessible".  
 
-``` Python
+``` python
 # initialization
 Array<List<Pair>> H = new Array<List<Pair>> # associative list
 
@@ -349,7 +349,7 @@ SET: Find bucket and probe the next empty one.
 REMOVE: Roll back one at a time.
 Lazy Remove: Mark "unaccessible". (Create table pollution and drag down the data structure performance as the number of deletions goes high)
 
-``` Python
+``` python
 # initialization
 Array<Pair> H = new Array<Pair>
 int N = H.size
@@ -431,7 +431,7 @@ Cons:
 + Bigger load_factor causes drastic increase of insertion failures.  
 + Thus, deterministic hash functions cannot be used. Otherwise, rebuild makes no sense.  
 
-``` Python
+``` python
 # Initialize two hash table with size N/2 for each
 Array<Pair> H0 = new Array<Pair> with hash function h0
 Array<Pair> H1 = new Array<Pair> with hash function h1
@@ -551,7 +551,7 @@ __Standard Operations:__
 
 __Union/Intersect Operations can be easily implemented through 1 and 2.__  
 
-``` Python
+``` python
 def Union(S1, S2):
   C = deepcopy(S1)
   for element in S2:
@@ -581,7 +581,7 @@ __The chart shows how efficient test/add/remove ops will be under different Impl
 
 If you want to represent a SET of integers {0, 1, 2 ... 31}, you can use a single 32-bit integer S to do it, with each bit 1 or 0 denoting corresponding element's membership. Such that:  
 
-``` Python
+``` python
 def isMember(x, S):
   return (S & (1 << x) != 0)
 
@@ -609,8 +609,8 @@ Create k independent hash functions mapping each key to k bits.
 What does the following mean?  
 hash one time. key -> (klog(Cn)) bits - then split values to {h1, h2, ..., hk}  
 
-``` Python
-
+``` python
+# B = BloomFilter()
 def isMember(x, B):
   for i in range(k):
     h = H[i] # think H as a mapping between i and the hash function.
@@ -691,7 +691,7 @@ __Tentative Solutions:__
 
 __Majority Vote Algorithm:__
 
-``` Python
+``` python
 def majorityVote(seq):
   majority = Pair(value == None, counter = 0)
 
@@ -721,7 +721,7 @@ __Generalization of Majority Vote Algorithm - estimate the number of occurrences
 
 For example, given a sequence of input, find the most majority one, the second to the most majority, the third ..., the kth.
 
-``` Python
+``` python
 def kthMajorityVote(seq, k):
 
   # some special data structure is needed for this algorithm to work
@@ -748,6 +748,57 @@ __Claim:__ With the same estimate function, we have:
 $$ O_{x} - {\frac{n}{k}} $$ <= estimate(x) <= $$ O_{x} $$  
 
 Meaning: we have an estimated occurrences within (n/k) error range for each element in sequence.
+
+#### Counting BloomFilter
+
+1. Instead of using bitArray, CBF uses IntArray to accumulate the frequencies of keys checking in and out. (size = const * number of keys)
+2. With a set of K hash functions, every key corresponds to K different cells.
+3. Insertion(item) increments corresponding cells.
+4. Deletion(item) decrements corresponding cells.
+5. Membership(item) tests if all corresponding cells are non-zero.
+
+#### Count Min Sketch
+
+[Count Min Sketch](https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch) __is built based on CBF with 2 differences:__
+1. Essentially both can be implemented with 1D vector. But for the sake of clarity, CMS is often implemented with 2D matrix.
+2. With fewer total cells, this data structure can gives us better approximation of frequencies of items, given that they constantly checks in and out in the input stream.
+
+__Implementation Details:__
+1. A 2D array to store a counter in each cell: table = int[w][k], where:  
+* $$ w = {\frac{e}{\epsilon}} $$  
+
+* $$ \epsilon $$ defines the estimate accuracy.  
+
+* e is natural logarithm base.
+
+* $$ k = \ln({\frac{1}{\delta}}) $$  
+
+* $$ \delta $$ defines the probability of NOT getting that accuracy.  
+
+2. Again, k hash functions, mapping each key to [one cell in each row for every row in the table].
+
+``` python
+# with k, table, hashFunctions() defined as above
+def update(key, x):
+  # checkin: x positive
+  # checkout: x negative
+  for i in range(k):
+    table[i][hash_i(key)] += x
+  return ;
+
+def approxFreq(key):
+  # get the estimated frequencies of the key
+  return min([table[i][hash_i(key)] for i in range(k)])
+```
+
+__Analysis:__
+1. The approxFreq(key) defined above returns an estimated frequency of the key, which = [actual frequency] + [noise from other keys].
+2. Let n be the length of the CMS, which is the number of remaining items. E[noise] <= n / w.
+3. [Markov's Inequality](https://en.wikipedia.org/wiki/Markov%27s_inequality) brings it the following: The probability of [noise in one row >= $$ \epsilon n $$] <= $$ {\frac{1}{e}} $$
+4. So: The probability of [such big noise in all rows] <= $$ {\frac{1}{e}}^{k} = \delta $$ This is the probability of NOT getting that pre-defined accuracy.
+
+__Note:__
+The idea behind the design of the data structure is the space taken by all the cells (w * k) should be much smaller than the what we need to store exactly everything in the input stream.
 
 <!--
 buffer
