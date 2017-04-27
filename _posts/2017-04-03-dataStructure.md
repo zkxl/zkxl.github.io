@@ -804,8 +804,13 @@ __Use Case: compute document similarity__
 4. Approximate similarity between docA and docB by computing:  
 * dotProduct(row_i_of_cmsA, row_i_of_cmsB) for each row
 * return the minimum value from them.  
-5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \delta cmsA.length cmsB.length $$], where cmsA.length is __?__
+5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \epsilon $$ cmsA.length cmsB.length], where cmsA.length is __?__
 
+__Review and Compare IBF, MajorityStream, CMS__
+
+1. IBF allows stream in and out, returns very few remainings eventually.  
+2. MajorityStream allows stream in only, uses constant space and always underestimates frequencies of any item.    
+3. CMS allows stream in and out, gives overestimated frequencies of any item in a relatively efficient way of using limited space.
 
 <!--
 buffer
