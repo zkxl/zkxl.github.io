@@ -765,14 +765,10 @@ Meaning: we have an estimated occurrences within (n/k) error range for each elem
 
 __Implementation Details:__
 1. A 2D array to store a counter in each cell: table = int[w][k], where:  
-* $$ w = {\frac{e}{\epsilon}} $$  
-
+* $$ w = {\frac{e}{\epsilon}} $$
 * $$ \epsilon $$ defines the estimate accuracy.  
-
-* e is natural logarithm base.
-
+* e is natural logarithm base.  
 * $$ k = \ln({\frac{1}{\delta}}) $$  
-
 * $$ \delta $$ defines the probability of NOT getting that accuracy.  
 
 2. Again, k hash functions, mapping each key to [one cell in each row for every row in the table].
@@ -792,13 +788,24 @@ def approxFreq(key):
 ```
 
 __Analysis:__
-1. The approxFreq(key) defined above returns an estimated frequency of the key, which = [actual frequency] + [noise from other keys].
-2. Let n be the length of the CMS, which is the number of remaining items. E[noise] <= n / w.
-3. [Markov's Inequality](https://en.wikipedia.org/wiki/Markov%27s_inequality) brings it the following: The probability of [noise in one row >= $$ \epsilon n $$] <= $$ {\frac{1}{e}} $$
+1. The _approxFreq(key)_ defined above returns an estimated frequency of the key, which = [actual frequency] + [noise from other keys].
+2. Let n be the length of the CMS, which is the number of remaining items. $$ E[noise] \leq {\frac{n}{w}} $$
+3. [Markov's Inequality](https://en.wikipedia.org/wiki/Markov%27s_inequality) brings it the following: The probability of [noise in one row $$ \geq \epsilon n $$] $$ \leq {\frac{1}{e}} $$
 4. So: The probability of [such big noise in all rows] <= $$ {\frac{1}{e}}^{k} = \delta $$ This is the probability of NOT getting that pre-defined accuracy.
 
 __Note:__
 The idea behind the design of the data structure is the space taken by all the cells (w * k) should be much smaller than the what we need to store exactly everything in the input stream.
+
+__Use Case: compute document similarity__
+
+1. In __"Bag of Words" model__, each document corresponds to a long vector, storing the frequencies of all the words in our vocabulary.
+2. __Similarity__ between doc A and doc B is computed as: _dotProduct(vectorA, vectorB) normalized by product(lengthA, lengthB)_, which is also the angle [0, 90] of the two vectors in vector space.
+3. With __vector generalization of CMS__, for each document, let words stream through CMS, now each document corresponds to a CMS table.
+4. Approximate similarity between docA and docB by computing:  
+* dotProduct(row_i_of_cmsA, row_i_of_cmsB) for each row
+* return the minimum value from them.  
+5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \delta |cmsA.length| |cmsB.length| $$]
+
 
 <!--
 buffer
