@@ -512,6 +512,9 @@ __Tabulation Hashing:__
 Quote from Wiki -  
 _"Let p denote the number of bits in a key to be hashed, and q denote the number of bits desired in an output hash function. Choose another number r, less than or equal to p; this choice is arbitrary, and controls the tradeoff between time and memory usage of the hashing method: smaller values of r use less memory but cause the hash function to be slower. Compute t by rounding p/r up to the next larger integer; this gives the number of r-bit blocks needed to represent a key. For instance, if r = 8, then an r-bit number is a byte, and t is the number of bytes per key. The key idea of tabulation hashing is to view a key as a vector of t r-bit numbers, use a lookup table filled with random values to compute a hash value for each of the r-bit numbers representing a given key, and combine these values with the bitwise binary exclusive or operation. The choice of r should be made in such a way that this table is not too large; e.g., so that it fits into the computer's cache memory."_ [[1]](https://books.google.com/books?id=vMqSAwAAQBAJ&pg=SA11-PA3#v=onepage&q&f=false)
 
+__Here is an example of how it works:__  
+The hash function h(x) maps 32-bit keys to 16-bit hash values by breaking each key into four 8-bit bytes, using each byte as the index into four tables of 16-bit random numbers, and returning the bitwise exclusive or of the four numbers found in this table.
+
 __Polynomial random linear hashing:__
 
 For a hash table with size N,  
@@ -799,18 +802,41 @@ The idea behind the design of the data structure is the space taken by all the c
 __Use Case: compute document similarity__
 
 1. In __"Bag of Words" model__, each document corresponds to a long vector, storing the frequencies of all the words in our vocabulary.
-2. __Similarity__ between doc A and doc B is computed as: _dotProduct(vectorA, vectorB) normalized by product(lengthA, lengthB)_, which is also the angle [0, 90] of the two vectors in vector space.
+2. __Cosine Similarity__ between doc A and doc B is computed as: _dotProduct(vectorA, vectorB) normalized by product(norm2_lengthA, norm2_lengthB)_, which is also the angle [0, 90] of the two vectors in vector space. $$ norm2_length\;of\;\overrightarrow{\rm v} = \sqrt{ \overrightarrow{\rm v} \cdot \overrightarrow{\rm v}} $$
 3. With __vector generalization of CMS__, for each document, let words stream through CMS, now each document corresponds to a CMS table.
 4. Approximate similarity between docA and docB by computing:  
 * dotProduct(row_i_of_cmsA, row_i_of_cmsB) for each row
 * return the minimum value from them.  
-5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \epsilon $$ cmsA.length cmsB.length], where cmsA.length is __?__
+5. The returned value will be an estimate of the dotProduct(vectorA, vectorB) in "Bag of Words" model. The probability of getting the estimate within [actual, actual + $$ \epsilon $$ cmsA.length cmsB.length], where cmsA.length is the sum of the absolute value of each cell in that row in cmsA.
+
+__Note:__ When we compute the cosine similarity between two documents, we used their norm2 lengths. However, when we approximate the similarity between two documents __where a lot of words occur only once__, the accuracy deviation is proportional to the number of words, which is large.
 
 __Review and Compare IBF, MajorityStream, CMS__
 
 1. IBF allows stream in and out, returns very few remainings eventually.  
 2. MajorityStream allows stream in only, uses constant space and always underestimates frequencies of any item.    
 3. CMS allows stream in and out, gives overestimated frequencies of any item in a relatively efficient way of using limited space.
+
+#### MinHash
+
+The use of CMS in computing documents similarity help reduce the computation complexity and space taken because:  
+1. Without CMS, each document corresponds to a words-frequencies table and you have to compare it with other words-frequencies tables.
+2. With CMS, you reduce the space usage to constant and further simplify the computation.
+
+Another way to measure documents similarity is __Jaccard Similarity__:    
+$$ Jaccard(A, B) = \frac{\| A \cap B}{abs(A \cup B)} $$
+
+where A is a set of words occurred in docA and B is a set of words occurred in docB.  
+This way, we only need to store boolean value for each word instead of frequencies. __Our question__ is: any way to reduce the space usage of the SET data structure in this case?  
+
+__Consider the following case:__  
+1. Stream all the words from docA and docB through some hash function.
+2. Represent the set of "words-frequencies" by the minimum hash value throughout the stream.
+3. If the minimum hash value from streamA == the minimum hash value from streamB, the estimated similarity(A, B) = 1. Otherwise, 0.
+4. This way, a random hash function makes a random estimator of their similarity.
+5. __claim:__ Expected[estimated similarity] approximate J(A, B).
+
+__Multi-hash version MinHash__ uses K hash functions and represents the set of "words-frequencies" by a collection of K minimum hash values.
 
 <!--
 buffer
