@@ -11,44 +11,6 @@ tag: distributed
 
 
 
-#### Two phase RW locking
-
-__2PL RW locking__ combines two-phase locking and share-exclusive locking.  
-
-__2PL__ has two phases:  
-1. expanding phase, new locks on the desired data item can be acquired but no locks can be released till the transaction terminates.  
-2. shrinking phase, acquired locks can be released after the transaction terminates and no new locks can be acquired.  
-
-
-__RW locking__ has
-1. read (shared) locks that multiple clients can hold at the same time.  
-2. write (exclusive) locks that only one client can hold while no one holds read lock on the same data item.  
-
-2PL RW locking ensures __serializability__ but it is also subject to __irrecoverability, deadlock and starvation__.
-
-__Irrecoverability__
-picture reference http://www.edugrabs.com/2-phase-locking/  
-<img src="{{ '/styles/images/distributed-database-mgmt/irrecoverability.png' }}" width="50%" />
-
-
-__Deadlock__
-picture reference http://www.edugrabs.com/2-phase-locking/  
-<img src="{{ '/styles/images/distributed-database-mgmt/deadlock.png' }}" width="50%" />
-
-
-__Starvation__
-picture reference http://www.edugrabs.com/2-phase-locking/  
-<img src="{{ '/styles/images/distributed-database-mgmt/starvation.png' }}" width="50%" />
-
-
-To prevent deadlock, we don't use prevention algorithm because it is too slow and 99% of cases don't yield any deadlock.
-1. Instead, we use __conservative 2PL RW locking__, which acquires all the resources needed in a transaction before it starts to executing anything. But it leads to problems such as less resources utilization and less concurrency.
-2. On the other side, __strict 2PL RW locking__ will execute whatever the current resources allow in a transaction, under the condition that all the write locks will be not be released until the transaction commits. Of course, strict 2PL ensures serializability but doesn't prevent deadlock.
-3. More strictly, __rigorous 2PL RW locking (strongly strict 2PL)__ will hold all the R/W locks till the transaction commits.
-
-__Relations between CSR, VSR and variations of 2PL lockings__ picture reference http://www.edugrabs.com/2-phase-locking/
-<img src="{{ '/styles/images/distributed-database-mgmt/coverability-csr-vsr-2pl.png' }}" width="50%" />
-
 
 #### DBMS -> Transactions -> Concurrency -> Serializability
 
@@ -90,11 +52,11 @@ Augment it with:
 
 Make each R/W operation a vertex.  
 
-Draw an edge from READ to WRITE if they are in the same transaction.  
+Draw an edge from READ to WRITE if they are in the same transaction, no matter which data item they are on.  
 
 _OR_  
 
-Draw an edge from WRITE to READ if they are in different transactions.
+Draw an edge from WRITE to READ if they are in different transactions and target the same data item.
 
 Delete vertices and edges that don't lead to the final state.  
 
@@ -183,9 +145,100 @@ Before executing transaction T:
 4. commit WRITE only if there is no other transaction has preceding WRITE on the same data
 5. otherwise, abort and rollback the current transaction
 
-Problem with SI is [write skew anomaly](https://en.wikipedia.org/wiki/Snapshot_isolation).  
+Problem with SI:
+1. It doesn't ensure Serializability.
+2. [write skew anomaly](https://en.wikipedia.org/wiki/Snapshot_isolation).  
 
 __Inconsistency is often not a showstopper, but a mere inconvenience. All we need to do is making sure that application logic doesn't lead to inconsistency or inconsistency can be worked around on application layers.__
+
+
+#### Two phase RW locking
+
+__2PL RW locking__ combines two-phase locking and share-exclusive locking.  
+
+__2PL__ has two phases:  
+1. expanding phase, new locks on the desired data item can be acquired but no locks can be released till the transaction terminates.  
+2. shrinking phase, acquired locks can be released after the transaction terminates and no new locks can be acquired.  
+
+
+__RW locking__ has
+1. read (shared) locks that multiple clients can hold at the same time.  
+2. write (exclusive) locks that only one client can hold while no one holds read lock on the same data item.  
+
+2PL RW locking ensures __serializability__ but it is also subject to __irrecoverability, deadlock and starvation__.
+
+__Irrecoverability__
+picture reference http://www.edugrabs.com/2-phase-locking/  
+<img src="{{ '/styles/images/distributed-database-mgmt/irrecoverability.png' }}" width="50%" />
+
+
+__Deadlock__
+picture reference http://www.edugrabs.com/2-phase-locking/  
+<img src="{{ '/styles/images/distributed-database-mgmt/deadlock.png' }}" width="50%" />
+
+
+__Starvation__
+picture reference http://www.edugrabs.com/2-phase-locking/  
+<img src="{{ '/styles/images/distributed-database-mgmt/starvation.png' }}" width="50%" />
+
+
+To __prevent deadlock__, we need to detect deadlock first by using __timeout__ or constructing __wait-for graph__. But it is too slow and 99% of cases don't yield any deadlock. So:  
+1. Instead, we use __conservative 2PL RW locking__, which acquires all the resources needed in a transaction before it starts to executing anything. But it leads to problems such as less resources utilization and less concurrency.
+2. On the other side, __strict 2PL RW locking__ will execute whatever the current resources allow in a transaction, under the condition that all the write locks will be not be released until the transaction commits. Of course, strict 2PL ensures serializability but doesn't prevent deadlock.
+3. More strictly, __rigorous 2PL RW locking (strongly strict 2PL)__ will hold all the R/W locks till the transaction commits.
+
+__Relations between CSR, VSR and variations of 2PL lockings__ picture reference http://www.edugrabs.com/2-phase-locking/
+<img src="{{ '/styles/images/distributed-database-mgmt/coverability-csr-vsr-2pl.png' }}" width="50%" />
+
+
+#### Scheduling Protocol
+
+__Scheduler__ takes write-ahead log as input and outputs a serializable (CSR) schedule to be applied to DB.  
+
+---
+
+__2PL Scheduling Protocol__ schedules operations under 2PL rules so basically:  
+* For non-conflicting operations, their order doesn't matter.
+* For conflicting operations, not only should they obey 2PL rules, the order that they came in should also be preserved.  
+
+__Proof of correctness:__  
+_Assume 2PL scheduling produced such a schedule that, if we construct a serialize graph (SG) for it, it will have a cycle._
+_Let's say, T1, T2, ..., Tn formed such a cycle, which also means: T1 and T2 must contain conflicting operations, T2 and T3 must contain conflicting operations...and so on till Tn and T1 must contain conflicting operations._
+_According to 2PL rules, T2 would not be able to acquire all the lock until T1 released all the lock. Same thing goes. T1 will not acquire all the locks until Tn released all the lock._ -> __Contradiction__  
+
+__Distributed 2PL Scheduling__ says: transaction T doesn't release locks at any site it executes until it has acquired all the locks it needs at every site it executes on. It is implied that scheduler at each site synchronizes each other.
+
+---
+
+__Timestamp Ordering Protocol:__
+1. Every time a transaction T comes in, it request a TimeStamp(T), which is unique and monotonically increasing.
+2. Every data item x is associated with a last_read_timestamp and a last_write_timestamp. They are updated every time a READ/WRITE operation is executed.  
+3. The protocal says: READ(x) operation in transaction T will be executed iff TimeStamp(T) >= x.last_write_timestamp. WRITE(x) operation in transaction T will be executed iff TimeStamp(T) >= x.last_read_timestamp.
+* The "write" part is also known as [Thomas's Rule](https://en.wikipedia.org/wiki/Thomas_write_rule)
+
+__Proof of Correctness:__
+_Assume 2PL scheduling produced such a schedule that, if we construct a serialize graph (SG) for it, it will have a cycle._
+_Let's say, T1, T2, ..., Tn formed such a cycle. According to Timestamp Ordering, TS(1) < TS(2) < ... < TS(n) < TS(1)._ -> __Contradiction__
+
+---
+
+__Serializable Graph Test (SGT) Protocol:__
+1. For every incoming operation O from some transaction T, draw an edge from all the transactions whose operations are in conflict with O, to T. (Create a vertex for T if it doesn't already exist)
+2. If it creates a cycle, reject the operation O and abort the transaction T. Else, add the edge.
+3. For those transactions that are done and don't have incoming edges, we can remove them.
+
+---
+
+__Variations:__ (derived from application needs to push for better performance)
+1. Conservative 2PL:
+* try to acquire all the locks for the entire transaction
+* if succeed, execute it and release.
+* else, release all the locks it acquired immediately and wait. (Different from 2PL, conservative 2PL never aborts a transaction)
+2. Aggressive 2PL:
+* a transaction T will be executed iff all the active transactions don't have any operations conflict with T
+
+__Optimistic Concurrency Control__ # TODO
+
 
 
 <!--
