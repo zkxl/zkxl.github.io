@@ -9,9 +9,70 @@ tag: algorithms
 * content
 {:toc}
 
+## Priority Queue
+
+Last update: 20170502
+
+#### Generals:
+1. Priority Queue is such a data structure that associates objects with priorities (in whatever sortable format.)
+2. Operations include:  
+* create such a queue from a given list of values
+* find and pop min/max - element with highest priority
+* change elements' priority and keep the queue updated
+
+__Classic Use Case:__ [Dijkstra's Algorithm](https://zangshayang1.github.io/study-notes/2017/02/09/greedy-algorithm/#greedy-algorithm-to-solve-graph-problems) where, in a G = (V, E), abs(V) times of "find and pop" operation is performed and abs(E) times "change and update" operation is performed. Because abs(E) >> abs(V) and the following binary heap implementation provides very slow "change and update" operation, the following provides a tailored implementation and an alternative algorithm to do the same thing.  
+
+``` python
+class PriorityQueue():
+  def __init__(self):
+    self.pq = {} # new HashMap()
+
+  def heapify(self, elements): # O(n)
+    for element in elements:
+      self.pq[id(element)] = element
+    return ;
+
+  def popMin(self): # O(n)
+    minEle = PQElement(None, Integer.MAX_VALUE) # placeholder for item and its priority
+    minKey = None
+    for key in self.pq:
+      element = self.pq[key] # whatever it is
+      if element.priority >= minEle.priority:
+        continue
+      minEle.item = element.item
+      minEle.priority = element0.priority
+      minKey = key
+    del self.pq[key]
+    return minEle
+
+  def add(self, PQElement):
+    self.pq[id(PQElement)] = PQElement
+    return ;
+
+  def updatePriorityFor(self, element, priority): # O(1)
+    self.pq[id(element)].priority = priority
+    return ;
+
+# Pseudocode
+def Edge-based-Dijkstra(): # linear to the abs(E)
+  initialize a D = {startVertex : 0} mapping each vertex to its distance to the start vertex
+  initialize a PQ = PriorityQueue().heapify(List(edges outgoing from startVertex))
+  initialize curtVertex = startVertex
+  while curtVertex is not terminalVertex:
+    nextEdge = pq.popMin().item # pq.popMin() return PQElement obj - O(V)
+    nextVertex = nextEdge.to() # edge from curtVertex to some vertex
+    if nextVertex in D:
+      curtVertex = nextVertex
+      continue
+    for edge in nextVertex.outgoingEdges():
+      priority = D[curtVertex] + edge.length
+      PQ.add(PQElement(edge, priority)) # O(1)
+      curtVertex = nextVertex
+return D[curtVertex]
+```
 
 
-## Binary Heap Implementation of Priority Queue
+### Binary Heap Implementation of Priority Queue
 
 #### Notes
 
@@ -19,6 +80,10 @@ tag: algorithms
 2. __Binary Heap is an implicit data structure, meaning:__  
   * No extra space required beyond what is needed to store an array.  
   * Extra information is how items are order in the array.  
+3. __No "change and update" operation__ is implemented because it is going to take: (unless a HashMap is used to track its position in the array.)  
+* O(logn) to find the element
+* O(1) to change its priority
+* O(logn) to update its place in the queue
 
 ---
 #### Implementation Generals

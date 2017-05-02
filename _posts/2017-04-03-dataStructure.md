@@ -846,6 +846,14 @@ __Single-hash version MinHash__
 2. represents the set of "words-frequencies" by a collection of t minimum hash values. (coming out of the same hash)
 3. similarity = the number of overlapped values in collectionA and collectionB / t
 
+
+#### Priority Queue
+
+Last update: 20170502
+
+__Please refer to previous post:__ [Priority Queue](https://zangshayang1.github.io/study-notes/2017/02/06/priority-queue)
+
+
 <!--
 buffer
 buffer
