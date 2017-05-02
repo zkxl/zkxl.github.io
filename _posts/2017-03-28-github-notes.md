@@ -10,8 +10,12 @@ tag: github
 
 
 
-Last Modified: 20170411
+Last Modified: 20170502
 
+
+Recommended Tutorials:
+1. https://www.atlassian.com/git/tutorials
+2. https://git-scm.com/book/en/v2
 
 # Git Local
 
@@ -74,8 +78,17 @@ _Note:_
 
 If you want to discard all the changes you made since the last bug-free commit.  
 ```shell
-> git checkout -- index.html
+> git reset @ --hard # reset the working dir to last commit
+> git clean -fd # clean all untracked files and dirs
 ```
+
+If you want to checkout the last committed version of some file:  
+* If you add/commit this old version of the file. The current version will be lost. This line is subject to test.  
+
+```shell
+> git checkout @~1 index.html
+```
+
 
 Now you improved the code in index.html and you committed it again.
 ```shell
