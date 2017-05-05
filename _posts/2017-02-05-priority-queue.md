@@ -110,7 +110,7 @@ In building a binary heap, the average cost of calling siftdown() is much lower 
 __Intuitively:__
 Review [the sum of depth and height](https://zangshayang1.github.io/study-notes/2017/05/07/binary-tree/#binary-tree) of a binary tree, it is obvious that the sum of depth of each node is greater than the sum of height of each node. The former corresponds to the potential number of "upward swaps" required while the latter corresponds to the potential number of "downward swaps" required.
 
-__Proved by induction:__
+__The following can be proved by induction:__
 
 $$ \sum_{node\;v} [\;number\;of\;up-swap] = n\log{n} - O(n) $$
 
@@ -120,7 +120,7 @@ $$ \sum_{node\;v} [\;number\;of\;down-swap] = n - O(\log{n}) $$
 
 $$ E[\;number\;of\;down-swap] = O(1) $$
 
-__Formal proof:__
+__Formal proof:__  
 _given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
 _For any node at height of j, at most j siftDown() operations needed to find its correct place._  
 _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level._  
