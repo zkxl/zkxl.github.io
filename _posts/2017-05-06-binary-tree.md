@@ -24,4 +24,5 @@ For a perfect binary tree with L levels:
 2. Depth: $$ 0 \geq d < L $$  
 3. Number of nodes in at each depth: $$ 2^{d} $$  
 4. Sum of depth of each node: $$ \sum_{0 \geq d < L} d \cdot 2^{d} $$  
-5. Sum of height of each node: $$ \sum_{0 \geq d < L} h \cdot 2^{L-1-h} $$  
+5. Height: $$ 0 \geq h < L $$  
+6. Sum of height of each node: $$ \sum_{0 \geq d < L} h \cdot 2^{L-1-h} $$  

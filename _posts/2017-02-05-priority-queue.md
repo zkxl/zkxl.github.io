@@ -9,9 +9,11 @@ tag: algorithms
 * content
 {:toc}
 
+
+
 ## Priority Queue
 
-Last update: 20170502
+Last update: 20170504
 
 #### Generals:
 1. Priority Queue is such a data structure that associates objects with priorities (in whatever sortable format.)
@@ -52,7 +54,9 @@ class PriorityQueue():
   def updatePriorityFor(self, element, priority): # O(1)
     self.pq[id(element)].priority = priority
     return ;
+```
 
+```
 # Pseudocode
 def Edge-based-Dijkstra(): # linear to the abs(E)
   initialize a D = {startVertex : 0} mapping each vertex to its distance to the start vertex
@@ -88,10 +92,35 @@ return D[curtVertex]
 ---
 #### Implementation Generals
 
+__Heapify(),__ which, given a list of sortable items, can be implemented by:
+1. Calling __\_siftDown()__ from the last item to the first item gives O(n) complexity, while O(nlogn) for calling __\_siftup()__ from the other direction.  
+2. Recursively calling heapify() on left tree rooted at the 2nd item and right tree rooted at the 3rd item. (At last, 1st item needs to be sifted downward to its appropriate position.) Refer to [divide and conquer.](https://zangshayang1.github.io/study-notes/2017/02/28/divide-and-conquer/#construct-a-binary-heap-recursively)
 
-1. Given a list of items to initiate the heap structure, calling __\_siftDown()__ from the last item to the first item gives O(n) complexity.  
+__Insert(),__ is done by adding item to the end of the array and sift it up.
 
-_proof:_  
+__MinPop(),__ is done by replacing the value of the 1st item with the value of the last item in the array and call siftDown() on the item.  
+
+We talked about __Update(),__ in the __Note__ above.
+
+#### Siftdown is more "efficient" than siftup
+
+__To clarify:__
+In building a binary heap, the average cost of calling siftdown() is much lower than siftup(). But a single siftup operation cost logn while a single siftdown operation costs 2 * logn, where n is the number of total nodes.  
+
+__Intuitively:__
+Review [the sum of depth and height](https://zangshayang1.github.io/study-notes/2017/05/07/binary-tree/#binary-tree) of a binary tree, it is obvious that the sum of depth of each node is greater than the sum of height of each node. The former corresponds to the potential number of "upward swaps" required while the latter corresponds to the potential number of "downward swaps" required.
+
+__Proved by induction:__
+
+$$ \sum_{node\;v} [\;number\;of\;up-swap] = n\log{n} - O(n) $$
+
+$$ E[\;number\;of\;up-swap] = O(\log{n}) $$
+
+$$ \sum_{node\;v} [\;number\;of\;down-swap] = n - O(\log{n}) $$
+
+$$ E[\;number\;of\;down-swap] = O(1) $$
+
+__Formal proof:__
 _given an array of length N. N is also the total number of nodes on the implicit tree, whose root has a height of floor(log(N))._  
 _For any node at height of j, at most j siftDown() operations needed to find its correct place._  
 _For any node at height of j, aka at depth of [(floor(logN) - j]. There are:_ $$ 2^{floor(logN) - j} $$ _such nodes at the same level._  
@@ -100,12 +129,8 @@ $$ 2^{floor(logN) - j} < O(\frac {n} {2^j}) $$
 
 $$ Total Time \le O(\sum_{j=0}^{logN} j \frac {n} {2^j}) \le O(N \sum_{j=0}^{\infty} \frac {j} {2^j}) = O(n) $$  
 
-
-2. _use siftUp() to insert elements._  
-3. _to delete an item, substitute it with the last item in the array and call siftDown() on the item._  
-4. _pop out min() value is simply call delete() on the first item._  
-
 ---
+
 #### Implementation Details
 
 ``` python
@@ -189,3 +214,54 @@ class MinHeap(object):
       self._siftUp(idx)
     return ret
 ```
+
+### K-ary Heap
+
+If we __rethink about the Dijkstra's__ Algorithm in G(V, E):  
+1. abs(V) times minPop() required. Can we improve this? Not really, since sorting itself cannot beat O(nlogn).
+2. abs(E) times siftDown() required(priority-decrease). Can we improve this?
+
+__Answer is Yes:__ We have seen that the average cost of siftDown is lower than siftUp in binary heap __thanks to its 1-parent-2-children structure__. Can we further lower the average cost of siftDown by expanding it to [K-ary Heap](https://en.wikipedia.org/wiki/D-ary_heap)? Yes, but it also increase the cost of single siftDown operation as shown below.
+
+$$ siftDown => O(k \cdot \log_{k}{n}) $$
+
+$$ siftUp => O(\log_{k}{n}) $$
+
+In this case, Dijkstra takes:  
+
+$$ O(V \cdot k\log_{k}{V} + E \cdot \log_{k}{V}) $$.
+
+The optimal can be achieve when we strike a balance between these two terms, namely:  
+
+$$ k = {\frac{E}{V}} $$
+
+Now Dijkstra takes:  
+
+$$ O({\frac{E \cdot \log_{2}{V}}{\log_{2}{\frac{E}{V}}}}) $$
+
+Where the numerator is the running time with binary heap and the denominator is the speed up factor we can achieve by optimizing K according to the given graph. _Beautiful!_
+
+
+
+
+
+
+
+<!--
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+buffer
+-->
