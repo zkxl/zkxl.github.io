@@ -10,6 +10,9 @@ tag: distributed
 
 
 
+#### DBMS
+
+__Data Model__ provides a level of abstraction between how data is physically stored versus how it is used by applications. For example, table -> records(row) -> field(columns)
 
 
 #### DBMS -> Transactions -> Concurrency -> Serializability
@@ -87,6 +90,13 @@ __Claim:__ A schedule is CSR iff the SG(V, E) constructed as above is acyclic. T
 
 #### Recoverability, Cascadeless, Strictness
 
+Define:  
+
+__Reads from:__ (needs to be verified) in a schedule where T1 and T2 go concurrently, T1 __reads from__ T2 if a READ(x) in T1 occurs after WRITE(x) in T2 in this schedule.  
+
+Might be helpful to confirm these standards in Wikipedia:  
+[Recoverability, Cascadeless, Strictness](https://en.wikipedia.org/wiki/Schedule_(computer_science)#Recoverable)
+
 For a schedule S:
 
 __Recoverability__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$, then $$ T_{y} $$ commits before $$ T_{x} $$ commits.
@@ -103,7 +113,14 @@ __Why replica?__ Improve availability and performance.
 
 To ensure distributed system consistency, our goal is __one copy serializability__, which means the distributed DBMS behaves like a serial processor of transactions on a one-copy database. Essentially, it is __synchronized replication__, which comes with huge cost.
 
-Now we talk about __asynchronous replication__ strategies:
+Now we talk about __asynchronous replication__: One replica is update immediately and others later.  
+
+One important concept first - __1-copy serializable(1SR):__
+1. Concurrent transactions don't create circles in SG.  
+2. For each transaction T involved, READ(x) in T reads from the most recent updated copy of x, for every x in __ReadSet__ of T.  
+* _ReadSet: a set of data item that a transaction reads._  
+
+__Strategies:__  
 1. Primary copy
 2. Multi-master
 3. Quorum consensus
@@ -142,11 +159,15 @@ Before executing transaction T:
 1. take a snapshot of committed data
 2. execute READ/WRITE operation on the snapshot
 3. updates are not visible to other concurrent transactions
-4. commit WRITE only if there is no other transaction has preceding WRITE on the same data
+4. __(first committer wins)__ commit WRITE only if there is no other transaction has preceding WRITE on the same data
 5. otherwise, abort and rollback the current transaction
 
+Benefit with SI:
+1. High READ availability.
+2. No uncommitted READ; No Non-repeatable READ.
+
 Problem with SI:
-1. It doesn't ensure Serializability.
+1. It doesn't ensure Serializability. (In a serialized schedule, one transaction sees the updates from the other.)
 2. [write skew anomaly](https://en.wikipedia.org/wiki/Snapshot_isolation).  
 
 __Inconsistency is often not a showstopper, but a mere inconvenience. All we need to do is making sure that application logic doesn't lead to inconsistency or inconsistency can be worked around on application layers.__
@@ -174,34 +195,29 @@ picture reference http://www.edugrabs.com/2-phase-locking/
 
 __Deadlock__
 picture reference http://www.edugrabs.com/2-phase-locking/  
-<img src="{{ '/styles/images/distributed-database-mgmt/deadlock.png' }}" width="50%" />
-
+<img src="{{ '/styles/images/distributed-database-mgmt/deadlock.png' }}" width="100%" />
 
 __Starvation__
 picture reference http://www.edugrabs.com/2-phase-locking/  
-<img src="{{ '/styles/images/distributed-database-mgmt/starvation.png' }}" width="50%" />
+<img src="{{ '/styles/images/distributed-database-mgmt/starvation.png' }}" width="100%" />
 
+__Relations between CSR, VSR and variations of 2PL lockings__  
 
-To __prevent deadlock__, we need to detect deadlock first by using __timeout__ or constructing __wait-for graph__. But it is too slow and 99% of cases don't yield any deadlock. So:  
-1. Instead, we use __conservative 2PL RW locking__, which acquires all the resources needed in a transaction before it starts to executing anything. But it leads to problems such as less resources utilization and less concurrency.
-2. On the other side, __strict 2PL RW locking__ will execute whatever the current resources allow in a transaction, under the condition that all the write locks will be not be released until the transaction commits. Of course, strict 2PL ensures serializability but doesn't prevent deadlock.
-3. More strictly, __rigorous 2PL RW locking (strongly strict 2PL)__ will hold all the R/W locks till the transaction commits.
+* picture reference http://www.edugrabs.com/2-phase-locking/
 
-__Relations between CSR, VSR and variations of 2PL lockings__ picture reference http://www.edugrabs.com/2-phase-locking/
-<img src="{{ '/styles/images/distributed-database-mgmt/coverability-csr-vsr-2pl.png' }}" width="50%" />
+<img src="{{ '/styles/images/distributed-database-mgmt/coverability-csr-vsr-2pl.png' }}" width="100%" />
 
+---
 
 #### Scheduling Protocol
 
 __Scheduler__ takes write-ahead log as input and outputs a serializable (CSR) schedule to be applied to DB.  
 
----
-
 __2PL Scheduling Protocol__ schedules operations under 2PL rules so basically:  
 * For non-conflicting operations, their order doesn't matter.
 * For conflicting operations, not only should they obey 2PL rules, the order that they came in should also be preserved.  
 
-__Proof of correctness:__  
+__Proof of correctness - schedules generated by 2PL protocol are CSR:__  
 _Assume 2PL scheduling produced such a schedule that, if we construct a serialize graph (SG) for it, it will have a cycle._
 _Let's say, T1, T2, ..., Tn formed such a cycle, which also means: T1 and T2 must contain conflicting operations, T2 and T3 must contain conflicting operations...and so on till Tn and T1 must contain conflicting operations._
 _According to 2PL rules, T2 would not be able to acquire all the lock until T1 released all the lock. Same thing goes. T1 will not acquire all the locks until Tn released all the lock._ -> __Contradiction__  
@@ -223,13 +239,17 @@ _Let's say, T1, T2, ..., Tn formed such a cycle. According to Timestamp Ordering
 ---
 
 __Serializable Graph Test (SGT) Protocol:__
-1. For every incoming operation O from some transaction T, draw an edge from all the transactions whose operations are in conflict with O, to T. (Create a vertex for T if it doesn't already exist)
+1. For every incoming operation O from some transaction T, draw an edge from all other transactions whose operations __precede O and conflict with O__, to T. (Create a vertex for T if it doesn't already exist)
 2. If it creates a cycle, reject the operation O and abort the transaction T. Else, add the edge.
-3. For those transactions that are done and don't have incoming edges, we can remove them.
+3. For those transactions that are done and don't have incoming edges, we can remove them. Else, keep it even if it committed already.
 
----
+[wikipedia Reference](https://en.wikipedia.org/wiki/Precedence_graph)
 
-__Variations:__ (derived from application needs to push for better performance)
+__Variations:__
+
+A __conservative__ variation tends to delay the operation to prevent the transaction from being aborted. An __aggressive__ variation tends to go on scheduling the operation at the risk of aborting the transaction later. They can be tailored according to prior knowledge about the application needs for better performance.  
+
+Examples:  
 1. Conservative 2PL:
 * try to acquire all the locks for the entire transaction
 * if succeed, execute it and release.
@@ -237,9 +257,94 @@ __Variations:__ (derived from application needs to push for better performance)
 2. Aggressive 2PL:
 * a transaction T will be executed iff all the active transactions don't have any operations conflict with T
 
-__Optimistic Concurrency Control__ # TODO
+__Optimistic Concurrency Control__ includes 3 phases:
+1. Read phase. Snapshot the last committed data items. Apply READ/WRITE operations as needed.
+2. Validation phase. Decides if committing these updates will violate serializability.
+3. Write phase. Commits updates to database.
+
+During validation phase, for any two concurrent transactions - {Ti, Tj} with timestamp(Ti) < timestamp(Tj), serializability is guaranteed if any of the following is satisfied:  
+1. Ti completes [write phase] before Tj starts [read phase].
+2. $$ WriteSet(T_{i}) \cap ReadSet(T_{j}) = \emptyset $$ and Ti completes [write phase] before Tj starts [write phase].
+3. $$ WriteSet(T_{i}) \cap WriteSet(T_{j}) = \emptyset $$ and $$ WriteSet(T_{i}) \cap ReadSet(T_{j}) = \emptyset $$ and Ti completes [write phase] before Tj starts [read phase].
 
 
+#### Deadlock, Update Mode Locking and Live lock
+
+To counter __deadlock__, you can:  
+1. Prevent them by improving locking protocol.
+2. Detect them, normally by _timeout_ and _wait-for graph_, and resolve them by aborting one or more transactions that cause the deadlock.  
+
+__Detect__ deadlock by _timeouts_ or _wait-for graph_.  
+
+__wait-for graph(WFG):__ is constructed by __draw edge from Ti to Tj if Ti waits Tj__ for a lock. A cycle in the graph corresponds to a deadlock. Scheduler __periodically__ checks for a cycle. Once a cycle is detected, the scheduler chooses a _victim_ transaction to abort using _victim selection strategy._  
+* Detecting deadlock by constructing _wait-for graph_ is inefficient, slow and 99% of cases don't yield any deadlock. However, because deadlock wouldn't go away until some victim is aborted, we can still run the algorithm periodically (every 2min maybe) to reduce the overhead.  
+
+__Distributed WFG__  
+1. Path pushing algorithm
+2. Global deadlock detection
+
+__Path Pushing:__
+1. If a site found a cycle in its local WFG, it selects a victim to be aborted.  
+2. Else, the site lists all the transactions that are not in any cycle. For each transaction, the site traces back to where it might be blocked, _let's say Si traces T back to Sj_, and Si sends the path involving T to Sj. _This step is like broadcasting._  
+3. Sj updates its local WFG and start iterating from step1.
+* Note: this algorithm is deficient in that it is possible that two transactions that formed a cycle are both selected as victims at two sites. To improve, we should prioritize sites.  
+
+The above note leads to __Global Deadlock Detection:__ Only one site will be the coordinator:
+1. Receiving paths sent from other sites
+2. Constructing a global WFG locally
+3. Choosing victims to be aborted.  
+
+
+__Prevent__ deadlock by:
+1. using __conservative 2PL RW locking__, which acquires all the resources needed in a transaction before it starts to executing anything. But it leads to problems such as less resources utilization and less concurrency.  
+* On the other side, __strict 2PL RW locking__ will execute whatever the current resources allow in a transaction, under the condition that all the write locks will be not be released until the transaction commits. Of course, strict 2PL ensures serializability but doesn't prevent deadlock. More strictly, __rigorous 2PL RW locking (strongly strict 2PL)__ will hold all the R/W locks till the transaction commits.
+2. Using __update mode locking__, (especially made to prevent deadlock due to _conversion_), where the __only__ U lock is acquired before a transaction can WRITE so it will become the only transaction that is eligible to request for X lock.
+* while one transaction holds the U lock, other transaction can still hold S lock. When no transaction is holding S lock, the one with U lock can safely acquire X lock and drop U lock.
+* [deadlock due to conversion] refers to: Both T1 and T2 hold S lock and request for X lock. Both of them are waiting for the other to drop S lock but neither will do because none of them get X lock.
+3. Using __non-blocking 2PL__, which says if the transaction cannot immediately get the requested lock, then it is aborted.
+4. Using __priority-based scheduling__, which decides if the transaction __waits__ for the lock, or __dies__, or __kills__ other transaction based on their priorities associated. Often, an aborted transaction will restart with a higher priority, which causes __live lock__.  
+
+Priority-based scheduling might cause __live lock__ due to cyclic killing and restarting.  
+To counter __live lock__, use __timestamp-based scheduling__:  
+1. Set monotonically increased timestamp to transactions and use them inversely as priorities. So higher-priority transaction comes in first.
+2. Once set, priorities don't change.
+3. Follow one of these two strategies:
+* wait-or-die: IF ts(Ti) < ts(Tj), then Ti waits; ELSE Ti dies. (Tj holds the lock.)
+
+__What's the frequency of deadlock?__
+Let:  
+1. the number of data item in our system be N.
+2. the number of concurrently executed transactions be R.
+3. the average size of each transaction be r.
+
+Assume:
+1. Rr << N (# of concurrent operations << # of total data items)  
+2. Rr/2 is WRITE operation
+
+Probability of an operation O in a transaction T is waiting for some lock, held by some other operation: $$ pw = \frac{Rr}{2N} $$  
+
+Probability of none operation in a transaction T waits is $$ pnw = (1-pw)^{r} $$  
+
+Probability of an transaction happens to wait in its lifetime: $$ PW(T) = 1 - pnw $$, which is approximated by $$ r \cdot pw = {\frac{Rr^{2}}{2N}} $$  
+
+Probability of such x many transactions happen to wait at the same time is: $$ PW^{x} $$  
+* As you can see from here, deadlock of length 2 is most likely to occur, with a probability of $$ PW^{2} = {\frac{R^{2} r^{4}}{4N^{2}}} $$  
+
+#### Hot Spot Problem
+
+__Scenario.1 - Thumbsup and Down__
+Let's say a site maintains a number and allows users to concurrently vote for or against something indicated by the number. If we use 2PL in this case, it will not only be slow but also lose count when two votes coming in simultaneously.  
+
+_Solution:_ Design compatible I(ncrement) and D(ecrement) locks instead of using exclusive X lock. To ensure atomicity, you still need to serialize the operations. One possible implementation would be: update the local copy for users to view immediate result and apply write-ahead log later to the primary copy every a few seconds.  
+
+__Scenario. 2 - flight seats reservation__
+If only 19 seats are left while two persons are trying to book 10 seats each, what now?  
+
+_Solution:_ Escrow locking - for each data item with a higher/lower limit, maintain a range of values indicating their availability.  
+
+<img src="{{ '/styles/images/cs223-dist-db-mgmt/escrow1.JPG' }}" width="50%" />
+
+<img src="{{ '/styles/images/cs223-dist-db-mgmt/escrow2.JPG' }}" width="100%" />
 
 <!--
 buffer

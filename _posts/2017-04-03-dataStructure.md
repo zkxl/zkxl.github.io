@@ -736,7 +736,7 @@ def kthMajorityVote(seq, k):
 
   for x in seq:
     if x not in ads and ads.next().counter == 0:
-      ads.next().value = x
+      ads.next().value = x 
     if x in ads:
       increment counters of all pairs in ads
     else:
