@@ -14,6 +14,40 @@ tag: distributed
 
 __Data Model__ provides a level of abstraction between how data is physically stored versus how it is used by applications. For example, table -> records(row) -> field(columns)
 
+__Key Component of DBMS:__  
+1. Record manager
+2. Index manager
+3. Query optimizer
+4. Query processor
+
+__Transaction__ is consistent and failure resilient execution of database applications.  
+
+__Transaction Implementation Keypoints:__
+1. Concurrency control protocol to ensure serializability
+* locking protocol
+* timestamp protocl
+* validation mechanism
+2. Recovery algorithm
+* shadow paging
+* log-based: write-ahead log / redo log / undo log  
+3. Atomic commit protocol (in case a transaction access distributed resources)
+* two phase commit; three phase commit...
+
+__Recoverability and Durability__  
+1. If a transaction aborts before commit, data item should remain unchanged.  
+* _no-steal policy_ says in-memory changes are not allowed to go to disk before commit.  
+* _undo logging_ says a log of old value is generated in memory before the value gets updated in memory.   
+2. If a transaction loses after commit in case of system failure, data item should reflect changes.  
+* _force policy_ says in-memory changes are flushed to disk before commit.  
+* _redo log_ says a log of new value for every WRITE operation is generated and flushed to disk before commit so we can replay it in case of failure.  
+
+
+__Locking management__ can be implemented as a separate process, which maintains a lock table (most likely in-memory hashTable) indexed by the name of each data item. A lock on each data item includes lock state, lock type, request waiting queue, etc.  
+
+__Transaction Processor Components__  
+
+<img src="{{ '/styles/images/distributed-database-mgmt/transactionProcessorComponents.png' }}" width="100%" />
+
 
 #### DBMS -> Transactions -> Concurrency -> Serializability
 
@@ -87,6 +121,11 @@ __Construct Serializability Graph - SG(V, E)__
 * $$ O_{x} $$ and $$ O_{y} $$ are conflicting.
 
 __Claim:__ A schedule is CSR iff the SG(V, E) constructed as above is acyclic. Testing if a graph contains a cycle takes O(n^2) where n is the number of vertices.
+
+__VSR vs. CSR (quote from Wikipedia, complete and precise):__
+_View-serializability of a schedule is defined by equivalence to a serial schedule (no overlapping transactions) with the same transactions, such that respective transactions in the two schedules read and write the same data values ("view" the same data values)._  
+
+_Conflict-serializability is defined by equivalence to a serial schedule (no overlapping transactions) with the same transactions, such that both schedules have the same sets of respective chronologically ordered pairs of conflicting operations (same precedence relations of respective conflicting operations)._  
 
 #### Recoverability, Cascadeless, Strictness
 
@@ -226,7 +265,7 @@ __Distributed 2PL Scheduling__ says: transaction T doesn't release locks at any 
 
 ---
 
-__Timestamp Ordering Protocol:__
+__Timestamp Ordering Protocol (MVCC timestamp ordering):__
 1. Every time a transaction T comes in, it request a TimeStamp(T), which is unique and monotonically increasing.
 2. Every data item x is associated with a last_read_timestamp and a last_write_timestamp. They are updated every time a READ/WRITE operation is executed.  
 3. The protocal says: READ(x) operation in transaction T will be executed iff TimeStamp(T) >= x.last_write_timestamp. WRITE(x) operation in transaction T will be executed iff TimeStamp(T) >= x.last_read_timestamp.
@@ -345,6 +384,62 @@ _Solution:_ Escrow locking - for each data item with a higher/lower limit, maint
 <img src="{{ '/styles/images/cs223-dist-db-mgmt/escrow1.JPG' }}" width="50%" />
 
 <img src="{{ '/styles/images/cs223-dist-db-mgmt/escrow2.JPG' }}" width="100%" />
+
+#### System Performance
+
+As the number of transactions goes higher, the throughput of the DBMS doesn't proportional increase because:  
+1. Resource contention leads to thrashing, e.g. constantly transferring pages in and out of memory.  
+2. Data contention leads to thrashing, e.g. constant blocking (basic 2PL) or restarting (non-blocking 2PL or optimistic scheduling).  
+* with increasing amount of resources, non-blocking 2PL outperforms basic 2PL because the former restarts failed transactions, better use resources and further delay data content.  
+
+* What does multi-programing level mean?
+
+#### Structured Accessing
+
+__Question arises from 2PL:__
+1. 2PL can be characterized by expanding phase and shrinking phase.
+2. 2PL is sufficient to ensure CSR, but is it necessary? Any way to relax it?  
+
+__Structured Accessing - Path Protocol:__  
+2PL is not necessary if we superimpose some structure on how the data can be accessed, for example: linearly. That is: Data items are ordered sequentially, $$ \{ x_{0}, x_{1}, x_{2}, ..., x_{n} \} $$. For an operation in transaction T, it can acquire the lock on $$ x_{i} $$ iff it has the lock on $$ x_{i-1} $$ unless i = 0.  
+* If two transactions ever operate on a same item, whichever transaction gets the lock first gets all the locks first.  
+
+__Generalization of Path Protocol - Tree Protocol:__
+As you would expect, all the data items are structured as a tree, you need to acquire the lock on parent before you can acquire the lock on children, except the root item.  
+
+__B-tree Original Development:__
+
+READ operation  
+```
+S-lock the root
+current_node = root
+while (current_node is not a leaf)
+  S-lock the appropriate child_node
+  Release lock on current_node
+  current_node = child_node
+```
+
+WRITE operation  
+```
+// U lock is compatible with S lock so READ is not affected during searching phase until eventual updating phase.
+// U lock is incompatible with X lock so NO OTHER WRITE can be performed once it starts.
+
+U-lock the root
+current_node = root
+while (current_node is not leaf)
+  U-lock the appropriate child_node
+  current_node = child_node
+  if (current_node is safe) // meaning no merge/split
+    release locks on all ancestors
+  else
+    convert all U locks to X locks top down
+    // No READ is allowed in the case that
+    // this WRITE would cause structural change
+```
+
+
+__Pi-tree Significant Improvement:__ # TODO
+
 
 <!--
 buffer
