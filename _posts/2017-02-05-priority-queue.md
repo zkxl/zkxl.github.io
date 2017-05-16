@@ -243,8 +243,81 @@ Where the numerator is the running time with binary heap and the denominator is 
 
 
 
+Last update: 20170515
 
+### Fibonacci Heap
 
+#### Structure Intuition
+
+The name came from the following heap __structure__: __Imagine__ 16 vertices holding values from 1 to 16. They can be viewed as 16 trees and each only has one root node. Now, every two of them merge into a 2-node tree with the smaller one being the root. Now you have 8 trees. Keep merging till they become one tree with the smallest value being the root.  
+
+<img src="{{ '/styles/images/priorityQueue/fibonacciHeap.jpg' }}" width="100%" />
+
+__Interesting property:__ every node's _ith_ child has at most _(i-1)_ children (this node's grandchildren). With the following invariants, it also holds that every node's _ith_ child has at least _(i-2)_ children.  
+
+#### Invariants  
+
+__The invariants__ are:  
+1. We will mark the node (such as 5) when one of its children is removed. If the other children is also subject to removal, the marked parent will spin off to become a root itself. (Of course, after 5 left, node 1 will be marked.)  
+2. We will merge two trees (such as those rooted at 1 and 5), if they have the same number of children.  
+
+With the above __invariants__ in mind, let's look at its __operations__:  
+
+#### Insert - amortized O(1)
+
+Create a new root node for the inserted value.
+
+#### Modify - decrease priority - amortized O(1)
+
+```
+Decrease the target node's priority.  
+  While the node is not root and (its parent value > its value or the node is marked)
+    make the node a new root and unmark it
+    this node = its parent
+    if this node is not root:
+      mark this node
+```
+
+#### Min Pop - amortized O(logn)
+
+If you refer to the following __implementation details:__, you will know that "find minimum" is trivial.  
+
+Once find, we need to delete it, which leaves its children unrooted (because minimum must be one of the root nodes).  
+These children then become new roots, which may be subject to MERGE.  
+Let's take a look at the merge operation:  
+
+```
+Make an empty array A with size of $$ \log{n} $$ to rearrange each root. (the size will be enough thanks to this step.)  
+Given a list L storing all the roots.
+While L is not empty:
+  remove a root r1 from L
+  if A[the number of children of r1] is empty:
+    A[the number of children of r1] = r1
+  else:
+    r2 = A[the number of children of r1]
+    make A[the number of children of r1] empty
+    merge r1 and r2 with the smaller one being the new root and add the new root to L
+```
+
+Eventually, everything in L will be transferred to A, one spot for one root.
+
+#### Implementation Details
+
+1. roots are connected via doubly LinkedList.
+2. maintain one pointer to the minimum root.
+3. each value is encapsulated in an object, which also includes:
+* pointers to its children
+* a boolean flag (marked true if one of its children is removed and it is not a root)
+* number of children (for merge use)
+
+__NOTE:__  
+Although Fibonacci is faster in theory, but with all the implementation overhead, it's often outperformed by K-nary heap in practice.  
+
+#### Potential function for Fibonacci Heap
+
+Just in case you ever try to do an amortized analysis on the operations above, use:
+
+$$ \Phi $$ = # of roots + 2 * true flags  
 
 
 <!--

@@ -25,7 +25,7 @@ __Transaction__ is consistent and failure resilient execution of database applic
 __Transaction Implementation Keypoints:__
 1. Concurrency control protocol to ensure serializability
 * locking protocol
-* timestamp protocl
+* timestamp protocol
 * validation mechanism
 2. Recovery algorithm
 * shadow paging
@@ -103,7 +103,7 @@ __Claim:__ Two schedules are final-state equivalent if they produce the same gra
 
 __Claim:__ Two schedules are view equivalent if they produce the same graph before "deleting" anything during the same process as in "FSR". Testing view equivalence is NP-hard.  
 
-__Compare:__ VSR ensures that each transaction's view of the DB is the same as they are in a serialized execution. FSR only ensures that transactions that have some impact on the final state of the DB have the same view of the DB as they are in a serialized execution.  
+__Compare:__ VSR ensures that each transaction's view of the DB is the same as they are in a serialized execution. FSR only ensures that transactions that have same impact on the final state of the DB.
 
 #### Conflict Serializability(CSR)
 
@@ -122,19 +122,16 @@ __Construct Serializability Graph - SG(V, E)__
 
 __Claim:__ A schedule is CSR iff the SG(V, E) constructed as above is acyclic. Testing if a graph contains a cycle takes O(n^2) where n is the number of vertices.
 
-__VSR vs. CSR (quote from Wikipedia, complete and precise):__
+__VSR vs. CSR (quote from Wikipedia, complete and precise):__  
 _View-serializability of a schedule is defined by equivalence to a serial schedule (no overlapping transactions) with the same transactions, such that respective transactions in the two schedules read and write the same data values ("view" the same data values)._  
 
 _Conflict-serializability is defined by equivalence to a serial schedule (no overlapping transactions) with the same transactions, such that both schedules have the same sets of respective chronologically ordered pairs of conflicting operations (same precedence relations of respective conflicting operations)._  
 
-#### Recoverability, Cascadeless, Strictness
+#### Recoverability, Cascadeless, Strictness  
 
-Define:  
+Define:__Reads from:__ (needs to be verified) in a schedule where T1 and T2 go concurrently, T1 __reads from__ T2 if a READ(x) in T1 occurs after WRITE(x) in T2 in this schedule.  
 
-__Reads from:__ (needs to be verified) in a schedule where T1 and T2 go concurrently, T1 __reads from__ T2 if a READ(x) in T1 occurs after WRITE(x) in T2 in this schedule.  
-
-Might be helpful to confirm these standards in Wikipedia:  
-[Recoverability, Cascadeless, Strictness](https://en.wikipedia.org/wiki/Schedule_(computer_science)#Recoverable)
+Might be helpful to confirm these standards in Wikipedia:[Recoverability, Cascadeless, Strictness](https://en.wikipedia.org/wiki/Schedule_(computer_science)#Recoverable)
 
 For a schedule S:
 
@@ -142,7 +139,7 @@ __Recoverability__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$, then $$ T_{
 
 __Cascadeless or ACA(avoid cascading aborts)__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$, then $$ T_{y} $$ commits before $$ T_{x} $$ reads.
 
-__Strictness__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$ or if $$ T_{x} $$ overwrites $$ T_{y} $$, it does so after $$ T_{y} $$ commits.
+__Strictness__ is ensured if $$ T_{x} $$ reads from $$ T_{y} $$ or if $$ T_{x} $$ overwrites $$ T_{y} $$, $$ T_{y} $$ commits before it does so.  
 
 * Commercial DBMS ensures strictness.
 
@@ -152,7 +149,7 @@ __Why replica?__ Improve availability and performance.
 
 To ensure distributed system consistency, our goal is __one copy serializability__, which means the distributed DBMS behaves like a serial processor of transactions on a one-copy database. Essentially, it is __synchronized replication__, which comes with huge cost.
 
-Now we talk about __asynchronous replication__: One replica is update immediately and others later.  
+Now we talk about __asynchronous replication__: One replica is updated immediately and others later.  
 
 One important concept first - __1-copy serializable(1SR):__
 1. Concurrent transactions don't create circles in SG.  
