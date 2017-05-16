@@ -736,7 +736,7 @@ def kthMajorityVote(seq, k):
 
   for x in seq:
     if x not in ads and ads.next().counter == 0:
-      ads.next().value = x 
+      ads.next().value = x
     if x in ads:
       increment counters of all pairs in ads
     else:
@@ -851,8 +851,19 @@ __Single-hash version MinHash__
 
 Last update: 20170502
 
-__Please refer to previous post:__ [Priority Queue](https://zangshayang1.github.io/study-notes/2017/02/06/priority-queue)
+__Please refer to__ [Priority Queue](https://zangshayang1.github.io/study-notes/2017/02/06/priority-queue)
 
+#### Binary Search Tree
+
+Last update: 20170515
+
+__Please refer to__ [Binary Search Tree](https://zangshayang1.github.io/study-notes/2017/05/07/binary-tree/)
+
+#### B Tree
+
+Last update: 20170515
+
+__Please refer to__ [B tree](https://zangshayang1.github.io/study-notes/2017/05/16/B-tree/)
 
 <!--
 buffer
