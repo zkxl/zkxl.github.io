@@ -135,7 +135,10 @@ The idea behind the design of the data structure is the space taken by all the c
 __Use Case: compute document similarity__
 
 1. In __"Bag of Words" model__, each document corresponds to a long vector, storing the frequencies of all the words in our vocabulary.
-2. __Cosine Similarity__ between doc A and doc B is computed as: _dotProduct(vectorA, vectorB) normalized by product(norm2_lengthA, norm2_lengthB)_, which is also the angle [0, 90] of the two vectors in vector space. norm2 length of $$ \overrightarrow{\rm v} = \sqrt{ \overrightarrow{\rm v} \cdot \overrightarrow{\rm v}} $$
+2. __Cosine Similarity__ between doc A and doc B is computed as:  
+$$ \frac{\overrightarrow{\rm A} \cdot \overrightarrow{\rm B}}{\sqrt{ \| \overrightarrow{\rm A} \| \cdot \| \overrightarrow{\rm v} \|}} $$  
+which is also the angle [0, 90] of the two vectors in vector space.  
+
 3. With __vector generalization of CMS__, for each document, let words stream through CMS, now each document corresponds to a CMS table.
 4. Approximate similarity between docA and docB by computing:  
 * dotProduct(row_i_of_cmsA, row_i_of_cmsB) for each row
@@ -154,7 +157,7 @@ __Review and Compare IBF, MajorityStream, CMS__
 
 The use of CMS in computing documents similarity help reduce the computation complexity and space taken because:  
 1. Without CMS, each document corresponds to a words-frequencies table and you have to compare it with other words-frequencies tables.
-2. With CMS, you reduce the space usage to constant and further simplify the computation.
+2. With CMS, you reduce the space usage to constant (no matter how long the doc is, the size of CMS doesn't change) and further simplify the computation.
 
 Another way to measure documents similarity is __Jaccard Similarity__:    
 $$ Jaccard(A, B) = \frac{\| A \cap B \|}{ \| A \cup B \| } $$
@@ -177,4 +180,4 @@ __Multi-hash version MinHash__
 __Single-hash version MinHash__
 1. uses 1 hash function.
 2. represents the set of "words-frequencies" by a collection of t minimum hash values. (coming out of the same hash)
-3. similarity = the number of overlapped values in collectionA and collectionB / t
+3. similarity = [the number of overlapped values in collectionA and collectionB] / t
