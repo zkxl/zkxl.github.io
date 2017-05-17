@@ -10,7 +10,7 @@ tag: github
 
 
 
-Last Modified: 20170502
+Last Modified: 20170517
 
 
 Recommended Tutorials:
@@ -204,6 +204,22 @@ then push to server.
 > git push origin master
 ```
 ---
+
+### Other Notes
+
+Untrack files from git (should never track runtime files from the beginning):
+``` shell
+git rm --cached fileX
+```
+
+If you want to compare your local repo with someone else's repo:
+``` shell
+> git remote add someone someRepo.git
+> git fetch someone somebranch
+> git diff mybranch someone/somebranch
+> git remote rm someone
+```
+
 
 # Git Workflow
 
