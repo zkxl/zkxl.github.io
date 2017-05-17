@@ -258,7 +258,7 @@ __Interesting property:__ every node's _ith_ child has at most _(i-1)_ children 
 #### Invariants  
 
 __The invariants__ are:  
-1. We will mark the node (such as 5) when one of its children is removed. If the other children is also subject to removal, the marked parent will spin off to become a root itself. (Of course, after 5 left, node 1 will be marked.)  
+1. We will mark the node (such as 5) when one of its children is removed and the node itself is not a root. If the other children is also subject to removal, the marked parent will spin off to become a root itself. (Of course, after 5 left, node 1 will be marked.)  
 2. We will merge two trees (such as those rooted at 1 and 5), if they have the same number of children.  
 
 With the above __invariants__ in mind, let's look at its __operations__:  
@@ -269,14 +269,7 @@ Create a new root node for the inserted value.
 
 #### Modify - decrease priority - amortized O(1)
 
-```
-Decrease the target node's priority.  
-  While the node is not root and (its parent value > its value or the node is marked)
-    make the node a new root and unmark it
-    this node = its parent
-    if this node is not root:
-      mark this node
-```
+Quote from Wiki: _"Operation decrease key will take the node, decrease the key and if the heap property becomes violated (the new key is smaller than the key of the parent), the node is cut from its parent. If the parent is not a root, it is marked. If it has been marked already, it is cut as well and its parent is marked. We continue upwards until we reach either the root or an unmarked node. Now we set the minimum pointer to the decreased value if it is the new minimum. In the process we create some number, say k, of new trees. Each of these new trees except possibly the first one was marked originally but as a root it will become unmarked. One node can become marked. Therefore, the number of marked nodes changes by −(k − 1) + 1 = − k + 2. Combining these 2 changes, the potential changes by 2(−k + 2) + k = −k + 4. The actual time to perform the cutting was O(k), therefore (again with a sufficiently large choice of c) the amortized running time is constant."_
 
 #### Min Pop - amortized O(logn)
 
