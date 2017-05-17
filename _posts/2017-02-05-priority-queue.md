@@ -1,9 +1,9 @@
 ---
 layout: post
-title: ICS260 - Priority Queue
+title: DataStructure - Priority Queue
 date: 2017-02-05 16:20:00 -0800
 categories: Study-Notes
-tag: algorithms
+tag: dataStructure
 ---
 
 * content
