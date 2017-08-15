@@ -14,15 +14,26 @@ tag:
 
 ## 关于常州市第一人民医院进口仪器 CellSearch 使用阳性率低问题的调查
 
+#### CellSearch的使用范围是【乳腺癌，结肠直肠癌或前列腺癌】
+
+[官方说明链接](https://www.cellsearchctc.com/)
+
+__摘要：__  
+The presence of CTCs in the peripheral blood, as detected by the CELLSEARCH® CTC Test, is associated with decreased progression-free survival and decreased overall survival in patients treated for metastatic breast, colorectal, or prostate* cancer. The test is to be used as an aid in the monitoring of patients with metastatic breast, colorectal, or prostate cancer. Serial CTC testing should be used in conjunction with other clinical methods for monitoring metastatic breast, colorectal, and prostate* cancer. Evaluation of CTCs at any time during the course of disease allows assessment of patient prognosis and is predictive of progression-free survival and overall survival.
+
+__译文：__  
+CTC试验检测到的外周血中CTC的存在与转移性乳腺癌，结肠直肠癌或前列腺癌患者的无进展生存期和总生存期降低有关。该测试将用作对转移性乳腺癌，结肠直肠癌或前列腺癌患者的监测。串联CTC检测应与其他用于监测转移性乳腺癌，结肠直肠癌和前列腺癌的临床方法结合使用。在疾病过程中随时评估四氯化碳可以评估患者预后，并预测无进展生存期和总体生存期。
+
+#### 强生声称 CellSearch 的理论阳性率为 68.8%  
 
 [Johnson&Johnson关于CellSearch技术的新闻报道原址](https://www.jnj.com/media-center/press-releases/cellsearch-system-chosen-as-platform-for-new-research-on-pd-l1-and-circulating-tumor-cells)
 
 __【Johnson&Johnson关于CellSearch技术的新闻报道】摘要如下：__  
 
-Raritan, N.J., July 8, 2015 -- Janssen Diagnostics today announced that its CELLSEARCH® System technology was used in new research demonstrating the ability to detect PD-L1 expression on circulating tumor cells (CTCs). The results of this research appear in the article, “Frequent Expression of PD-L1 on Circulating Breast Cancer Cells,” published online in Molecular Oncology, and demonstrate that PD-L1 positive CTCs were found in 11 out of 16 (68.8%) patients with circulating tumor cells. This particular application of the CELLSEARCH® System is for research purposes only and has not been cleared by the US Food and Drug Administration. This publication potentially adds a new important application to the research use of the CELLSEARCH® System to characterize CTCs for PD-L1. In performing their research, the investigators selected the CELLSEARCH® System as an automated technical platform that has demonstrated consistent, reproducible results.  
+Raritan, N.J., July 8, 2015 -- Janssen Diagnostics today announced that its CELLSEARCH® System technology was used in new research demonstrating the ability to detect PD-L1 expression on circulating tumor cells (CTCs). The results of this research appear in the article, “Frequent Expression of PD-L1 on Circulating Breast Cancer Cells,” published online in Molecular Oncology, and demonstrate that PD-L1 positive CTCs were found in 11 out of 16 __(68.8%)__ patients with circulating tumor cells. This particular application of the CELLSEARCH® System is for research purposes only and has not been cleared by the US Food and Drug Administration. This publication potentially adds a new important application to the research use of the CELLSEARCH® System to characterize CTCs for PD-L1. In performing their research, the investigators selected the CELLSEARCH® System as an automated technical platform that has demonstrated consistent, reproducible results.  
 
 _译文：_  
-_Raritan，N.J.，2015年7月8日 - Janssen Diagnostics今天宣布，其CELLSEARCH®系统技术被用于新的研究，证明了能够检测循环肿瘤细胞（CTC）上的PD-L1表达。本研究的结果出现在“分子肿瘤学杂志”在线发表的文章“PD-L1在循环乳腺癌细胞中的频繁表达”，并显示在16例（68.8％）患者中有11例发现PD-L1阳性CTC与循环肿瘤细胞。CELLSEARCH®系统的这种特殊应用仅用于研究目的，临床使用许可尚未通过美国食品和药物管理局的认证。本文旨在阐述CELLSEARCH®系统作为一种新的应用技术在生物研究中的使用，主要用于表征PD-L1的CTC。研究人员在进行研究时，选择了CELLSEARCH®系统作为自动化技术平台，显示出一致的，可重现的结果。_
+_Raritan，N.J.，2015年7月8日 - Janssen Diagnostics今天宣布，其CELLSEARCH®系统技术被用于新的研究，证明了能够检测循环肿瘤细胞（CTC）上的PD-L1表达。本研究的结果出现在“分子肿瘤学杂志”在线发表的文章“PD-L1在循环乳腺癌细胞中的频繁表达”，并显示在16例_ __（68.8％）__ _患者中有11例发现PD-L1阳性CTC与循环肿瘤细胞。CELLSEARCH®系统的这种特殊应用仅用于研究目的，临床使用许可尚未通过美国食品和药物管理局的认证。本文旨在阐述CELLSEARCH®系统作为一种新的应用技术在生物研究中的使用，主要用于表征PD-L1的CTC。研究人员在进行研究时，选择了CELLSEARCH®系统作为自动化技术平台，显示出一致的，可重现的结果。_
 
 __【论文】PD-L1在循环乳腺癌细胞中的频繁表达 摘要：__
 
@@ -34,7 +45,7 @@ __译文：__
 
 _免疫检查点调节剂如PD-L1已经成为令人兴奋的新治疗焦点，给出了一条有效缓解晚期恶性肿瘤的途径。然而，鉴于这些疗法的高昂成本和毒性特征，迫切需要能够区分应答者与非应答者的预测性生物标志物。在本文中，我们提供证据表明PD-L1经常在激素受体阳性的HER2阴性乳腺癌患者的血液中的转移性细胞循环中表达。我们通过免疫印迹，流式细胞术和免疫细胞化学分析来证明我们研究中使用的PDL1抗体的特异性，并建立了单个肿瘤细胞上PDL1表达的免疫球蛋白。然后我们选择了十六名使用CellSearch系统循环肿瘤细胞的患者（CTC），并在11例患者（68.8％）中发现PD-L1（þ）CTC。在个体患者中，PD-L1（þ）CTC的比例从0.2％变化到100％。这是第一份报告，表明PD-L1在CTC上的表达。建立的CTC / PD-L1测定​​法可用于未来临床试验中的液体活检，并监测接受免疫检查点封锁的癌症患者。2015年欧洲生物化学学会联合会。由Elsevier B.V.发行。保留所有权利。_
 
-__以下是与美国某诊断公司首席执行官的对话：__  
+#### 【对话】与CellSearch曾经的使用者 （美国加州某诊断公司首席执行官）
 
 （原文为英文，以下为译文，为保护个人隐私，具体细节不公开。原文请咨询臧沙洋。）  
 
